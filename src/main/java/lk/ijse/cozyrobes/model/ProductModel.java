@@ -2,43 +2,108 @@ package lk.ijse.cozyrobes.model;
 
 import lk.ijse.cozyrobes.db.DBConnection;
 import lk.ijse.cozyrobes.dto.ProductDto;
+import lk.ijse.cozyrobes.util.CrudUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ProductModel {
-    public String saveProduct(ProductDto productDto) throws SQLException, ClassNotFoundException {
-    Connection connection = DBConnection.getInstance().connection();
-    PreparedStatement save = connection.prepareStatement("INSERT INTO product VALUES (?,?,?,?,?)");
-        save.setString(1, productDto.getProductId());
-        save.setString(2, productDto.getName());
-        save.setInt(3, productDto.getQuantity());
-        save.setDouble(4, productDto.getUnitPrice());
-        save.setString(5, productDto.getCategory());
 
-        return save.executeUpdate() > 0 ? "Product saved successfully" : "Fail";
+    public String getNextUserId() throws SQLException {
+        ResultSet resultSet = CrudUtil.execute("select product_id from product order by product_id desc limit 1");
+        char tableCharacter = 'P';
+        if (resultSet.next()) {
+            String lastId = resultSet.getString(1);
+            String lastIdNumberString = lastId.substring(1);
+            int lastIdNumber = Integer.parseInt(lastIdNumberString);
+            int nextIdNumber = lastIdNumber + 1;
+            String nextIdNumberString = String.format(tableCharacter+"%03d", nextIdNumber);
+            return nextIdNumberString;
+        }
+        return tableCharacter +"001";
     }
 
-    public  String updateProduct(ProductDto productDto) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().connection();
-        PreparedStatement update = connection.prepareStatement("UPDATE product SET  name = ? , quantity = ? , unitPrice = ? , category = ? WHERE product_Id = ?");
-        update.setString(1, productDto.getName());
-        update.setInt(2, productDto.getQuantity());
-        update.setDouble(3, productDto.getUnitPrice());
-        update.setString(4, productDto.getCategory());
-        update.setString(5, productDto.getProductId());
-
-        return update.executeUpdate() > 0 ? "Product updated successfully" : "Fail";
+    public boolean saveProduct(ProductDto productDto) throws SQLException {
+        return CrudUtil.execute(
+                "insert into customer values(?,?,?,?,?)",
+                productDto.getProduct_id(),
+                productDto.getName(),
+                productDto.getQuantity(),
+                productDto.getCategory(),
+                productDto.getUnit_price()
+        );
     }
 
-    public  String deleteProduct(String productId) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().connection();
-        PreparedStatement update = connection.prepareStatement("DELETE FROM product WHERE product_Id = ?");
-        update.setString(1, productId);
+    public ArrayList<ProductDto> getAllProduct() throws SQLException {
+        ResultSet resultSet = CrudUtil.execute("select * from product");
+        ArrayList<ProductDto> productDtoArrayList = new ArrayList<>();
+        while (resultSet.next()) {
+            ProductDto productDto = new ProductDto(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getInt(3),
+                    resultSet.getString(4),
+                    resultSet.getDouble(5)
+            );
+            productDtoArrayList.add(productDto);
+        }
 
-        return update.executeUpdate() > 0 ? "Product deleted successfully" : "Fail";
+        return productDtoArrayList;
     }
+
+    public boolean updateProduct(ProductDto productDto) throws SQLException {
+        return CrudUtil.execute(
+                "update product set name = ? , quantity = ? , category = ? , unitPrice = ? where product_id",
+                productDto.getName(),
+                productDto.getQuantity(),
+                productDto.getCategory(),
+                productDto.getUnit_price(),
+                productDto.getProduct_id()
+        );
+    }
+
+    public boolean deleteProduct(String productId) throws SQLException {
+        return CrudUtil.execute(
+                "delete from product where product_id = ?" ,
+                productId
+
+        );
+
+    }
+
+    public ProductDto searchProduct(String product_id) throws SQLException {
+        ResultSet resultSet = CrudUtil.execute(
+                "select * from product where product_id",
+                product_id
+        );
+
+        if (resultSet.next()) {
+            ProductDto productDto = new ProductDto(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getInt(3),
+                    resultSet.getString(4),
+                    resultSet.getDouble(5)
+            );
+            return productDto;
+        }
+        return null;
+    }
+
+    public ArrayList<String> getAllProductIds() throws SQLException {
+        ResultSet resultSet = CrudUtil.execute("select product_id from product");
+        ArrayList<String> list = new ArrayList<>();
+        while (resultSet.next()) {
+            String id = resultSet.getString(1);
+            list.add(id);
+        }
+
+        return list;
+    }
+
 
 }
 

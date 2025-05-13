@@ -1,41 +1,99 @@
 package lk.ijse.cozyrobes.model;
 
-import lk.ijse.cozyrobes.db.DBConnection;
 import lk.ijse.cozyrobes.dto.SupplierDto;
+import lk.ijse.cozyrobes.util.CrudUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class SupplierModel {
-    public String saveSupplier(SupplierDto supplierDto) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().connection();
-        PreparedStatement save = connection.prepareStatement("INSERT INTO supplier VALUES (?,?,?,?)");
-        save.setString(1, supplierDto.getSupplierId());
-        save.setString(2, supplierDto.getName());
-        save.setString(3,supplierDto.getAddress());
-        save.setString(4,supplierDto.getContact());
+   public String getNextSupplierId() throws SQLException {
+       ResultSet resultSet = CrudUtil.execute("select supplier_id from supplier order by supplier_id desc limit 1");
+       char tableCharacter = 'S';
+       if (resultSet.next()) {
+           String lastId = resultSet.getString(1);
+           String lastIdNumberString= lastId.substring(1);
+           int lastIdNumber = Integer.parseInt(lastIdNumberString);
+           int nextIdNumber = lastIdNumber + 1;
+           String nextIdString = String.format("%03d", nextIdNumber);
+           return nextIdString;
+       }
 
-        return save.executeUpdate() > 0 ? "Successfully saved new supplier" : "Fail";
+       return tableCharacter + "001";
+   }
 
-    }
+   public boolean saveSupplier(SupplierDto supplierDto) throws SQLException {
+       return CrudUtil.execute(
+               "insert into supplier values(?,?,?,?)",
+               supplierDto.getSupplier_id(),
+               supplierDto.getName(),
+               supplierDto.getAddress(),
+               supplierDto.getContact()
+       );
+   }
 
-    public String updateSupplier(SupplierDto supplierDto) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().connection();
-        PreparedStatement update = connection.prepareStatement("UPDATE supplier SET name=?, address=?, contact=? WHERE suppler_Id=?");
-        update.setString(1, supplierDto.getName());
-        update.setString(2, supplierDto.getAddress());
-        update.setString(3, supplierDto.getContact());
-        update.setString(4, supplierDto.getSupplierId());
+   public ArrayList<SupplierDto> getAllSuppliers() throws SQLException {
+       ResultSet resultSet = CrudUtil.execute("select * from supplier");
 
-        return update.executeUpdate() > 0 ? "Successfully updated new supplier" : "Fail";
-    }
+       ArrayList<SupplierDto> supplierDtoArrayList = new ArrayList<>();
+       while (resultSet.next()) {
+           SupplierDto supplierDto = new SupplierDto(
+                   resultSet.getString(1),
+                   resultSet.getString(2),
+                   resultSet.getString(3),
+                   resultSet.getString(4)
+           );
+           supplierDtoArrayList.add(supplierDto);
+       }
 
-    public String deleteSupplier(String supplierId) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().connection();
-        PreparedStatement update = connection.prepareStatement("DELETE FROM supplier WHERE supplier_Id=?");
-        update.setString(1, supplierId);
+       return supplierDtoArrayList;
 
-        return update.executeUpdate() > 0 ? "Successfully deleted new supplier" : "Fail";
-    }
+   }
+
+   public boolean updateSupplier(SupplierDto supplierDto) throws SQLException {
+       return CrudUtil.execute(
+               "update supplier set name=? , address = ? , contact=? where supplier_id",
+               supplierDto.getName(),
+               supplierDto.getAddress(),
+               supplierDto.getContact(),
+               supplierDto.getSupplier_id()
+       );
+   }
+
+   public boolean deleteSupplier(String supplierId) throws SQLException {
+       return CrudUtil.execute(
+               "delete from supplier where supplier_id",
+               supplierId
+       );
+   }
+
+   public SupplierDto searchSupplier(String supplier_id) throws SQLException {
+       ResultSet resultSet = CrudUtil.execute(
+               "select * from supplier where supplier_id = ?",
+               supplier_id
+       );
+
+       if (resultSet.next()) {
+           SupplierDto supplierDto = new SupplierDto(
+                   resultSet.getString(1),
+                   resultSet.getString(2),
+                   resultSet.getString(3),
+                   resultSet.getString(4)
+           );
+           return supplierDto;
+       }
+       return null;
+   }
+
+   public ArrayList<String> getAllSuppliersIds() throws SQLException {
+       ResultSet resultSet = CrudUtil.execute("select supplier_id from supplier");
+       ArrayList<String> list = new ArrayList<>();
+       while (resultSet.next()) {
+           String id = resultSet.getString(1);
+           list.add(id);
+       }
+
+       return list;
+   }
 }

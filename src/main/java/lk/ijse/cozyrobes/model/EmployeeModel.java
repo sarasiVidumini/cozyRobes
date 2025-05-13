@@ -1,44 +1,96 @@
 package lk.ijse.cozyrobes.model;
 
 import lk.ijse.cozyrobes.db.DBConnection;
-import lk.ijse.cozyrobes.dto.CustomerDto;
 import lk.ijse.cozyrobes.dto.EmployeeDto;
+import lk.ijse.cozyrobes.dto.UserDto;
+import lk.ijse.cozyrobes.util.CrudUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class EmployeeModel {
-    public String saveEmployee(EmployeeDto employeeDto) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().connection();
-        PreparedStatement save = connection.prepareStatement("INSERT INTO employee VALUES (?,?,?,?,?,?,?,?)");
-        save.setString(1, employeeDto.getEmployeeId());
-        save.setString(2, employeeDto.getUserId());
-        save.setString(3, employeeDto.getName());
-        save.setString(4, employeeDto.getRole());
-        save.setString(5, employeeDto.getSalary());
+    public String getNextEmployeeId() throws SQLException {
+        ResultSet resultSet = CrudUtil.execute("select employee_id from employee order by employee_id desc limit 1");
+        char tableCharacter = 'E';
+        if (resultSet.next()) {
+            String lastId = resultSet.getString(1);
+            String latIdNumberString = lastId.substring(1);
+            int latIdNumber = Integer.parseInt(latIdNumberString);
+            int nextIdNumber = latIdNumber + 1;
+            String nextIdString = String.format(tableCharacter +"%03d", nextIdNumber);
+            return nextIdString;
+        }
 
-        return save.executeUpdate() > 0 ? "Successfully saved an employee " : "Fail";
+        return tableCharacter + "001";
     }
 
-    public String updateEmployee(EmployeeDto employeeDto) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().connection();
-        PreparedStatement update = connection.prepareStatement("UPDATE employee SET userId = ?, name = ?, role = ?, salary = ? WHERE employeeId = ?");
-        update.setString(1, employeeDto.getUserId());
-        update.setString(2, employeeDto.getName());
-        update.setString(3, employeeDto.getRole());
-        update.setString(4, employeeDto.getSalary());
-        update.setString(5, employeeDto.getEmployeeId());
-
-        return update.executeUpdate() > 0 ? "Successfully updated an employee " : "Fail";
+    public boolean saveEmployee(EmployeeDto employeeDto) throws SQLException {
+        return CrudUtil.execute(
+                "insert into employee values(?,?,?,?,?)",
+                employeeDto.getEmployee_id(),
+                employeeDto.getUser_id(),
+                employeeDto.getName(),
+                employeeDto.getRole(),
+                employeeDto.getSalary()
+        );
     }
 
-    public String deleteEmployee(String employeeId) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().connection();
-        PreparedStatement update = connection.prepareStatement("DELETE FROM employee WHERE employeeId = ?");
-        update.setString(1, employeeId);
+    public boolean updateEmployee(EmployeeDto employeeDto) throws SQLException {
+        return CrudUtil.execute(
+                "update employee set user_id = ? , name = ? , role = ? , salary = ? where employee_id",
+                employeeDto.getUser_id(),
+                employeeDto.getName(),
+                employeeDto.getRole(),
+                employeeDto.getSalary(),
+                employeeDto.getEmployee_id()
+        );
+    }
 
-        return update.executeUpdate() > 0 ? "Successfully deleted an employee " : "Fail";
+    public boolean deleteEmployee(String employee_id) throws SQLException {
+        return CrudUtil.execute(
+                "delete from employee where employee_id",
+                employee_id
+        );
+    }
+
+    public EmployeeDto searchEmployee(String employee_id) throws SQLException {
+        ResultSet resultSet = CrudUtil.execute(
+                "select * from employee where employee_id",
+                employee_id
+        );
+
+        if (resultSet.next()) {
+            EmployeeDto employeeDto = new EmployeeDto(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4),
+                    resultSet.getDouble(5)
+            );
+            return employeeDto;
+        }
+        return null;
+    }
+    public ArrayList<EmployeeDto> getAllEmployee() throws SQLException {
+        ResultSet resultSet = CrudUtil.execute("select * from employee");
+
+        ArrayList<EmployeeDto> employeeDtoArrayList = new ArrayList<>();
+        while (resultSet.next()) {
+            EmployeeDto employeeDto = new EmployeeDto(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4),
+                    resultSet.getDouble(5)
+            );
+
+            employeeDtoArrayList.add(employeeDto);
+        }
+
+        return employeeDtoArrayList;
     }
 
 

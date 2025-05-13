@@ -4,7 +4,7 @@ module lk.ijse.cozyrobes {
     requires java.sql;
     requires jdk.jdi;
     requires java.desktop;
-    requires static lombok;
+    requires lombok;
 
 
     opens lk.ijse.cozyrobes.controller to javafx.fxml;

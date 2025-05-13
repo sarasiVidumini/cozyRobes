@@ -9,9 +9,9 @@ import lombok.*;
 @AllArgsConstructor
 
 public class MaterialInventoryDto {
-    private String materialId;
-    private String supplierId;
-    private String materialName;
+    private String material_id;
+    private String supplier_id;
+    private String material_name;
     private int quantity;
 
 }

@@ -2,40 +2,98 @@ package lk.ijse.cozyrobes.model;
 
 import lk.ijse.cozyrobes.db.DBConnection;
 import lk.ijse.cozyrobes.dto.PaymentDto;
+import lk.ijse.cozyrobes.dto.QuickcheckDto;
+import lk.ijse.cozyrobes.util.CrudUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class PaymentModel {
-    public String savePayment(PaymentDto paymentDto) throws SQLException, ClassNotFoundException {
-        Connection connection = (Connection) DBConnection.getInstance().getConnection();
-        PreparedStatement save = connection.prepareStatement("INSERT INTO payment VALUES (?,?,?,?)");
-        save.setString(1, paymentDto.getPaymentId());
-        save.setString(2,paymentDto.getOrderId());
-        save.setString(3,paymentDto.getPaymentMethod());
-        save.setDouble(4,paymentDto.getAmount());
-
-        return save.executeUpdate() > 0 ? "Successfully added payment" : "Fail";
-
+    public String getNextPaymentId() throws SQLException {
+        ResultSet resultSet = CrudUtil.execute("select payment_id from payment order by payment_id desc limit 1");
+        String tableCharacter = "PA";
+        if (resultSet.next()) {
+            String lastId = resultSet.getString(1);
+            String lastIdNumberString = lastId.substring(1);
+            int lastIdNumber = Integer.parseInt(lastIdNumberString);
+            int nextIdNUmber = lastIdNumber + 1;
+            String nextIdString = String.format(tableCharacter + "%03d", nextIdNUmber); // "C002"
+            return nextIdString;
+        }
+        return tableCharacter + "001";
     }
 
-    public String updatePayment(PaymentDto paymentDto) throws SQLException, ClassNotFoundException {
-        Connection connection = (Connection) DBConnection.getInstance().getConnection();
-        PreparedStatement update = connection.prepareStatement("UPDATE payment SET order_id=?, payment_method=?, amount=? WHERE payment_id=?");
-        update.setString(1,paymentDto.getOrderId());
-        update.setString(2,paymentDto.getPaymentMethod());
-        update.setDouble(3,paymentDto.getAmount());
-        update.setString(4,paymentDto.getPaymentId());
-
-        return update.executeUpdate() > 0 ? "Successfully updated payment" : "Fail";
+    public boolean savePayment(PaymentDto paymentDto) throws SQLException {
+        return CrudUtil.execute(
+                "insert into payment values (?,?,?,?)",
+                paymentDto.getPayment_id(),
+                paymentDto.getOrder_id(),
+                paymentDto.getPayment_method(),
+                paymentDto.getAmount()
+        );
     }
 
-    public String deletePayment(String paymentId) throws SQLException, ClassNotFoundException {
-        Connection connection = (Connection) DBConnection.getInstance().getConnection();
-        PreparedStatement update = connection.prepareStatement("DELETE FROM payment WHERE payment_id=?");
-        update.setString(1,paymentId);
+    public ArrayList<PaymentDto> getAllPayment() throws SQLException {
+        ResultSet resultSet = CrudUtil.execute("select * from payment");
+        ArrayList<PaymentDto> paymentDtoArrayList = new ArrayList<>();
+        while (resultSet.next()) {
+            PaymentDto paymentDto = new PaymentDto(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getDouble(4)
+            );
+            paymentDtoArrayList.add(paymentDto);
+        }
+        return paymentDtoArrayList;
+    }
 
-        return update.executeUpdate() > 0 ? "Successfully deleted payment" : "Fail";
+
+    public boolean  updatePayment(PaymentDto paymentDto) throws SQLException {
+        return CrudUtil.execute(
+                "update payment set order_id = ? , payment_method = ? , amount = ? where payment_id",
+                paymentDto.getOrder_id(),
+                paymentDto.getPayment_method(),
+                paymentDto.getAmount(),
+                paymentDto.getPayment_id()
+        );
+    }
+
+    public boolean deletePayment(String payment_id) throws SQLException {
+        return CrudUtil.execute(
+                "delete from payment where payment_id = ?",
+                payment_id
+        );
+    }
+
+    public  PaymentDto searchPayment(String payment_id) throws ClassNotFoundException, SQLException{
+
+        ResultSet rst = CrudUtil.execute("select * from payment where payment_id = ?",
+                payment_id
+        );
+
+        if (rst.next()) {
+            PaymentDto paymentDto = new PaymentDto(
+                    rst.getString(1),
+                    rst.getString(2),
+                    rst.getString(3),
+                    rst.getDouble(4)
+            );
+            return paymentDto;
+        }
+        return null;
+    }
+
+    public ArrayList<String> getAllPaymentIds() throws SQLException {
+        ResultSet resultSet = CrudUtil.execute("select payment_id from payment");
+        ArrayList<String> list = new ArrayList<>();
+        while (resultSet.next()) {
+            String id = resultSet.getString(1);
+            list.add(id);
+        }
+        return list;
     }
 }

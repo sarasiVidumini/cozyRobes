@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="ancPaymentPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.cozyrobes.controller.PaymentPageController">
+    <children>
+        <HBox layoutX="158.0" layoutY="143.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <VBox prefHeight="1000.0" prefWidth="1311.0" style="-fx-background-color: #95a5a6;">
+                    <HBox.margin>
+                        <Insets left="300.0" />
+                    </HBox.margin>
+                    <children>
+                        <Label text="Payment Explorer" textFill="#999892">
+                            <font>
+                                <Font size="32.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets left="800.0" />
+                            </VBox.margin>
+                        </Label>
+                        <ImageView fitHeight="139.0" fitWidth="224.0" pickOnBounds="true" preserveRatio="true">
+                            <VBox.margin>
+                                <Insets left="1000.0" top="10.0" />
+                            </VBox.margin>
+                            <image>
+                                <Image url="@../images/pngtree-money-transfer-receive-payment-smartphone-png-image_5624464.png" />
+                            </image>
+                        </ImageView>
+                        <TableView fx:id="tblPayment" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colPaymentId" prefWidth="251.20004272460938" text="Payment_id" />
+                                <TableColumn fx:id="colOrderId" prefWidth="242.39996337890625" text="Order_id" />
+                                <TableColumn fx:id="colPaymentMethod" prefWidth="456.79998779296875" text="Payment_Method" />
+                                <TableColumn fx:id="colTotalAmount" prefWidth="351.199951171875" text="Total_Amount" />
+                            </columns>
+                            <VBox.margin>
+                                <Insets top="20.0" />
+                            </VBox.margin>
+                        </TableView>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+        <VBox layoutX="-1.0" layoutY="-5.0" prefHeight="1006.0" prefWidth="309.0" style="-fx-background-color: #34495e;">
+            <children>
+                <HBox prefHeight="50.0" prefWidth="298.0" style="-fx-background-color: #2c3e50;">
+                    <children>
+                        <ImageView fitHeight="60.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/Luxury_logo_design_converted.png" />
+                            </image>
+                        </ImageView>
+                        <Label text="COZY ROBES">
+                            <font>
+                                <Font size="32.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets left="50.0" />
+                            </HBox.margin>
+                        </Label>
+                    </children>
+                </HBox>
+                <Button fx:id="btnBack" mnemonicParsing="false" onAction="#btnGoDashBoardPageOnAction" text="&lt; Back">
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                </Button>
+                <TextField fx:id="txtSearch" promptText="                 search here">
+                    <VBox.margin>
+                        <Insets left="10.0" right="10.0" top="30.0" />
+                    </VBox.margin>
+                </TextField>
+                <HBox prefHeight="60.0" prefWidth="298.0">
+                    <VBox.margin>
+                        <Insets top="40.0" />
+                    </VBox.margin>
+                    <children>
+                        <Label text="Payment_id">
+                            <HBox.margin>
+                                <Insets left="10.0" />
+                            </HBox.margin>
+                        </Label>
+                        <Label fx:id="lblPaymentId" text="1">
+                            <HBox.margin>
+                                <Insets left="20.0" />
+                            </HBox.margin>
+                        </Label>
+                    </children>
+                </HBox>
+                <HBox prefHeight="60.0" prefWidth="324.0">
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                    <children>
+                        <Label fx:id="lblOrderId" text="Order_id">
+                            <HBox.margin>
+                                <Insets left="10.0" />
+                            </HBox.margin>
+                        </Label>
+                        <TextField fx:id="txtOrderId" prefHeight="26.0" prefWidth="206.0">
+                            <HBox.margin>
+                                <Insets left="30.0" />
+                            </HBox.margin>
+                        </TextField>
+                    </children>
+                </HBox>
+                <HBox prefHeight="60.0" prefWidth="298.0">
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                    <children>
+                        <Label fx:id="lblPaymentMethod" text="PA_Method">
+                            <HBox.margin>
+                                <Insets left="10.0" />
+                            </HBox.margin>
+                        </Label>
+                        <TextField fx:id="txtPaymentMethod" prefHeight="26.0" prefWidth="202.0">
+                            <HBox.margin>
+                                <Insets left="20.0" />
+                            </HBox.margin>
+                        </TextField>
+                    </children>
+                </HBox>
+                <HBox prefHeight="60.0" prefWidth="298.0">
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                    <children>
+                        <Label fx:id="lblTotalAmount" text="To_Amount">
+                            <HBox.margin>
+                                <Insets left="10.0" />
+                            </HBox.margin>
+                        </Label>
+                        <TextField fx:id="txtTotalAmount" prefHeight="26.0" prefWidth="205.0">
+                            <HBox.margin>
+                                <Insets left="20.0" />
+                            </HBox.margin>
+                        </TextField>
+                    </children>
+                </HBox>
+                <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="26.0" prefWidth="250.0" style="-fx-background-color: #c0392b;" text="Delete Payment">
+                    <VBox.margin>
+                        <Insets left="30.0" />
+                    </VBox.margin>
+                </Button>
+                <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="26.0" prefWidth="250.0" style="-fx-background-color: #27ae60;" text="Update Payment">
+                    <VBox.margin>
+                        <Insets left="30.0" top="20.0" />
+                    </VBox.margin>
+                </Button>
+                <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="26.0" prefWidth="250.0" style="-fx-background-color: #2980b9;" text="Save Payment">
+                    <VBox.margin>
+                        <Insets left="30.0" top="20.0" />
+                    </VBox.margin>
+                </Button>
+                <Button fx:id="btnReset" mnemonicParsing="false" onAction="#btnResetOnAction" prefHeight="26.0" prefWidth="250.0" style="-fx-background-color: #7f8c8d;" text="Reset Payment">
+                    <VBox.margin>
+                        <Insets left="30.0" top="20.0" />
+                    </VBox.margin>
+                </Button>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

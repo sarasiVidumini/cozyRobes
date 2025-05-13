@@ -3,14 +3,16 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ancDashBoardPage" prefHeight="888.0" prefWidth="1282.0" style="-fx-background-color: #ecf0f1;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.cozyrobes.controller.DashBoardController">
+<AnchorPane fx:id="ancDashBoardPage" prefHeight="858.0" prefWidth="1106.0" style="-fx-background-color: #ecf0f1;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.cozyrobes.controller.DashBoardController">
    <children>
-      <VBox prefHeight="888.0" prefWidth="295.0" style="-fx-background-color: #3498db;">
+      <VBox prefHeight="858.0" prefWidth="251.0" style="-fx-background-color: #ffaf40;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="855.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox prefHeight="64.0" prefWidth="295.0">
                <children>
@@ -24,72 +26,77 @@
                   </Label>
                </children>
             </HBox>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="139.0" text="User">
+            <Button mnemonicParsing="false" onAction="#btnGoUserViewOnAction" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: #ffaf40;" text="User" textFill="#94938f">
                <VBox.margin>
                   <Insets bottom="30.0" left="50.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="138.0" text="Employee">
+            <Button mnemonicParsing="false" onAction="#btnGoEmployeePageOnAction" prefHeight="26.0" prefWidth="138.0" style="-fx-background-color: #ffaf40;" text="Employee" textFill="#96948d">
                <VBox.margin>
                   <Insets bottom="30.0" left="50.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#btnGoCustomerPageOnAction" prefHeight="26.0" prefWidth="138.0" text="Customer">
+            <Button mnemonicParsing="false" onAction="#btnGoCustomerPageOnAction" prefHeight="26.0" prefWidth="138.0" style="-fx-background-color: #ffaf40;" text="Customer" textFill="#a69797">
                <VBox.margin>
                   <Insets bottom="30.0" left="50.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="137.0" text="Orders">
+            <Button mnemonicParsing="false" onAction="#btnGoOrdersPageOnAction" prefHeight="26.0" prefWidth="137.0" style="-fx-background-color: #ffaf40;" text="Orders" textFill="#968888">
                <VBox.margin>
                   <Insets bottom="30.0" left="50.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="136.0" text="Delivery">
+            <Button mnemonicParsing="false" onAction="#btnGoDeliveryPageOnAction" prefHeight="26.0" prefWidth="136.0" style="-fx-background-color: #ffaf40;" text="Delivery" textFill="#968f8f">
                <VBox.margin>
                   <Insets bottom="30.0" left="50.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="136.0" text="Product">
+            <Button mnemonicParsing="false" onAction="#btnGoProductPageOnAction" prefHeight="26.0" prefWidth="136.0" style="-fx-background-color: #ffaf40;" text="Product" textFill="#8e8282">
                <VBox.margin>
                   <Insets bottom="30.0" left="50.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="137.0" text="Order_Product">
+            <Button mnemonicParsing="false" onAction="#btnGoOrderDetailsPageOnAction" prefHeight="26.0" prefWidth="137.0" style="-fx-background-color: #ffaf40;" text="Order_Product" textFill="#998e8e">
                <VBox.margin>
                   <Insets bottom="30.0" left="50.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="136.0" text="Payment">
+            <Button mnemonicParsing="false" onAction="#btnGoPaymentPageOnAction" prefHeight="26.0" prefWidth="136.0" style="-fx-background-color: #ffaf40;" text="Payment" textFill="#9e8f8f">
                <VBox.margin>
                   <Insets bottom="30.0" left="50.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="137.0" text="Warehouse">
+            <Button mnemonicParsing="false" onAction="#btnGoWarehouseViewOnAction" prefHeight="26.0" prefWidth="137.0" style="-fx-background-color: #ffaf40;" text="Warehouse" textFill="#9c8d8d">
                <VBox.margin>
                   <Insets bottom="30.0" left="50.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="136.0" text="Supplier">
+            <Button mnemonicParsing="false" onAction="#btnGoSupplierViewOnAction" prefHeight="26.0" prefWidth="136.0" style="-fx-background-color: #ffaf40;" text="Supplier" textFill="#948b87">
                <VBox.margin>
                   <Insets bottom="30.0" left="50.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="136.0" text="Material_Inventory">
+            <Button mnemonicParsing="false" onAction="#btnGoMaterialInventoryViewOnAction" prefHeight="26.0" prefWidth="136.0" style="-fx-background-color: #ffaf40;" text="Material_Inventory" textFill="#a19790">
                <VBox.margin>
                   <Insets bottom="30.0" left="50.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="135.0" text="Maintenance">
+            <Button mnemonicParsing="false" onAction="#btnGoMaintenanceViewOnAction" prefHeight="26.0" prefWidth="135.0" style="-fx-background-color: #ffaf40;" text="Maintenance" textFill="#8e8783">
                <VBox.margin>
                   <Insets bottom="30.0" left="50.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="137.0" text="QuickCheck">
+            <Button mnemonicParsing="false" onAction="#btnGoQuickcheckPageOnAction" prefHeight="26.0" prefWidth="137.0" style="-fx-background-color: #ffaf40;" text="QuickCheck" textFill="#a69d97">
                <VBox.margin>
                   <Insets left="50.0" />
                </VBox.margin>
             </Button>
          </children>
       </VBox>
+      <ImageView fitHeight="858.0" fitWidth="878.0" layoutX="248.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="248.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@../images/Luxury_logo_design_converted.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

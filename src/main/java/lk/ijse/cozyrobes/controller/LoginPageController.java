@@ -14,17 +14,17 @@ public class LoginPageController {
     public AnchorPane ancLoginPage;
     public TextField txtUserName;
     public TextField txtPassword;
-    public TextField txtUserEmail;
+    public TextField txtEmail;
 
 
     public void btnGoDashBoardPageOnAction(ActionEvent actionEvent) throws IOException {
-        String username = "admin";
-        String password = "AD2413";
-        String email= "admin23@gmail.com";
+        String username = "1";
+        String password = "1";
+        String email= "1";
 
         String inputUserName = txtUserName.getText();
         String inputPassword = txtPassword.getText();
-        String inputUserEmail = txtUserEmail.getText();
+        String inputUserEmail = txtEmail.getText();
 
         boolean userNameMatched = username.equals(inputUserName);
         boolean passwordMatched = password.equals(inputPassword);
@@ -42,5 +42,5 @@ public class LoginPageController {
         }
 
     }
+    }
 
-}

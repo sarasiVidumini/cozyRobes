@@ -1,42 +1,97 @@
 package lk.ijse.cozyrobes.model;
 
-import lk.ijse.cozyrobes.db.DBConnection;
-import lk.ijse.cozyrobes.dto.WarehouseDto;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import lk.ijse.cozyrobes.dto.WarehouseDto;
+import lk.ijse.cozyrobes.util.CrudUtil;
+
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class WarehouseModel {
-    public String saveWarehouse(WarehouseDto warehouseDto) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().connection();
-        PreparedStatement save = connection.prepareStatement("INSERT INTO warehouse VALUES (?,?,?,?)");
-        save.setString(1,warehouseDto.getSectionId());
-        save.setString(2,warehouseDto.getProductId());
-        save.setInt(3,warehouseDto.getCapacity());
-        save.setString(4,warehouseDto.getLocation());
-
-        return save.executeUpdate() > 0 ? "Successfully saved warehouse" :"Fail";
-
+    public String getNextWarehouseId() throws SQLException {
+        ResultSet resultSet = CrudUtil.execute("select section_id from warehouse order by section_id desc limit 1");
+        String tableCharacter = "Section";
+        if (resultSet.next()) {
+            String lastId = resultSet.getString(1);
+            String lastIdNumberString = lastId.substring(1);
+            int lastIdNumber = Integer.parseInt(lastIdNumberString);
+            int nextIdNUmber = lastIdNumber + 1;
+            String nextIdString = String.format(tableCharacter + "%03d", nextIdNUmber); // "C002"
+            return nextIdString;
+        }
+        return tableCharacter + "001";
     }
 
-    public String updateWarehouse(WarehouseDto warehouseDto) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().connection();
-        PreparedStatement update = connection.prepareStatement("UPDATE warehouse SET product_Id=?, capacity=?, location=? WHERE section_Id=?");
-        update.setString(1,warehouseDto.getProductId());
-        update.setInt(2,warehouseDto.getCapacity());
-        update.setString(3,warehouseDto.getLocation());
-        update.setString(4,warehouseDto.getSectionId());
-
-        return update.executeUpdate() > 0 ? "Successfully updated warehouse" :"Fail";
+    public boolean saveWarehouse(WarehouseDto warehouseDto) throws SQLException {
+        return CrudUtil.execute(
+                "insert into warehouse values (?,?,?,?)",
+                    warehouseDto.getSection_id(),
+                    warehouseDto.getProduct_id(),
+                    warehouseDto.getCapacity(),
+                    warehouseDto.getLocation()
+        );
     }
 
-    public String deleteWarehouse(String sectionId) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().connection();
-        PreparedStatement update  = connection.prepareStatement("DELETE FROM warehouse WHERE section_Id=?");
-        update.setString(1,sectionId);
+    public ArrayList<WarehouseDto> getAllWarehouses() throws SQLException {
+        ResultSet resultSet = CrudUtil.execute("select * from warehouse");
+        ArrayList<WarehouseDto> warehouseDtoArrayList = new ArrayList<>();
+        while (resultSet.next()) {
+            WarehouseDto warehouseDto = new WarehouseDto(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getInt(3),
+                    resultSet.getString(4)
+            );
+            warehouseDtoArrayList.add(warehouseDto);
+        }
+
+        return warehouseDtoArrayList;
+    }
 
 
-        return update.executeUpdate() > 0 ? "Successfully deleted warehouse" :"Fail";
+        public boolean  updateWarehouse(WarehouseDto warehouseDto) throws SQLException {
+            return CrudUtil.execute(
+                    "update warehouse set product_id = ? , capacity = ? , location = ? where section_id",
+                   warehouseDto.getProduct_id(),
+                    warehouseDto.getCapacity(),
+                    warehouseDto.getLocation(),
+                    warehouseDto.getSection_id()
+            );
+        }
+
+    public boolean deleteWarehouse(String section_id) throws SQLException {
+        return CrudUtil.execute(
+                "delete from material_inventory where material_id = ?",
+                section_id
+        );
+    }
+
+    public WarehouseDto searchSection(String section_id) throws ClassNotFoundException, SQLException{
+
+        ResultSet rst = CrudUtil.execute("select * from material_inventory where material_id = ?",
+                section_id
+        );
+
+        if (rst.next()) {
+            WarehouseDto warehouseDto = new WarehouseDto(
+                    rst.getString(1),
+                    rst.getString(2),
+                    rst.getInt(3),
+                    rst.getString(4)
+            );
+            return warehouseDto;
+        }
+        return null;
+    }
+
+    public ArrayList<String> getAllSectionIds() throws SQLException {
+        ResultSet resultSet = CrudUtil.execute("select section_id from warehouse");
+        ArrayList<String> list = new ArrayList<>();
+        while (resultSet.next()) {
+            String id = resultSet.getString(1);
+            list.add(id);
+        }
+        return list;
     }
 }

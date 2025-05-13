@@ -8,16 +8,16 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
-public class mainPage {
-
+public class mainPageController {
 
     public AnchorPane ancMainPage;
-    public ImageView imgrobes;
+
 
     public void btnGoLoginPageOnAction(ActionEvent actionEvent) throws IOException {
-    ancMainPage.getChildren().clear();
-        Parent load = FXMLLoader.load(getClass().getResource("/view/LoginPage.fxml"));
-        ancMainPage.getChildren().add(load);
+        ancMainPage.getChildren().clear();
 
+        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/LoginPage.fxml"));
+
+        ancMainPage.getChildren().add(load);
     }
 }

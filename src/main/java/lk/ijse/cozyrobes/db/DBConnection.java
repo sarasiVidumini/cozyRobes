@@ -7,24 +7,21 @@ import java.sql.SQLException;
 public class DBConnection {
     private static DBConnection dbConnection;
     private Connection connection;
-    private DBConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Project", "sarasi", "Sarasi@123");
 
+    private final String URL = "jdbc:mysql://localhost:3306/project";
+    private final String USER = "root";
+    private final String PASSWORD = "sarasi";
+
+    private DBConnection() throws SQLException {
+        connection= DriverManager.getConnection(URL,USER,PASSWORD);
     }
 
-    public static DBConnection getInstance() throws ClassNotFoundException, SQLException {
-        if (dbConnection == null) {
-            dbConnection = new DBConnection();
-        }
-        return dbConnection;
+    public static DBConnection getInstance() throws SQLException {
+        return dbConnection == null ? new DBConnection() : dbConnection;
     }
-    public Connection connection() {
+
+    public Connection getConnection() {
         return connection;
-    }
-
-    public com.sun.jdi.connect.spi.Connection getConnection() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

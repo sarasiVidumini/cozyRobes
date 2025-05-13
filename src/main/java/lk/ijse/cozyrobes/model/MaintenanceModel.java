@@ -2,46 +2,107 @@ package lk.ijse.cozyrobes.model;
 
 import lk.ijse.cozyrobes.db.DBConnection;
 import lk.ijse.cozyrobes.dto.MaintenanceDto;
+import lk.ijse.cozyrobes.dto.WarehouseDto;
+import lk.ijse.cozyrobes.util.CrudUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class MaintenanceModel {
-    public String saveMaintenance(MaintenanceDto maintenanceDto) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().connection();
-        PreparedStatement save = connection.prepareStatement("INSERT INTO maintenance VALUES (?,?,?,?,?,?)");
-        save.setString(1, maintenanceDto.getMaintenanceId());
-        save.setString(2,maintenanceDto.getMaterialId());
-        save.setString(3,maintenanceDto.getSectionId());
-        save.setDouble(4,maintenanceDto.getCost());
-        save.setString(5,maintenanceDto.getMaintenanceStatus());
-        save.setString(6,maintenanceDto.getMaintenanceDate());
+    public String getNextMaintenanceId() throws SQLException {
+        ResultSet resultSet = CrudUtil.execute("select maintenance_id from maintenance order by maintenance_id desc limit 1");
+        String tableCharacter = "MA";
+        if (resultSet.next()) {
+            String lastId = resultSet.getString(1);
+            String lastIdNumberString = lastId.substring(1);
+            int lastIdNumber = Integer.parseInt(lastIdNumberString);
+            int nextIdNUmber = lastIdNumber + 1;
+            String nextIdString = String.format(tableCharacter + "%03d", nextIdNUmber); // "C002"
+            return nextIdString;
+        }
+        return tableCharacter + "001";
+    }
 
-        return  save.executeUpdate() > 0 ? "Successful maintenance saved" : "Fail";
+    public boolean saveMaintenance(MaintenanceDto maintenanceDto) throws SQLException {
+        return CrudUtil.execute(
+                "insert into maintenance values(?,?,?,?,?,?)",
+               maintenanceDto.getMaintenance_id(),
+                maintenanceDto.getMaterial_id(),
+                maintenanceDto.getSection_id(),
+                maintenanceDto.getMaintenance_date(),
+                maintenanceDto.getMaintenance_status(),
+                maintenanceDto.getCost()
+        );
+    }
+
+    public ArrayList<MaintenanceDto> getAllMaintenance() throws SQLException {
+        ResultSet resultSet = CrudUtil.execute("select * from maintenance");
+        ArrayList<MaintenanceDto> maintenanceDtoArrayList = new ArrayList<>();
+        while (resultSet.next()) {
+            MaintenanceDto maintenanceDto = new MaintenanceDto(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4),
+                    resultSet.getString(5),
+                    resultSet.getDouble(6)
+            );
+            maintenanceDtoArrayList.add(maintenanceDto);
+        }
+        return maintenanceDtoArrayList;
+    }
+
+
+    public boolean  updateMaintenance(MaintenanceDto maintenanceDto) throws SQLException {
+        return CrudUtil.execute(
+               "update maintenance set material_id = ? , section_id = ? , maintenance_date = ? , maintenance_status = ? , cost = ? where maintenance_id = ?",
+                maintenanceDto.getMaterial_id(),
+                maintenanceDto.getSection_id(),
+                maintenanceDto.getMaintenance_date(),
+                maintenanceDto.getMaintenance_status(),
+                maintenanceDto.getCost(),
+                maintenanceDto.getMaintenance_id()
+        );
 
     }
 
-    public String updateMaintenance(MaintenanceDto maintenanceDto) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().connection();
-        PreparedStatement update = connection.prepareStatement("UPDATE maintenance SET material_Id = ? , section_Id = ?, cost = ?, maintenance_status = ?,maintenance_date = ? WHERE maintenance_id = ?");
-        update.setString(1,maintenanceDto.getMaterialId());
-        update.setString(2,maintenanceDto.getSectionId());
-        update.setDouble(3,maintenanceDto.getCost());
-        update.setString(4,maintenanceDto.getMaintenanceStatus());
-        update.setString(5,maintenanceDto.getMaintenanceDate());
-        update.setString(6,maintenanceDto.getMaintenanceId());
-
-        return update.executeUpdate() > 0 ? "Successful maintenance updated" : "Fail";
-
+    public boolean deleteMaintenance(String maintenance_id) throws SQLException {
+        return CrudUtil.execute(
+                "delete from maintenance where maintenance_id = ?",
+                maintenance_id
+        );
     }
 
-    public String deleteMaintenance(String maintenanceId) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getInstance().connection();
-        PreparedStatement update = connection.prepareStatement("DELETE FROM maintenance WHERE maintenance_id = ?");
-        update.setString(1,maintenanceId);
+    public MaintenanceDto searchMaintenance(String maintenance_id) throws ClassNotFoundException, SQLException{
 
-        return update.executeUpdate() > 0 ? "Successful maintenance deleted" : "Fail";
+        ResultSet rst = CrudUtil.execute("select * from maintenance where maintenance_id = ?",
+                maintenance_id
+        );
+
+        if (rst.next()) {
+            MaintenanceDto maintenanceDto = new MaintenanceDto(
+                    rst.getString(1),
+                    rst.getString(2),
+                    rst.getString(3),
+                    rst.getString(4),
+                    rst.getString(5),
+                    rst.getDouble(6)
+            );
+            return maintenanceDto;
+        }
+        return null;
     }
 
+    public ArrayList<String> getAllMaintenanceIds() throws SQLException {
+        ResultSet resultSet = CrudUtil.execute("select maintenance_id from maintenance");
+        ArrayList<String> list = new ArrayList<>();
+        while (resultSet.next()) {
+            String id = resultSet.getString(1);
+            list.add(id);
+        }
+        return list;
+    }
 }

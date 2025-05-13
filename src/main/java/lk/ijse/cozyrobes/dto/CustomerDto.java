@@ -9,9 +9,10 @@ import lombok.*;
 @AllArgsConstructor
 
 public class CustomerDto {
-    private String customerId;
+    private String customer_id;
     private String name;
     private String phone;
     private String email;
+
 
 }

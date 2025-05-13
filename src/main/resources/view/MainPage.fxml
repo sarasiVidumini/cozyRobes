@@ -2,26 +2,110 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ancMainPage" prefHeight="854.0" prefWidth="1228.0" style="-fx-background-color: #487eb0;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.cozyrobes.controller.mainPage">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="283.0" layoutY="133.0" text="COZY ROBES">
+      <HBox layoutX="-11.0" prefHeight="906.0" prefWidth="809.0" AnchorPane.bottomAnchor="-6.399999999999977" AnchorPane.leftAnchor="-11.0" AnchorPane.rightAnchor="401.6" AnchorPane.topAnchor="0.0">
+         <children>
+            <ScrollPane prefHeight="908.0" prefWidth="809.0">
+               <content>
+                  <ImageView fitHeight="976.0" fitWidth="810.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/image.png" />
+                     </image>
+                  </ImageView>
+               </content>
+            </ScrollPane>
+         </children>
+      </HBox>
+      <Label layoutX="807.0" layoutY="64.0" text="Contact">
          <font>
-            <Font name="Liberation Sans Bold Italic" size="96.0" />
+            <Font size="15.0" />
          </font>
       </Label>
-      <Button layoutX="421.0" layoutY="604.0" mnemonicParsing="false" onAction="#btnGoLoginPageOnAction" prefHeight="67.0" prefWidth="311.0" style="-fx-background-color: #78e08f;" text="Login">
+      <Button layoutX="1127.0" layoutY="62.0" mnemonicParsing="false" text="Sign Up" />
+      <Label layoutX="811.0" layoutY="128.0" prefHeight="58.0" prefWidth="357.0" text="To be the most trusted and compassionate provider of ">
          <font>
-            <Font name="Liberation Serif Bold" size="32.0" />
-         </font></Button>
-      <ImageView fitHeight="213.0" fitWidth="200.0" layoutX="490.0" layoutY="295.0" pickOnBounds="true" preserveRatio="true">
+            <Font name="Javanese Text" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="811.0" layoutY="230.0" prefHeight="43.0" prefWidth="358.0" text="monastic robes and requisites, supporting the spiritual ">
+         <font>
+            <Font name="Javanese Text" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="885.0" layoutY="351.0" prefHeight="43.0" prefWidth="192.0" text="across Sri Lanka and beyond.">
+         <font>
+            <Font name="Javanese Text" size="15.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="134.0" fitWidth="138.0" layoutX="914.0" layoutY="444.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../../Pictures/Screenshots/robes.png" />
+            <Image url="@../images/ChatGPT%20Image%20May%2014,%202025,%2012_53_40%20AM.png" />
          </image>
       </ImageView>
+      <Label layoutX="862.0" layoutY="394.0" text="Robes Platform">
+         <font>
+            <Font name="System Bold Italic" size="33.0" />
+         </font>
+      </Label>
+      <Label layoutX="924.0" layoutY="600.0" text="We Make Top ">
+         <font>
+            <Font name="Corbel Light" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="906.0" layoutY="635.0" text="Quality Handmade">
+         <font>
+            <Font name="Corbel Light" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="946.0" layoutY="674.0" text="products">
+         <font>
+            <Font name="Corbel Light" size="20.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="50.0" fitWidth="32.0" layoutX="806.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/images.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="838.0" layoutY="721.0" text="Contact" />
+      <Label layoutX="806.0" layoutY="747.0" text="0771754098" />
+      <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="923.0" layoutY="716.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/download.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="963.0" layoutY="721.0" text="Email" />
+      <Label layoutX="910.0" layoutY="747.0" text="sarasividumini13@gmail.com" />
+      <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="1084.0" layoutY="714.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/pngtree-3d-location-icon-clipart-in-transparent-background-vector-png-image_6704161.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="1116.0" layoutY="721.0" text="Location" />
+      <Label layoutX="1102.0" layoutY="747.0" text="Induruwa" />
+      <Button layoutX="939.0" layoutY="62.0" mnemonicParsing="false" text="Home" textFill="#131312" />
+      <Button layoutX="924.0" layoutY="814.0" mnemonicParsing="false" text="Get Start">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Label layoutX="893.0" layoutY="187.0" text="high-quality ethically made">
+         <font>
+            <Font name="Javanese Text" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="901.0" layoutY="287.0" text="jouney of Buddist monks">
+         <font>
+            <Font name="Javanese Text" size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
