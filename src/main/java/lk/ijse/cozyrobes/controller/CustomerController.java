@@ -49,8 +49,8 @@ public class CustomerController implements Initializable {
         colMail.setCellValueFactory(new PropertyValueFactory<>("Email"));
 
         try {
-//            loadTableData();
-//            loadNextId();
+           loadTableData();
+            loadNextId();
         } catch (Exception e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Something went wrong...").show();
@@ -93,6 +93,11 @@ public class CustomerController implements Initializable {
     String phone = txtCustPhone.getText();
     String email = txtCustEmail.getText();
 
+    if(customerId.isEmpty() ||name.isEmpty() || phone.isEmpty() || email.isEmpty()) {
+        new Alert(Alert.AlertType.ERROR, "Empty fields , please fill all the fields").show();
+        return;
+    }
+
     CustomerDto customerDto = new CustomerDto(
             customerId,
             name,
@@ -121,6 +126,8 @@ public class CustomerController implements Initializable {
                 ButtonType.NO
         );
 
+        alert.setTitle("Confirmation");
+
         Optional<ButtonType> response = alert.showAndWait();
 
         if(response.isPresent() && response.get() == ButtonType.YES) {
@@ -148,6 +155,10 @@ public class CustomerController implements Initializable {
         String phone = txtCustPhone.getText();
         String email = txtCustEmail.getText();
 
+        if (customerId.isEmpty() ||name.isEmpty() || phone.isEmpty() || email.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Empty fields , please fill all the fields").show();
+            return;
+        }
         CustomerDto customerDto = new CustomerDto(
                 customerId,
                 name,
@@ -177,7 +188,7 @@ public class CustomerController implements Initializable {
     }
 
     public void onClickTable(MouseEvent mouseEvent) {
-        CustomerTM selectedItem = (CustomerTM) tblCustomer.getSelectionModel().getSelectedItem();
+        CustomerTM selectedItem = tblCustomer.getSelectionModel().getSelectedItem();
 
         if (selectedItem != null) {
             lblCustomerId.setText(selectedItem.getCustomerId());
@@ -199,5 +210,6 @@ public class CustomerController implements Initializable {
     }
 
     public void btnResetOnAction(ActionEvent actionEvent) {
+        resetPage();
     }
 }

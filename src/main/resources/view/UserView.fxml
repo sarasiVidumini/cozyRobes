@@ -150,22 +150,22 @@
                   </TextField>
                </children>
             </HBox>
-            <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="26.0" prefWidth="250.0" style="-fx-background-color: #c0392b;" text="Delete Customer">
+            <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="26.0" prefWidth="250.0" style="-fx-background-color: #c0392b;" text="Delete User">
                <VBox.margin>
                   <Insets left="30.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="26.0" prefWidth="250.0" style="-fx-background-color: #27ae60;" text="Update Customer">
+            <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="26.0" prefWidth="250.0" style="-fx-background-color: #27ae60;" text="Update User">
                <VBox.margin>
                   <Insets left="30.0" top="20.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="26.0" prefWidth="250.0" style="-fx-background-color: #2980b9;" text="Save Customer">
+            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="26.0" prefWidth="250.0" style="-fx-background-color: #2980b9;" text="Save User">
                <VBox.margin>
                   <Insets left="30.0" top="20.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="btnReset" mnemonicParsing="false" onAction="#btnResetOnAction" prefHeight="26.0" prefWidth="250.0" style="-fx-background-color: #7f8c8d;" text="Reset Customer">
+            <Button fx:id="btnReset" mnemonicParsing="false" onAction="#btnResetOnAction" prefHeight="26.0" prefWidth="250.0" style="-fx-background-color: #7f8c8d;" text="Reset User">
                <VBox.margin>
                   <Insets left="30.0" top="20.0" />
                </VBox.margin>

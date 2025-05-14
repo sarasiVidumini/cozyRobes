@@ -20,4 +20,13 @@ public class mainPageController {
 
         ancMainPage.getChildren().add(load);
     }
+
+    public void btnGoSignUpPageOnAction(ActionEvent actionEvent) {
+    }
+
+    public void btnGoDashBoardPageOnAction(ActionEvent actionEvent) throws IOException {
+        ancMainPage.getChildren().clear();
+        Parent load = FXMLLoader.load(getClass().getResource("/view/DashBoardPage.fxml"));
+        ancMainPage.getChildren().add(load);
+    }
 }

@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.cozyrobes.dto.CustomerDto;
 import lk.ijse.cozyrobes.dto.UserDto;
 import lk.ijse.cozyrobes.dto.tm.CustomerTM;
 import lk.ijse.cozyrobes.dto.tm.UserTM;
@@ -71,8 +72,8 @@ private  final UserModel userModel = new UserModel();
 
     private void resetPage() {
         try {
-//            loadTableData();
-//            loadNextId();
+          loadTableData();
+           loadNextId();
 
             btnSave.setDisable(false);
 
@@ -137,6 +138,10 @@ private  final UserModel userModel = new UserModel();
         String name = txtName.getText();
         String contact = txtContact.getText();
 
+        if (userId.isEmpty() ||role.isEmpty() || name.isEmpty() || contact.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Empty fields , please fill all the fields").show();
+            return;
+        }
         UserDto userDto = new UserDto(
                 userId,
                 role,
@@ -145,18 +150,18 @@ private  final UserModel userModel = new UserModel();
         );
 
         try {
-            boolean  isUpdated = userModel.updateUser(userDto);
+            boolean isUpdated = userModel.updateUser( userDto);
 
             if (isUpdated) {
                 resetPage();
-                new Alert(Alert.AlertType.INFORMATION, "User has been updated successfully").show();
+                new Alert(Alert.AlertType.INFORMATION, "Updated successfully!").show();
             }else{
-                new Alert(Alert.AlertType.ERROR, "Fail to update user.").show();
+                new Alert(Alert.AlertType.ERROR, "Fail to update user").show();
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Fail to update user").show();
+            new Alert(Alert.AlertType.ERROR, "Fail to update user.").show();
         }
     }
 

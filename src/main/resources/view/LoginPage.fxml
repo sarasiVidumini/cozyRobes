@@ -3,76 +3,101 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ancLoginPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="687.0" prefWidth="919.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.cozyrobes.controller.LoginPageController">
+<AnchorPane fx:id="ancLoginPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.cozyrobes.controller.LoginPageController">
    <children>
-      <VBox layoutX="688.0" prefHeight="687.0" prefWidth="232.0" style="-fx-background-color: #ffaf40;">
-         <children>
-            <Label prefHeight="26.0" prefWidth="135.0" text="SECURITY LOGIN " textFill="#0f1d63">
-               <VBox.margin>
-                  <Insets left="60.0" top="30.0" />
-               </VBox.margin>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <ImageView fitHeight="116.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
+      <ScrollPane layoutY="-9.0" prefHeight="918.0" prefWidth="933.0" AnchorPane.bottomAnchor="-8.600000000000023" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="667.2" AnchorPane.topAnchor="-9.0">
+         <content>
+            <ImageView fitHeight="920.0" fitWidth="1075.0" opacity="0.82" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../images/Luxury_logo_design_converted.png" />
+                  <Image url="@../images/StockCake-Monks%20Meditating%20Peacefully_1745813050.jpg" />
                </image>
-               <VBox.margin>
-                  <Insets left="60.0" top="50.0" />
-               </VBox.margin>
             </ImageView>
-            <Label fx:id="lblUserName" text="Username *">
+         </content>
+      </ScrollPane>
+      <VBox layoutX="933.0" prefHeight="900.0" prefWidth="667.0" style="-fx-background-color: #34495e;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="933.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox prefHeight="70.0" prefWidth="667.0" style="-fx-background-color: #2c3e50;">
+               <children>
+                  <ImageView fitHeight="78.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Luxury_logo_design_converted.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefHeight="74.0" prefWidth="291.0" text="COZY ROBES">
+                     <font>
+                        <Font size="50.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="100.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <Label text="SECURITY    LOGIN " textFill="#efebeb">
+               <font>
+                  <Font name="Javanese Text" size="27.0" />
+               </font>
                <VBox.margin>
-                  <Insets left="100.0" top="80.0" />
+                  <Insets left="200.0" top="30.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="txtUserName" prefHeight="26.0" prefWidth="58.0">
+            <Label text="SYSTEM" textFill="#fffafa">
+               <font>
+                  <Font name="Javanese Text" size="27.0" />
+               </font>
                <VBox.margin>
-                  <Insets left="20.0" right="20.0" top="10.0" />
-               </VBox.margin>
-            </TextField>
-            <Label fx:id="lblPassword" text="Password *">
-               <VBox.margin>
-                  <Insets left="100.0" top="40.0" />
+                  <Insets left="280.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="txtPassword">
+            <Label fx:id="lblUserName" text="* Username ">
                <VBox.margin>
-                  <Insets left="20.0" right="20.0" top="10.0" />
+                  <Insets left="150.0" top="30.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtUserName">
+               <VBox.margin>
+                  <Insets left="200.0" right="100.0" top="20.0" />
                </VBox.margin>
             </TextField>
-            <Label fx:id="lblEmail" text="Email *">
+            <Label fx:id="lblPassword" text="* Password ">
                <VBox.margin>
-                  <Insets left="100.0" top="40.0" />
+                  <Insets left="150.0" top="100.0" />
+               </VBox.margin>
+            </Label>
+            <PasswordField fx:id="txtPassword">
+               <VBox.margin>
+                  <Insets left="200.0" right="100.0" top="20.0" />
+               </VBox.margin>
+            </PasswordField>
+            <Label fx:id="lblEmail" text="* Email ">
+               <VBox.margin>
+                  <Insets left="150.0" top="100.0" />
                </VBox.margin>
             </Label>
             <TextField fx:id="txtEmail">
                <VBox.margin>
-                  <Insets left="20.0" right="20.0" top="10.0" />
+                  <Insets left="200.0" right="100.0" top="20.0" />
                </VBox.margin>
             </TextField>
-            <Button mnemonicParsing="false" onAction="#btnGoDashBoardPageOnAction" style="-fx-background-color: #27ae60;" text="GOT IT ">
+            <Button fx:id="btnGotIt" mnemonicParsing="false" onAction="#btnGoDashBoardPageOnAction" text="Got it">
                <VBox.margin>
-                  <Insets left="100.0" top="50.0" />
+                  <Insets left="500.0" top="60.0" />
                </VBox.margin>
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-         </children></VBox>
-      <ImageView fitHeight="754.0" fitWidth="688.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/StockCake-Monks%20Meditating%20Peacefully_1745813050.jpg" />
-         </image>
-      </ImageView>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
