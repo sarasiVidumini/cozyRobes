@@ -59,7 +59,7 @@ public class DeliveryModel {
             return tableCharacter + "001";
     }
 
-    public String saveDelivery(DeliveryDto deliveryDto) throws SQLException, ClassNotFoundException {
+    public boolean saveDelivery(DeliveryDto deliveryDto) throws SQLException, ClassNotFoundException {
         return CrudUtil.execute(
                 "insert into delivery values(?,?,?,?)",
                 deliveryDto.getDelivery_id(),
@@ -70,7 +70,7 @@ public class DeliveryModel {
         );
     }
 
-    public String updateDelivery(DeliveryDto deliveryDto) throws SQLException, ClassNotFoundException {
+    public boolean updateDelivery(DeliveryDto deliveryDto) throws SQLException {
         return CrudUtil.execute(
                 "update delivery set order_id = ? , address = ? , status = ? where delivery_id ",
                 deliveryDto.getOrder_id(),
@@ -80,14 +80,14 @@ public class DeliveryModel {
         );
     }
 
-    public String deleteDelivery(String delivery_id) throws SQLException, ClassNotFoundException {
+    public boolean deleteDelivery(String delivery_id) throws SQLException {
         return CrudUtil.execute(
                 "delete from delivery where delivery_id = ?",
                 delivery_id
         );
     }
 
-    public DeliveryDto searchDelivery(String delivery_id) throws SQLException, ClassNotFoundException {
+    public DeliveryDto searchDelivery(String delivery_id) throws SQLException {
         ResultSet resultSet = CrudUtil.execute(
                 "select * from delivery where delivery_id = ?",
                 delivery_id

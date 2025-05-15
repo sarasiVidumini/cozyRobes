@@ -8,5 +8,6 @@ module lk.ijse.cozyrobes {
 
 
     opens lk.ijse.cozyrobes.controller to javafx.fxml;
+    opens lk.ijse.cozyrobes.dto.tm to javafx.base;
     exports lk.ijse.cozyrobes;
 }

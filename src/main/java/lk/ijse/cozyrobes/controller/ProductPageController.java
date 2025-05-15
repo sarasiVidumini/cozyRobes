@@ -8,10 +8,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.cozyrobes.dto.CustomerDto;
 import lk.ijse.cozyrobes.dto.ProductDto;
 import lk.ijse.cozyrobes.dto.tm.CustomerTM;
+import lk.ijse.cozyrobes.dto.tm.MaintenanceTM;
 import lk.ijse.cozyrobes.dto.tm.ProductTM;
 import lk.ijse.cozyrobes.model.ProductModel;
 
@@ -45,23 +47,23 @@ public class ProductPageController implements Initializable {
     public Button btnReset;
 
 
-    public void btnGoDshBoardOnAction(ActionEvent actionEvent) throws IOException {
-        ancProductPage.getChildren().clear();
-        Parent load = FXMLLoader.load(getClass().getResource("/view/DashBoardPage.fxml"));
-        ancProductPage.getChildren().add(load);
-    }
+//    public void btnGoDshBoardOnAction(ActionEvent actionEvent) throws IOException {
+//        ancProductPage.getChildren().clear();
+//        Parent load = FXMLLoader.load(getClass().getResource("/view/DashBoardPage.fxml"));
+//        ancProductPage.getChildren().add(load);
+//    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-     colProductId.setCellValueFactory(new PropertyValueFactory<>("productId"));
+     colProductId.setCellValueFactory(new PropertyValueFactory<>("product_id"));
      colProductName.setCellValueFactory(new PropertyValueFactory<>("name"));
      colQty.setCellValueFactory(new PropertyValueFactory<>("quantity"));
      colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
      colCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
 
         try {
-//         loadTableData();
-//         loadNextId();
+        loadTableData();
+        loadNextId();
             resetPage();
         } catch (Exception e) {
             e.printStackTrace();
@@ -149,18 +151,18 @@ public class ProductPageController implements Initializable {
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
-        String productId = txtProductName.getText();
+        String product_id = txtProductName.getText();
         String name = txtProductName.getText();
         int quantity = Integer.parseInt(txtProductQty.getText());
         String category = txtCategory.getText();
-        double unitPrice = Double.parseDouble(txtUnitPrice.getText());
+        double unit_price = Double.parseDouble(txtUnitPrice.getText());
 
         ProductDto productDto = new ProductDto(
-                productId,
+                product_id,
                 name,
                 quantity,
                 category,
-                unitPrice
+                unit_price
         );
 
         try {
@@ -179,18 +181,18 @@ public class ProductPageController implements Initializable {
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
-        String productId = lblProductId.getText();
+        String product_id = lblProductId.getText();
         String name = txtProductName.getText();
         int quantity = Integer.parseInt(txtProductQty.getText());
         String category = txtCategory.getText();
-        double unitPrice = Double.parseDouble(txtUnitPrice.getText());
+        double unit_price = Double.parseDouble(txtUnitPrice.getText());
 
         ProductDto productDto = new ProductDto(
-                productId,
+                product_id,
                 name,
                 quantity,
                 category,
-                unitPrice
+                unit_price
         );
 
         try {
@@ -209,17 +211,39 @@ public class ProductPageController implements Initializable {
     }
 
     private void loadNextId() throws SQLException {
-        String nextId = productModel.getNextUserId();
-        lblProductId.setText(nextId);
+        try {
+            String nextId = "P001"; // Dummy logic; replace with DB fetch if needed
+            lblProductId.setText(nextId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to generate next Product ID").show();
+        }
     }
 
-    public void btnGoDashBoardPageOnAction(ActionEvent actionEvent) throws IOException {
+    public void btnGoDashBoardPageOnAction(ActionEvent actionEvent) throws SQLException, IOException {
         ancProductPage.getChildren().clear();
         Parent load = FXMLLoader.load(getClass().getResource("/view/DashBoardPage.fxml"));
         ancProductPage.getChildren().setAll(load);
     }
 
     public void btnResetOnAction(ActionEvent actionEvent) {
+        resetPage();
+    }
+
+    public void onClickTable(MouseEvent mouseEvent) {
+        ProductTM selectedItem = tblProduct.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            lblProductId.setText(selectedItem.getProduct_id());
+            txtProductName.setText(selectedItem.getName());
+            txtProductQty.setText(String.valueOf(selectedItem.getQuantity()));
+            txtCategory.setText(selectedItem.getCategory());
+            txtUnitPrice.setText(String.valueOf(selectedItem.getUnit_price()));
+
+
+            btnSave.setDisable(true);
+            btnUpdate.setDisable(false);
+            btnDelete.setDisable(false);
+        }
     }
 }
 

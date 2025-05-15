@@ -38,7 +38,7 @@
                         <Image url="@../images/Outbound%20Call%20Center%20_%20VoxDesk%20by%20500apps.jpeg" />
                      </image>
                   </ImageView>
-                  <TableView fx:id="tblUser" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                  <TableView fx:id="tblUser" onMouseClicked="#onClickTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <columns>
                         <TableColumn fx:id="colUserId" prefWidth="251.20004272460938" text="User_id" />
                         <TableColumn fx:id="colUserRole" prefWidth="242.39996337890625" text="Role" />

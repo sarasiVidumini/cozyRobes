@@ -8,6 +8,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="ancMainPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.cozyrobes.controller.mainPageController">
@@ -23,7 +24,8 @@
                   </ImageView>
                </content>
             </ScrollPane>
-            <Label text="Home">
+            <VBox prefHeight="700.0" prefWidth="234.0" />
+            <Label prefHeight="22.0" prefWidth="62.0" text="Home">
                <HBox.margin>
                   <Insets left="150.0" top="10.0" />
                </HBox.margin>
@@ -31,14 +33,6 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <ImageView fitHeight="101.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true">
-               <HBox.margin>
-                  <Insets left="100.0" top="300.0" />
-               </HBox.margin>
-               <image>
-                  <Image url="@../images/Luxury_logo_design_converted.png" />
-               </image>
-            </ImageView>
          </children>
       </HBox>
       <Label layoutX="807.0" layoutY="64.0" text="Contact" AnchorPane.rightAnchor="500.0" AnchorPane.topAnchor="10.0">
@@ -46,7 +40,6 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Button fx:id="btnSignUp" layoutX="1251.2" layoutY="11.2" mnemonicParsing="false" onAction="#btnGoSignUpPageOnAction" prefHeight="27.0" prefWidth="65.0" text="Sign Up" AnchorPane.bottomAnchor="662.0" AnchorPane.leftAnchor="1251.0" AnchorPane.rightAnchor="84.0" AnchorPane.topAnchor="11.0" />
       <Label layoutX="811.0" layoutY="128.0" prefHeight="28.0" prefWidth="358.0" text="To be the most trusted and compassionate provider of " AnchorPane.rightAnchor="120.0" AnchorPane.topAnchor="90.0">
          <font>
             <Font name="Javanese Text" size="15.0" />
@@ -62,12 +55,12 @@
             <Font name="Javanese Text" size="15.0" />
          </font>
       </Label>
-      <ImageView fitHeight="97.0" fitWidth="97.0" layoutX="914.0" layoutY="444.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="300.0">
+      <ImageView fitHeight="97.0" fitWidth="97.0" layoutX="914.0" layoutY="444.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="300.0">
          <image>
             <Image url="@../images/ChatGPT%20Image%20May%2014,%202025,%2012_53_40%20AM.png" />
          </image>
       </ImageView>
-      <Label layoutX="862.0" layoutY="394.0" prefHeight="50.0" prefWidth="246.0" text="Robes Platform" AnchorPane.leftAnchor="990.0" AnchorPane.rightAnchor="154.0" AnchorPane.topAnchor="250.0">
+      <Label layoutX="862.0" layoutY="251.2" prefHeight="50.0" prefWidth="254.0" text="Robes Platform" AnchorPane.leftAnchor="1050.0" AnchorPane.rightAnchor="96.0" AnchorPane.topAnchor="251.0">
          <font>
             <Font name="System Bold Italic" size="33.0" />
          </font>
@@ -106,7 +99,7 @@
             <Image url="@../images/pngtree-3d-location-icon-clipart-in-transparent-background-vector-png-image_6704161.png" />
          </image>
       </ImageView>
-      <Label layoutX="1116.0" layoutY="721.0" text="Location" AnchorPane.bottomAnchor="132.00000000000003" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="550.4" />
+      <Label layoutX="1116.0" layoutY="721.0" text="Location" AnchorPane.bottomAnchor="132.00000000000003" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="550.4" />
       <Label layoutX="1102.0" layoutY="747.0" text="Induruwa" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="590.4" />
       <Button fx:id="btnStart" layoutX="924.0" layoutY="814.0" mnemonicParsing="false" onAction="#btnGoLoginPageOnAction" text="Get Start" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="630.0">
          <font>

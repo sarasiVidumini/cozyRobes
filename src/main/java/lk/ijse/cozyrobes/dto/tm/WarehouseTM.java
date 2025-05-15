@@ -1,6 +1,5 @@
 package lk.ijse.cozyrobes.dto.tm;
 
-
 import lombok.*;
 
 @Setter
@@ -8,11 +7,9 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class ProductTM{
+public class WarehouseTM {
+    private String section_id;
     private String product_id;
-    private String name;
-    private int quantity;
-    private String category;
-    private double unit_price;
+    private String capacity;
+    private String location;
 }

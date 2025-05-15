@@ -10,25 +10,38 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ancDashBoardPage" prefHeight="858.0" prefWidth="1106.0" style="-fx-background-color: #ecf0f1;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.cozyrobes.controller.DashBoardController">
+<AnchorPane fx:id="ancDashBoardPage" prefHeight="1000.0" prefWidth="1600.0" style="-fx-background-color: #ecf0f1;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.cozyrobes.controller.DashBoardController">
    <children>
-      <VBox prefHeight="858.0" prefWidth="251.0" style="-fx-background-color: #ffaf40;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="855.0" AnchorPane.topAnchor="0.0">
+      <VBox prefHeight="1002.0" prefWidth="359.0" style="-fx-background-color: #95a5a6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1445.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox prefHeight="64.0" prefWidth="295.0">
                <children>
-                  <Label text=" ROBES">
+                  <ImageView fitHeight="66.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Luxury_logo_design_converted.png" />
+                     </image>
+                  </ImageView>
+                  <Label text="COZY ROBES">
                      <font>
-                        <Font size="47.0" />
+                        <Font size="40.0" />
                      </font>
                      <HBox.margin>
-                        <Insets left="70.0" />
+                        <Insets left="40.0" />
                      </HBox.margin>
                   </Label>
                </children>
             </HBox>
+            <ImageView fitHeight="83.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets left="250.0" top="-10.0" />
+               </VBox.margin>
+               <image>
+                  <Image url="@../images/10061716.png" />
+               </image>
+            </ImageView>
             <Button mnemonicParsing="false" onAction="#btnGoUserViewOnAction" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: #ffaf40;" text="User" textFill="#94938f">
                <VBox.margin>
-                  <Insets bottom="30.0" left="50.0" />
+                  <Insets bottom="30.0" left="50.0" top="-70.0" />
                </VBox.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#btnGoEmployeePageOnAction" prefHeight="26.0" prefWidth="138.0" style="-fx-background-color: #ffaf40;" text="Employee" textFill="#96948d">
@@ -93,10 +106,14 @@
             </Button>
          </children>
       </VBox>
-      <ImageView fitHeight="858.0" fitWidth="878.0" layoutX="248.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="248.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <image>
-            <Image url="@../images/Luxury_logo_design_converted.png" />
-         </image>
-      </ImageView>
+      <VBox layoutX="358.0" prefHeight="1000.0" prefWidth="1243.0">
+         <children>
+            <ImageView fitHeight="1078.0" fitWidth="1445.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/pngtree-infographic-dashboard-template-ui-graph-png-image_4624169.png" />
+               </image>
+            </ImageView>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

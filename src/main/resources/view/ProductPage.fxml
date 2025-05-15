@@ -38,7 +38,7 @@
                         <Image url="@../images/ChatGPT%20Image%20May%2013,%202025,%2003_39_50%20PM.png" />
                      </image>
                   </ImageView>
-                  <TableView fx:id="tblProduct" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                  <TableView fx:id="tblProduct" onMouseClicked="#onClickTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <columns>
                         <TableColumn fx:id="colProductId" prefWidth="251.20004272460938" text="Product_id" />
                         <TableColumn fx:id="colProductName" prefWidth="362.4000244140625" text="Name" />

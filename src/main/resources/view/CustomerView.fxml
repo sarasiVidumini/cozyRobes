@@ -38,7 +38,7 @@
                         <Image url="@../images/customer_service_1.640.png" />
                      </image>
                   </ImageView>
-                  <TableView fx:id="tblCustomer" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                  <TableView fx:id="tblCustomer" onMouseClicked="#onClickTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <columns>
                         <TableColumn fx:id="colId" prefWidth="251.20004272460938" text="Customer_id" />
                         <TableColumn fx:id="colName" prefWidth="242.39996337890625" text="Name" />

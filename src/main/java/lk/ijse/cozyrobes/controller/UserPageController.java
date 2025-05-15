@@ -10,6 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.cozyrobes.dto.CustomerDto;
+import lk.ijse.cozyrobes.dto.MaintenanceDto;
 import lk.ijse.cozyrobes.dto.UserDto;
 import lk.ijse.cozyrobes.dto.tm.CustomerTM;
 import lk.ijse.cozyrobes.dto.tm.UserTM;
@@ -43,7 +44,7 @@ private  final UserModel userModel = new UserModel();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        colUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        colUserId.setCellValueFactory(new PropertyValueFactory<>("user_id"));
         colUserRole.setCellValueFactory(new PropertyValueFactory<>("role"));
         colUserName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colUserContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
@@ -90,17 +91,31 @@ private  final UserModel userModel = new UserModel();
         }
     }
     public void btnSaveOnAction(ActionEvent actionEvent) {
-            String userId = lblUserId.getText();
+            String user_id = lblUserId.getText();
             String role = txtRole.getText();
             String name = txtName.getText();
             String contact = txtContact.getText();
 
-            UserDto userDto = new UserDto(
-                    userId,
-                    role,
-                    name,
-                    contact
-            );
+
+        if (user_id.isEmpty() || role.isEmpty() ||  name.isEmpty() || contact.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Empty fields, please fill all the fields").show();
+            return;
+        }
+
+        UserDto userDto = new UserDto(user_id , role ,name , contact);
+
+        try {
+            boolean isSaved = userModel.saveUser(userDto);
+            if (isSaved) {
+                new Alert(Alert.AlertType.INFORMATION, "User saved successfully").show();
+                resetPage();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Failed to save User").show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to save User").show();
+        }
     }
 
     public void btnDeleteOnAction(ActionEvent actionEvent) {
@@ -133,17 +148,17 @@ private  final UserModel userModel = new UserModel();
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
-        String userId = lblUserId.getText();
+        String user_id = lblUserId.getText();
         String role = txtRole.getText();
         String name = txtName.getText();
         String contact = txtContact.getText();
 
-        if (userId.isEmpty() ||role.isEmpty() || name.isEmpty() || contact.isEmpty()) {
+        if (user_id.isEmpty() ||role.isEmpty() || name.isEmpty() || contact.isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Empty fields , please fill all the fields").show();
             return;
         }
         UserDto userDto = new UserDto(
-                userId,
+                user_id,
                 role,
                 name,
                 contact
@@ -174,7 +189,7 @@ private  final UserModel userModel = new UserModel();
         UserTM selectedItem = (UserTM) tblUser.getSelectionModel().getSelectedItem();
 
         if (selectedItem != null) {
-            lblUserId.setText(selectedItem.getUserId());
+            lblUserId.setText(selectedItem.getUser_id());
             txtRole.setText(selectedItem.getRole());
             txtName.setText(selectedItem.getName());
             txtContact.setText(selectedItem.getContact());
@@ -192,5 +207,6 @@ private  final UserModel userModel = new UserModel();
     }
 
     public void btnResetOnAction(ActionEvent actionEvent) {
+        resetPage();
     }
 }

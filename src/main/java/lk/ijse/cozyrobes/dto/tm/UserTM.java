@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 
 public class UserTM {
-    private String userId;
+    private String user_id;
     private String role;
     private String name;
     private String contact;

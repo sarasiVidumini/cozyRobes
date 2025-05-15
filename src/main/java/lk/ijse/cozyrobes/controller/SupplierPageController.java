@@ -55,13 +55,14 @@ public class SupplierPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        colSupplierId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        colSupplierId.setCellValueFactory(new PropertyValueFactory<>("supplier_id"));
         colSupplierName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colSupplierAdd.setCellValueFactory(new PropertyValueFactory<>("address"));
         colSupplierCnt.setCellValueFactory(new PropertyValueFactory<>("contact"));
 
         try {
-
+                loadTableData();
+                loadNextId();
         } catch (Exception e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR , "Something went wrong").show();
@@ -113,13 +114,13 @@ public class SupplierPageController implements Initializable {
         }
     }
     public void btnSaveOnAction(ActionEvent actionEvent) {
-            String supplierId = lblSupplierId.getText();
+            String supplier_id = lblSupplierId.getText();
             String name = txtSPName.getText();
             String address = txtSPAddress.getText();
             String contact = txtSPContact.getText();
 
             SupplierDto supplierDto = new SupplierDto(
-                    supplierId,
+                    supplier_id,
                     name,
                     address,
                     contact
@@ -141,13 +142,13 @@ public class SupplierPageController implements Initializable {
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
-            String supplierId = lblSupplierId.getText();
+            String supplier_id = lblSupplierId.getText();
             String name = txtSPName.getText();
             String address = txtSPAddress.getText();
             String contact = txtSPContact.getText();
 
             SupplierDto supplierDto = new SupplierDto(
-                    supplierId,
+                    supplier_id,
                     name,
                     address,
                     contact
@@ -200,15 +201,20 @@ public class SupplierPageController implements Initializable {
     }
 
     private void loadNextId() throws Exception {
-        String nextId = supplierModel.getNextSupplierId();
-        lblSupplierId.setText(nextId);
+        try {
+            String nextId = "S001"; // Dummy logic; replace with DB fetch if needed
+            lblSupplierId.setText(nextId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to generate next Supplier ID").show();
+        }
     }
 
     public void onClickTable(MouseEvent mouseEvent) {
         SupplierTM selectedItem =tblSupplier.getSelectionModel().getSelectedItem();
 
         if (selectedItem != null) {
-            lblSupplierId.setText(selectedItem.getSupplierId());
+            lblSupplierId.setText(selectedItem.getSupplier_id());
             txtSPName.setText(selectedItem.getName());
             txtSPAddress.setText(selectedItem.getAddress());
             txtSPContact.setText(selectedItem.getContact());
@@ -221,6 +227,6 @@ public class SupplierPageController implements Initializable {
     }
 
     public void btnResetOnAction(ActionEvent actionEvent) {
-
+        resetPage();
     }
 }

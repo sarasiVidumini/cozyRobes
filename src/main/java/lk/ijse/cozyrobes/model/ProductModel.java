@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class ProductModel {
 
-    public String getNextUserId() throws SQLException {
+    public String getNextProductId() throws SQLException {
         ResultSet resultSet = CrudUtil.execute("select product_id from product order by product_id desc limit 1");
         char tableCharacter = 'P';
         if (resultSet.next()) {
@@ -56,7 +56,7 @@ public class ProductModel {
 
     public boolean updateProduct(ProductDto productDto) throws SQLException {
         return CrudUtil.execute(
-                "update product set name = ? , quantity = ? , category = ? , unitPrice = ? where product_id",
+                "update product set name = ? , quantity = ? , category = ? , unitPrice = ? where product_id = ?",
                 productDto.getName(),
                 productDto.getQuantity(),
                 productDto.getCategory(),
@@ -65,10 +65,10 @@ public class ProductModel {
         );
     }
 
-    public boolean deleteProduct(String productId) throws SQLException {
+    public boolean deleteProduct(String product_id) throws SQLException {
         return CrudUtil.execute(
                 "delete from product where product_id = ?" ,
-                productId
+                product_id
 
         );
 

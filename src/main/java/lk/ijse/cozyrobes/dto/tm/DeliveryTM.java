@@ -7,11 +7,9 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class SupplierTM {
-    private String supplier_id;
-    private String name;
+public class DeliveryTM {
+    private String delivery_id;
+    private String order_id;
     private String address;
-    private String contact;
-
+    private String status;
 }

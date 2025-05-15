@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 
 public class CustomerTM {
-   private String customerId;
+   private String customer_id;
    private String name;
    private String phone;
    private String email;

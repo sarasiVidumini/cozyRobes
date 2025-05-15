@@ -43,7 +43,7 @@ public class CustomerController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resource) {
-        colId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        colId.setCellValueFactory(new PropertyValueFactory<>("customer_id"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         colMail.setCellValueFactory(new PropertyValueFactory<>("Email"));
@@ -150,17 +150,17 @@ public class CustomerController implements Initializable {
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
-        String customerId = lblCustomerId.getText();
+        String customer_id = lblCustomerId.getText();
         String name = txtCustName.getText();
         String phone = txtCustPhone.getText();
         String email = txtCustEmail.getText();
 
-        if (customerId.isEmpty() ||name.isEmpty() || phone.isEmpty() || email.isEmpty()) {
+        if (customer_id.isEmpty() ||name.isEmpty() || phone.isEmpty() || email.isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Empty fields , please fill all the fields").show();
             return;
         }
         CustomerDto customerDto = new CustomerDto(
-                customerId,
+                customer_id,
                 name,
                 phone,
                 email
@@ -187,21 +187,7 @@ public class CustomerController implements Initializable {
         lblCustomerId.setText(nextId);
     }
 
-    public void onClickTable(MouseEvent mouseEvent) {
-        CustomerTM selectedItem = tblCustomer.getSelectionModel().getSelectedItem();
 
-        if (selectedItem != null) {
-            lblCustomerId.setText(selectedItem.getCustomerId());
-            txtCustName.setText(selectedItem.getName());
-            txtCustPhone.setText(selectedItem.getPhone());
-            txtCustEmail.setText(selectedItem.getEmail());
-
-            btnSave.setDisable(true);
-
-            btnDelete.setDisable(false);
-            btnUpdate.setDisable(false);
-        }
-    }
 
     public void btnGoDashBoardPageOnAction(ActionEvent actionEvent) throws IOException {
         ancCustomerPage.getChildren().clear();
@@ -211,5 +197,21 @@ public class CustomerController implements Initializable {
 
     public void btnResetOnAction(ActionEvent actionEvent) {
         resetPage();
+    }
+
+    public void onClickTable(javafx.scene.input.MouseEvent mouseEvent) {
+        CustomerTM selectedItem = tblCustomer.getSelectionModel().getSelectedItem();
+
+        if (selectedItem != null) {
+            lblCustomerId.setText(selectedItem.getCustomer_id());
+            txtCustName.setText(selectedItem.getName());
+            txtCustPhone.setText(selectedItem.getPhone());
+            txtCustEmail.setText(selectedItem.getEmail());
+
+            btnSave.setDisable(true);
+
+            btnDelete.setDisable(false);
+            btnUpdate.setDisable(false);
+        }
     }
 }
