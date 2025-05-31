@@ -1,46 +1,44 @@
 package lk.ijse.cozyrobes.controller;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class LoginPageController {
+public class LoginPageController implements Initializable {
     public AnchorPane ancLoginPage;
-    public TextField txtUserName;
-    public TextField txtPassword;
-    public TextField txtEmail;
+    public ComboBox<String> cmbLanguagePlatform;
 
-
-    public void btnGoDashBoardPageOnAction(ActionEvent actionEvent) throws IOException {
-        String username = "1";
-        String password = "1";
-        String email= "1";
-
-        String inputUserName = txtUserName.getText();
-        String inputPassword = txtPassword.getText();
-        String inputUserEmail = txtEmail.getText();
-
-        boolean userNameMatched = username.equals(inputUserName);
-        boolean passwordMatched = password.equals(inputPassword);
-        boolean userEmailMatched = inputUserEmail.equals(inputUserEmail);
-
-        if (userNameMatched && passwordMatched && userEmailMatched) {
-
-            ancLoginPage.getChildren().clear();
-
-            AnchorPane load = FXMLLoader.load(getClass().getResource("/view/DashBoardPage.fxml"));
-
-            ancLoginPage.getChildren().add(load);
-        } else {
-            System.out.println(" wrong password...!");
-        }
-
-    }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        cmbLanguagePlatform.setItems(FXCollections.observableArrayList(" " , "English(UK)" , "සිංහල"));
     }
 
+    public void goToMainPage(MouseEvent mouseEvent) throws IOException {
+        ancLoginPage.getChildren().clear();
+        Parent load = FXMLLoader.load(getClass().getResource("/view/MainPage.fxml"));
+        ancLoginPage.getChildren().add(load);
+    }
+
+    public void btnGoSignupPageOnAction(ActionEvent actionEvent) throws IOException {
+        ancLoginPage.getChildren().clear();
+        Parent load = FXMLLoader.load(getClass().getResource("/view/SignUp.fxml"));
+        ancLoginPage.getChildren().add(load);
+    }
+
+    public void btnGoSigninPageOnAction(ActionEvent actionEvent) {
+    }
+
+
+}

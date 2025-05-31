@@ -8,92 +8,93 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class SupplierModel {
-   public String getNextSupplierId() throws SQLException {
-       ResultSet resultSet = CrudUtil.execute("select supplier_id from supplier order by supplier_id desc limit 1");
-       char tableCharacter = 'S';
-       if (resultSet.next()) {
-           String lastId = resultSet.getString(1);
-           String lastIdNumberString= lastId.substring(1);
-           int lastIdNumber = Integer.parseInt(lastIdNumberString);
-           int nextIdNumber = lastIdNumber + 1;
-           String nextIdString = String.format("%03d", nextIdNumber);
-           return nextIdString;
-       }
 
-       return tableCharacter + "001";
-   }
+    public String getNextSupplierId() throws SQLException {
+        ResultSet resultSet = (ResultSet) CrudUtil.execute("select supplier_id from supplier order by supplier_id desc limit 1");
 
-   public boolean saveSupplier(SupplierDto supplierDto) throws SQLException {
-       return CrudUtil.execute(
-               "insert into supplier values(?,?,?,?)",
-               supplierDto.getSupplier_id(),
-               supplierDto.getName(),
-               supplierDto.getAddress(),
-               supplierDto.getContact()
-       );
-   }
+        char prefix = 'S';
 
-   public ArrayList<SupplierDto> getAllSuppliers() throws SQLException {
-       ResultSet resultSet = CrudUtil.execute("select * from supplier");
+        if (resultSet.next()) {
+            String lastId = resultSet.getString(1); // e.g., "S017"
+            String numberPart = lastId.substring(1); // remove 'S'
+            int nextNumber = Integer.parseInt(numberPart) + 1;
+            return String.format("%c%03d", prefix, nextNumber); // e.g., "S018"
+        }
 
-       ArrayList<SupplierDto> supplierDtoArrayList = new ArrayList<>();
-       while (resultSet.next()) {
-           SupplierDto supplierDto = new SupplierDto(
-                   resultSet.getString(1),
-                   resultSet.getString(2),
-                   resultSet.getString(3),
-                   resultSet.getString(4)
-           );
-           supplierDtoArrayList.add(supplierDto);
-       }
+        return prefix + "001";
+    }
 
-       return supplierDtoArrayList;
+    public boolean saveSupplier(SupplierDto supplierDto) throws SQLException {
+        return (Boolean) CrudUtil.execute(
+                "INSERT INTO supplier VALUES (?, ?, ?, ?)",
+                supplierDto.getSupplierId(),
+                supplierDto.getName(),
+                supplierDto.getAddress(),
+                supplierDto.getContact()
+        );
+    }
 
-   }
+    public ArrayList<SupplierDto> getAllSuppliers() throws SQLException {
+        ResultSet resultSet = (ResultSet) CrudUtil.execute("SELECT * FROM supplier");
 
-   public boolean updateSupplier(SupplierDto supplierDto) throws SQLException {
-       return CrudUtil.execute(
-               "update supplier set name=? , address = ? , contact=? where supplier_id",
-               supplierDto.getName(),
-               supplierDto.getAddress(),
-               supplierDto.getContact(),
-               supplierDto.getSupplier_id()
-       );
-   }
+        ArrayList<SupplierDto> supplierDtoArrayList = new ArrayList<>();
+        while (resultSet.next()) {
+            SupplierDto supplierDto = new SupplierDto(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4)
+            );
+            supplierDtoArrayList.add(supplierDto);
+        }
 
-   public boolean deleteSupplier(String supplierId) throws SQLException {
-       return CrudUtil.execute(
-               "delete from supplier where supplier_id",
-               supplierId
-       );
-   }
+        return supplierDtoArrayList;
+    }
 
-   public SupplierDto searchSupplier(String supplier_id) throws SQLException {
-       ResultSet resultSet = CrudUtil.execute(
-               "select * from supplier where supplier_id = ?",
-               supplier_id
-       );
+    public boolean updateSupplier(SupplierDto supplierDto) throws SQLException {
+        return (Boolean) CrudUtil.execute(
+                "update supplier set name = ?, address = ?, contact = ? WHERE supplier_id = ?",
+                supplierDto.getName(),
+                supplierDto.getAddress(),
+                supplierDto.getContact(),
+                supplierDto.getSupplierId()
+        );
+    }
 
-       if (resultSet.next()) {
-           SupplierDto supplierDto = new SupplierDto(
-                   resultSet.getString(1),
-                   resultSet.getString(2),
-                   resultSet.getString(3),
-                   resultSet.getString(4)
-           );
-           return supplierDto;
-       }
-       return null;
-   }
+    public boolean deleteSupplier(String supplier_id) throws SQLException {
+        return (Boolean) CrudUtil.execute(
+                "DELETE FROM supplier WHERE supplier_id = ?",
+                supplier_id
+        );
+    }
 
-   public ArrayList<String> getAllSuppliersIds() throws SQLException {
-       ResultSet resultSet = CrudUtil.execute("select supplier_id from supplier");
-       ArrayList<String> list = new ArrayList<>();
-       while (resultSet.next()) {
-           String id = resultSet.getString(1);
-           list.add(id);
-       }
+    public ArrayList<SupplierDto> searchSupplier(String search) throws SQLException {
+        ArrayList<SupplierDto> dtos = new ArrayList<>();
+        String sql = "SELECT * FROM supplier WHERE supplier_id LIKE ? OR name LIKE ? OR address LIKE ? OR contact LIKE ?";
+        String pattern = "%" + search + "%";
+        ResultSet resultSet = (ResultSet) CrudUtil.execute(sql, pattern, pattern, pattern, pattern);
 
-       return list;
-   }
+        while (resultSet.next()) {
+            SupplierDto dto = new SupplierDto(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4)
+            );
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+
+    public ArrayList<String> getAllSuppliersIds() throws SQLException {
+        ResultSet resultSet = (ResultSet) CrudUtil.execute("SELECT supplier_id FROM supplier");
+
+        ArrayList<String> list = new ArrayList<>();
+        while (resultSet.next()) {
+            String id = resultSet.getString(1);
+            list.add(id);
+        }
+
+        return list;
+    }
 }

@@ -8,8 +8,8 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class EmployeeDto {
-    private String employee_id;
-    private String user_id;
+    private String employeeId;
+    private String userId;
     private String name;
     private String role;
     private double salary;

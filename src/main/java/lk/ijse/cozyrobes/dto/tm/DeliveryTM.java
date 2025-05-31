@@ -8,8 +8,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DeliveryTM {
-    private String delivery_id;
-    private String order_id;
+    private String deliveryId;
+    private String orderId;
     private String address;
     private String status;
 }

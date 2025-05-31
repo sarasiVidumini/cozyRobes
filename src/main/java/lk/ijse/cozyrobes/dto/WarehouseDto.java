@@ -9,8 +9,8 @@ import lombok.*;
 @AllArgsConstructor
 
 public class WarehouseDto {
-    private String section_id;
-    private String product_id;
+    private String sectionId;
+    private String productId;
     private int capacity;
     private String location;
 

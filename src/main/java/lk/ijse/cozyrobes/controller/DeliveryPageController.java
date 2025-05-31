@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.input.MouseEvent;
 import lk.ijse.cozyrobes.dto.DeliveryDto;
@@ -16,6 +17,7 @@ import lk.ijse.cozyrobes.model.DeliveryModel;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -36,16 +38,46 @@ public class DeliveryPageController implements Initializable {
     public TextField txtAddress;
     public TextField txtStatus;
 
-    public Button btnBack;
     public Button btnDelete;
     public Button btnUpdate;
     public Button btnSave;
     public Button btnReset;
+    public TextField txtSearch;
 
-    public void btnGoDashBoardPageOnAction(ActionEvent actionEvent) throws IOException {
-        ancDeliveryPage.getChildren().clear();
-        Parent load = FXMLLoader.load(getClass().getResource("/view/DashBoardPage.fxml"));
-        ancDeliveryPage.getChildren().add(load);
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        colId.setCellValueFactory(new PropertyValueFactory<>("deliveryId"));
+        colOrdersPlatform.setCellValueFactory(new PropertyValueFactory<>("orderId"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        // Generate O001 to O050 dynamically
+        cmbOrdersPlatform.setItems(FXCollections.observableArrayList(
+                IntStream.rangeClosed(1, 50)
+                        .mapToObj(i -> String.format("O%03d", i))
+                        .collect(Collectors.toList())
+        ));
+
+        try {
+            loadTableData();
+            loadNextId();
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to initialize delivery page").show();
+        }
+    }
+
+    private void loadNextId() throws SQLException, ClassNotFoundException {
+        /*try {
+            String nextId = "D001"; // You can fetch max ID from DB and increment
+            lblDeliveryId.setText(nextId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to generate next Delivery ID").show();
+        }*/
+        String deliveryId = deliveryModel.getNextDeliveryId();
+        lblDeliveryId.setText(deliveryId);
+
     }
 
     public void btnDeleteOnAction(ActionEvent actionEvent) {
@@ -146,11 +178,23 @@ public class DeliveryPageController implements Initializable {
         }
     }
 
-    public void onClickTable(MouseEvent mouseEvent) {
+    public void loadTableData() throws SQLException, ClassNotFoundException {
+        tblDelivery.setItems(FXCollections.observableArrayList(
+                deliveryModel.getAllDelivery().stream()
+                        .map(dto -> new DeliveryTM(
+                                dto.getDeliveryId(),
+                                dto.getOrderId(),
+                                dto.getAddress(),
+                                dto.getStatus()))
+                        .toList()
+        ));
+    }
+
+    public void onClickedTable(MouseEvent mouseEvent) {
         DeliveryTM selected = tblDelivery.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            lblDeliveryId.setText(selected.getDelivery_id());
-            cmbOrdersPlatform.setValue(selected.getOrder_id());
+            lblDeliveryId.setText(selected.getDeliveryId());
+            cmbOrdersPlatform.setValue(selected.getOrderId());
             txtAddress.setText(selected.getAddress());
             txtStatus.setText(selected.getStatus());
 
@@ -160,48 +204,39 @@ public class DeliveryPageController implements Initializable {
         }
     }
 
-    public void loadTableData() throws SQLException, ClassNotFoundException {
-        tblDelivery.setItems(FXCollections.observableArrayList(
-                deliveryModel.getAllDelivery().stream()
-                        .map(dto -> new DeliveryTM(
-                                dto.getDelivery_id(),
-                                dto.getOrder_id(),
-                                dto.getAddress(),
-                                dto.getStatus()))
-                        .toList()
-        ));
+    public void goToDashboard(MouseEvent mouseEvent) throws IOException {
+        ancDeliveryPage.getChildren().clear();
+        Parent load = FXMLLoader.load(getClass().getResource("/view/DashBoardPage.fxml"));
+        ancDeliveryPage.getChildren().add(load);
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        colId.setCellValueFactory(new PropertyValueFactory<>("delivery_id"));
-        colOrdersPlatform.setCellValueFactory(new PropertyValueFactory<>("order_id"));
-        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
-        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+    public void search(KeyEvent keyEvent) {
+        String search = txtSearch.getText();
+        if (search.isEmpty()) {
+            try {
+                loadTableData();
+            } catch (Exception e) {
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR, "Failed to search").show();
+            }
 
-        // Generate O001 to O050 dynamically
-        cmbOrdersPlatform.setItems(FXCollections.observableArrayList(
-                IntStream.rangeClosed(1, 50)
-                        .mapToObj(i -> String.format("O%03d", i))
-                        .collect(Collectors.toList())
-        ));
+        }else {
+            try {
+                ArrayList<DeliveryDto> deliveryList = deliveryModel.searchDelivery(search);
+                 tblDelivery.setItems(FXCollections.observableArrayList(
+                         deliveryList.stream()
+                                 .map(deliveryDto -> new DeliveryTM(
+                                         deliveryDto.getDeliveryId(),
+                                         deliveryDto.getOrderId(),
+                                         deliveryDto.getAddress(),
+                                         deliveryDto.getStatus()
+                                 )).toList()
+                 ));
 
-        try {
-            loadTableData();
-            loadNextId();
-        } catch (Exception e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Failed to initialize delivery page").show();
-        }
-    }
-
-    private void loadNextId() {
-        try {
-            String nextId = "D001"; // You can fetch max ID from DB and increment
-            lblDeliveryId.setText(nextId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Failed to generate next Delivery ID").show();
+            }catch(Exception e) {
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR, "Failed to search").show();
+            }
         }
     }
 }

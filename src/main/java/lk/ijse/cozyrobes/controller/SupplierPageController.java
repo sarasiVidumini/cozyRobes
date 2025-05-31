@@ -1,19 +1,17 @@
 package lk.ijse.cozyrobes.controller;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.cozyrobes.dto.CustomerDto;
 import lk.ijse.cozyrobes.dto.SupplierDto;
 import lk.ijse.cozyrobes.dto.tm.SupplierTM;
-import lk.ijse.cozyrobes.dto.tm.UserTM;
 import lk.ijse.cozyrobes.model.SupplierModel;
 
 import java.io.IOException;
@@ -26,17 +24,15 @@ import java.util.ResourceBundle;
 public class SupplierPageController implements Initializable {
 
     public AnchorPane ancSupplierPage;
-
     public Label lblSupplierId;
     public TextField txtSPName;
     public TextField txtSPAddress;
     public TextField txtSPContact;
-
     public TableView<SupplierTM> tblSupplier;
-    public TableColumn<SupplierTM , String>colSupplierId;
-    public TableColumn<SupplierTM , String> colSupplierName;
-    public TableColumn<SupplierTM , String> colSupplierAdd;
-    public TableColumn<SupplierTM , String> colSupplierCnt;
+    public TableColumn<SupplierTM, String> colSupplierId;
+    public TableColumn<SupplierTM, String> colSupplierName;
+    public TableColumn<SupplierTM, String> colSupplierAdd;
+    public TableColumn<SupplierTM, String> colSupplierCnt;
 
     private final SupplierModel supplierModel = new SupplierModel();
 
@@ -44,189 +40,215 @@ public class SupplierPageController implements Initializable {
     public Button btnUpdate;
     public Button btnDelete;
     public Button btnReset;
-    public Button btnBack;
-
-
-    public void btnGoDashBoardPageOnAction(ActionEvent actionEvent) throws IOException {
-        ancSupplierPage.getChildren().clear();
-        Parent load = FXMLLoader.load(getClass().getResource("/view/DashBoardPage.fxml"));
-        ancSupplierPage.getChildren().add(load);
-    }
+    public TextField txtSearch;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        colSupplierId.setCellValueFactory(new PropertyValueFactory<>("supplier_id"));
+        // ✅ Correct column mappings
+        colSupplierId.setCellValueFactory(new PropertyValueFactory<>("supplierId"));
         colSupplierName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colSupplierAdd.setCellValueFactory(new PropertyValueFactory<>("address"));
         colSupplierCnt.setCellValueFactory(new PropertyValueFactory<>("contact"));
 
         try {
-                loadTableData();
-                loadNextId();
+            loadTableData();
+            loadNextId();
+
+            btnSave.setDisable(false);
+            btnUpdate.setDisable(true);
+            btnDelete.setDisable(true);
+
         } catch (Exception e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR , "Something went wrong").show();
+            new Alert(Alert.AlertType.ERROR, "Failed to initialize data").show();
+
+            btnSave.setDisable(true);
+            btnUpdate.setDisable(true);
+            btnDelete.setDisable(true);
         }
     }
 
     private void loadTableData() throws SQLException {
-//        ArrayList<SupplierDto> supplierDtoArrayList = supplierModel.getAllSuppliers();
-//        ObservableList<SupplierTM> supplierTMS = FXCollections.observableArrayList();
-//
-//         for(SupplierDto supplierDto : supplierDtoArrayList) {
-//             SupplierTM supplierTM = new SupplierTM(
-//                     supplierDto.getSupplierId(),
-//                     supplierDto.getName(),
-//                     supplierDto.getAddress(),
-//                     supplierDto.getContact()
-//             );
-//             supplierTMS.add(supplierTM);
-//        }
-//         tblSupplier.setItems(supplierTMS);
-        tblSupplier.setItems(FXCollections.observableArrayList(
-                supplierModel.getAllSuppliers().stream()
-                        .map(supplierDto -> new SupplierTM(
-                                supplierDto.getSupplier_id(),
-                                supplierDto.getName(),
-                                supplierDto.getAddress(),
-                                supplierDto.getContact()
-                        )).toList()
-        ));
+        var supplierList = supplierModel.getAllSuppliers();
+
+        if (supplierList != null) {
+            tblSupplier.setItems(FXCollections.observableArrayList(
+                    supplierList.stream()
+                            .map(supplierDto -> new SupplierTM(
+                                    supplierDto.getSupplierId(),
+                                    supplierDto.getName(),
+                                    supplierDto.getAddress(),
+                                    supplierDto.getContact()
+                            )).toList()
+            ));
+        }
     }
 
-    private void resetPage(){
+    private void loadNextId() throws Exception {
+        String nextId = supplierModel.getNextSupplierId();
+        lblSupplierId.setText(nextId);
+    }
+
+    private void resetPage() {
         try {
             loadTableData();
             loadNextId();
 
             btnSave.setDisable(false);
-
-            btnDelete.setDisable(true);
             btnUpdate.setDisable(true);
+            btnDelete.setDisable(true);
 
-            txtSPName.setText("");
-            txtSPAddress.setText("");
-            txtSPContact.setText("");
-
+            txtSPName.clear();
+            txtSPAddress.clear();
+            txtSPContact.clear();
+            tblSupplier.getSelectionModel().clearSelection();
         } catch (Exception e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR , "Something went wrong").show();
+            new Alert(Alert.AlertType.ERROR, "Something went wrong while resetting").show();
         }
     }
+
     public void btnSaveOnAction(ActionEvent actionEvent) {
-            String supplier_id = lblSupplierId.getText();
-            String name = txtSPName.getText();
-            String address = txtSPAddress.getText();
-            String contact = txtSPContact.getText();
+        String supplierId = lblSupplierId.getText();
+        String name = txtSPName.getText();
+        String address = txtSPAddress.getText();
+        String contact = txtSPContact.getText();
 
-            SupplierDto supplierDto = new SupplierDto(
-                    supplier_id,
-                    name,
-                    address,
-                    contact
-            );
+        if (supplierId.isEmpty() || name.isEmpty() || address.isEmpty() || contact.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Empty fields, please fill all the fields.").show();
+            return;
+        }
 
-            try {
-                boolean isSaved = supplierModel.saveSupplier(supplierDto);
+        if (!contact.matches("^\\d{10}$")) {
+            new Alert(Alert.AlertType.ERROR, "Phone number must be 10 digits").show();
+            return;
+        }
 
-                if (isSaved) {
-                    resetPage();
-                    new Alert(Alert.AlertType.INFORMATION , "Supplier Saved successfully").show();
-                }else {
-                    new Alert(Alert.AlertType.ERROR , "Fail to save supplier").show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                new Alert(Alert.AlertType.ERROR , "Fail to save supplier").show();
+        SupplierDto supplierDto = new SupplierDto(supplierId, name, address, contact);
+
+        try {
+            boolean isSaved = supplierModel.saveSupplier(supplierDto);
+            if (isSaved) {
+                resetPage();
+                new Alert(Alert.AlertType.INFORMATION, "Successfully saved supplier.").show();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Failed to save supplier.").show();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to save supplier.").show();
+        }
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
-            String supplier_id = lblSupplierId.getText();
-            String name = txtSPName.getText();
-            String address = txtSPAddress.getText();
-            String contact = txtSPContact.getText();
+        String supplierId = lblSupplierId.getText();
+        String name = txtSPName.getText();
+        String address = txtSPAddress.getText();
+        String contact = txtSPContact.getText();
 
-            SupplierDto supplierDto = new SupplierDto(
-                    supplier_id,
-                    name,
-                    address,
-                    contact
-            );
+        if (supplierId.isEmpty() || name.isEmpty() || address.isEmpty() || contact.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Empty fields. Please fill all fields.").show();
+            return;
+        }
 
-            try {
-                boolean isUpdated = supplierModel.updateSupplier(supplierDto);
+        if (!contact.matches("^\\d{10}$")) {
+            new Alert(Alert.AlertType.ERROR, "Phone number must be 10 digits").show();
+            return;
+        }
 
-                if (isUpdated) {
-                    resetPage();
-                    new Alert(Alert.AlertType.INFORMATION , "Supplier Updated successfully").show();
-                }else {
-                    new Alert(Alert.AlertType.ERROR , "Fail to update supplier").show();
-                }
+        SupplierDto supplierDto = new SupplierDto(supplierId, name, address, contact);
 
-            } catch (Exception e) {
-                e.printStackTrace();
-                new Alert(Alert.AlertType.ERROR , "Fail to update Supplier").show();
+        try {
+            boolean isUpdated = supplierModel.updateSupplier(supplierDto);
+            if (isUpdated) {
+                resetPage();
+                new Alert(Alert.AlertType.INFORMATION, "Successfully updated supplier.").show();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Failed to update supplier.").show();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to update supplier.").show();
+        }
     }
 
     public void btnDeleteOnAction(ActionEvent actionEvent) {
-            Alert alert = new Alert(
-                    Alert.AlertType.CONFIRMATION,
-                    "Are you sure ?" ,
-                    ButtonType.YES,
-                    ButtonType.NO
-            );
+        Alert alert = new Alert(
+                Alert.AlertType.CONFIRMATION,
+                "Are you sure?",
+                ButtonType.YES,
+                ButtonType.NO
+        );
+        alert.setTitle("Confirmation");
 
+        Optional<ButtonType> result = alert.showAndWait();
 
-        Optional<ButtonType> response = alert.showAndWait();
-
-        if (response.isPresent() && response.get() == ButtonType.YES) {
+        if (result.isPresent() && result.get() == ButtonType.YES) {
             String supplierId = lblSupplierId.getText();
-
             try {
                 boolean isDeleted = supplierModel.deleteSupplier(supplierId);
-
                 if (isDeleted) {
                     resetPage();
-                    new Alert(Alert.AlertType.INFORMATION, "Supplier Deleted successfully").show();
+                    new Alert(Alert.AlertType.INFORMATION, "Successfully deleted Supplier").show();
                 } else {
-                    new Alert(Alert.AlertType.ERROR, "Failed to delete supplier").show();
+                    new Alert(Alert.AlertType.ERROR, "Failed to delete Supplier").show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                new Alert(Alert.AlertType.ERROR, "Failed to delete supplier").show();
+                new Alert(Alert.AlertType.ERROR, "Failed to delete supplier.").show();
             }
-        }
-    }
-
-    private void loadNextId() throws Exception {
-        try {
-            String nextId = "S001"; // Dummy logic; replace with DB fetch if needed
-            lblSupplierId.setText(nextId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Failed to generate next Supplier ID").show();
-        }
-    }
-
-    public void onClickTable(MouseEvent mouseEvent) {
-        SupplierTM selectedItem =tblSupplier.getSelectionModel().getSelectedItem();
-
-        if (selectedItem != null) {
-            lblSupplierId.setText(selectedItem.getSupplier_id());
-            txtSPName.setText(selectedItem.getName());
-            txtSPAddress.setText(selectedItem.getAddress());
-            txtSPContact.setText(selectedItem.getContact());
-
-            btnSave.setDisable(true);
-
-            btnDelete.setDisable(false);
-            btnUpdate.setDisable(false);
         }
     }
 
     public void btnResetOnAction(ActionEvent actionEvent) {
         resetPage();
+    }
+
+    public void onClickedTable(MouseEvent mouseEvent) {
+        SupplierTM selectedItem = tblSupplier.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            lblSupplierId.setText(selectedItem.getSupplierId());
+            txtSPName.setText(selectedItem.getName());
+            txtSPAddress.setText(selectedItem.getAddress());
+            txtSPContact.setText(selectedItem.getContact());
+
+            btnSave.setDisable(true);
+            btnUpdate.setDisable(false);
+            btnDelete.setDisable(false);
+        }
+    }
+
+    public void goToDashboard(MouseEvent mouseEvent) throws IOException {
+        ancSupplierPage.getChildren().clear();
+        Parent load = FXMLLoader.load(getClass().getResource("/view/DashBoardPage.fxml"));
+        ancSupplierPage.getChildren().setAll(load);
+    }
+
+    public void search(KeyEvent keyEvent) {
+        String search = txtSearch.getText();
+        if (search.isEmpty()) {
+            try {
+                loadTableData();
+            } catch (Exception e) {
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR, "Failed to load data").show();
+            }
+        } else {
+            try {
+                ArrayList<SupplierDto> supplierList = supplierModel.searchSupplier(search);
+                tblSupplier.setItems(FXCollections.observableArrayList(
+                        supplierList.stream()
+                                .map(supplierDto -> new SupplierTM(
+                                        supplierDto.getSupplierId(),
+                                        supplierDto.getName(),
+                                        supplierDto.getAddress(),
+                                        supplierDto.getContact()
+                                )).toList()
+                ));
+            } catch (Exception e) {
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR, "Failed to search").show();
+            }
+        }
     }
 }

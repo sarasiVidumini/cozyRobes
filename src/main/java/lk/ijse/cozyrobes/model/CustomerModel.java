@@ -25,7 +25,7 @@ public class CustomerModel {
 public boolean saveCustomer(CustomerDto customerDto) throws SQLException {
        return CrudUtil.execute(
                "insert into customer values (?,?,?,?)",
-               customerDto.getCustomer_id(),
+               customerDto.getCustomerId(),
                customerDto.getName(),
                customerDto.getPhone(),
                customerDto.getEmail()
@@ -54,7 +54,7 @@ public ArrayList<CustomerDto> getAllCustomer() throws SQLException {
                 customerDto.getName(),
                 customerDto.getPhone(),
                 customerDto.getEmail(),
-                customerDto.getCustomer_id()
+                customerDto.getCustomerId()
         );
 
     }
@@ -66,22 +66,22 @@ public ArrayList<CustomerDto> getAllCustomer() throws SQLException {
         );
     }
 
-    public CustomerDto searchCustomer(String customer_id) throws ClassNotFoundException, SQLException{
-
-        ResultSet rst = CrudUtil.execute("select * from customer where customer_id = ?",
-                customer_id);
-
-        if(rst.next()){
+   public ArrayList<CustomerDto> searchCustomer(String search) throws SQLException {
+        ArrayList<CustomerDto> dtos = new ArrayList<>();
+        String sql = "SELECT  * from customer where customer_id LIKE ? OR name LIKE ? OR phone LIKE ? OR email LIKE ?";
+        String pattern = "%" + search + "%";
+        ResultSet resultSet = CrudUtil.execute(sql, pattern ,pattern, pattern, pattern);
+        while (resultSet.next()) {
             CustomerDto dto = new CustomerDto(
-                    rst.getString(1),
-                    rst.getString(2),
-                    rst.getString(3),
-                    rst.getString(4)
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4)
             );
-            return dto;
+            dtos.add(dto);
         }
-        return null;
-    }
+        return dtos;
+   }
 
     public ArrayList<String> getAllCustomerIds() throws SQLException {
         ResultSet resultSet = CrudUtil.execute("select customer_id from customer");
@@ -92,5 +92,6 @@ public ArrayList<CustomerDto> getAllCustomer() throws SQLException {
         }
         return list;
     }
+
 
 }

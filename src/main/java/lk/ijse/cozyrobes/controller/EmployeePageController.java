@@ -7,8 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.input.MouseEvent; // Correct import
+import javafx.scene.input.MouseEvent;
 import lk.ijse.cozyrobes.dto.EmployeeDto;
 import lk.ijse.cozyrobes.dto.tm.EmployeeTM;
 import lk.ijse.cozyrobes.model.EmployeeModel;
@@ -16,6 +17,7 @@ import lk.ijse.cozyrobes.model.EmployeeModel;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -34,18 +36,36 @@ public class EmployeePageController implements Initializable {
     public TextField txtEmployeeName;
     public TextField txtEmployeeRole;
     public TextField txtEmployeeSalary;
-    public Button btnBack;
+
     public Button btnDelete;
     public Button btnUpdate;
     public Button btnSave;
     public Button btnReset;
+    public TextField txtSearch;
 
-    public void btnGoDashBoardPageOnAction(ActionEvent actionEvent) throws IOException {
-        ancEmployeePage.getChildren().clear();
-        Parent load = FXMLLoader.load(getClass().getResource("/view/DashBoardPage.fxml"));
-        ancEmployeePage.getChildren().add(load);
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        colEmployeeId.setCellValueFactory(new PropertyValueFactory<>("employeeId"));
+        colUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        colEmployeeName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colEmployeeRole.setCellValueFactory(new PropertyValueFactory<>("role"));
+        colEmployeeSalary.setCellValueFactory(new PropertyValueFactory<>("salary"));
+
+        cmbUserPlatForm.setItems(FXCollections.observableArrayList("U001" , "U002"));
+        try {
+            loadTableData();
+            loadNextId();
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to load employee data").show();
+        }
     }
 
+    private void loadNextId() throws SQLException {
+        String nextId = employeeModel.getNextEmployeeId();
+        lblEmployeeId.setText(nextId);
+    }
+    
     public void btnDeleteOnAction(ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                 "Are you sure you want to delete this employee?",
@@ -136,8 +156,8 @@ public class EmployeePageController implements Initializable {
                 employeeModel.getAllEmployee()
                         .stream()
                         .map(employeeDto -> new EmployeeTM(
-                                employeeDto.getEmployee_id(),
-                                employeeDto.getUser_id(),
+                                employeeDto.getEmployeeId(),
+                                employeeDto.getUserId(),
                                 employeeDto.getName(),
                                 employeeDto.getRole(),
                                 employeeDto.getSalary()
@@ -163,47 +183,53 @@ public class EmployeePageController implements Initializable {
         }
     }
 
-    public void onClickTable(MouseEvent mouseEvent) {
+    public void goToDashboard(MouseEvent mouseEvent) throws IOException {
+        ancEmployeePage.getChildren().clear();
+        Parent load  = FXMLLoader.load(getClass().getResource("/view/DashBoardPage.fxml"));
+        ancEmployeePage.getChildren().add(load);
+    }
+
+    public void search(KeyEvent keyEvent) {
+        String search = txtSearch.getText();
+        if (search.isEmpty()) {
+            try {
+                loadTableData();
+            } catch (Exception e) {
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR, "Failed to search").show();
+            }
+        }else {
+            try {
+                ArrayList<EmployeeDto> employeeList = employeeModel.searchEmployee(search);
+                tblEmployee.setItems(FXCollections.observableArrayList(
+                        employeeList.stream()
+                                .map(employeeDto -> new EmployeeTM(
+                                        employeeDto.getEmployeeId(),
+                                        employeeDto.getUserId(),
+                                        employeeDto.getName(),
+                                        employeeDto.getRole(),
+                                        employeeDto.getSalary()
+                                )).toList()
+                ));
+            } catch (Exception e) {
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR, "Failed to search").show();
+            }
+        }
+    }
+
+    public void OnClickedTable(MouseEvent mouseEvent) {
         EmployeeTM selectedItem = tblEmployee.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
-            lblEmployeeId.setText(selectedItem.getEmployee_id());
-            cmbUserPlatForm.setValue(selectedItem.getUser_id());
+            lblEmployeeId.setText(selectedItem.getEmployeeId());
+            cmbUserPlatForm.setValue(selectedItem.getUserId());
             txtEmployeeName.setText(selectedItem.getName());
             txtEmployeeRole.setText(selectedItem.getRole());
             txtEmployeeSalary.setText(String.valueOf(selectedItem.getSalary()));
+
             btnSave.setDisable(true);
             btnUpdate.setDisable(false);
             btnDelete.setDisable(false);
-        }
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        colEmployeeId.setCellValueFactory(new PropertyValueFactory<>("employee_id"));
-        colUserId.setCellValueFactory(new PropertyValueFactory<>("user_id"));
-        colEmployeeName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colEmployeeRole.setCellValueFactory(new PropertyValueFactory<>("role"));
-        colEmployeeSalary.setCellValueFactory(new PropertyValueFactory<>("salary"));
-
-        cmbUserPlatForm.setItems(FXCollections.observableArrayList("U001", "U002"));
-
-        try {
-            loadTableData();
-            loadNextId();
-        } catch (Exception e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Failed to load employee data").show();
-        }
-    }
-
-    private void loadNextId() {
-        // Dummy next ID logic (replace with real ID generator if needed)
-        try {
-            String nextId = "E001"; // You can fetch max ID from DB and increment
-            lblEmployeeId.setText(nextId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Failed to generate next Employee ID").show();
         }
     }
 }

@@ -29,14 +29,14 @@ public class MaterialInventoryModel {
     public boolean saveMaterialInventory(MaterialInventoryDto materialInventoryDto) throws SQLException {
         return CrudUtil.execute(
                 "insert into material_inventory values (?,?,?,?)",
-                materialInventoryDto.getMaterial_id(),
-                materialInventoryDto.getSupplier_id(),
-                materialInventoryDto.getMaterial_name(),
+                materialInventoryDto.getMaterialId(),
+                materialInventoryDto.getSupplierId(),
+                materialInventoryDto.getMaterialName(),
                 materialInventoryDto.getQuantity()
         );
     }
 
-    public ArrayList<CustomerDto> getAllMaterialInventory() throws SQLException {
+    public ArrayList<MaterialInventoryDto> getAllMaterialInventory() throws SQLException {
         ResultSet resultSet = CrudUtil.execute("select * from material_inventory");
         ArrayList<MaterialInventoryDto> materialInventoryDtoArrayList = new ArrayList<>();
         while (resultSet.next()) {
@@ -48,17 +48,17 @@ public class MaterialInventoryModel {
             );
             materialInventoryDtoArrayList.add(materialInventoryDto);
         }
-        return null;
+        return materialInventoryDtoArrayList;
     }
 
 
     public boolean updateMaterialInventory(MaterialInventoryDto materialInventoryDto) throws SQLException {
         return CrudUtil.execute(
                 "update material_inventory set supplier_id=? , material_name =? , quantity=? where material_id= ?",
-                    materialInventoryDto.getSupplier_id(),
-                    materialInventoryDto.getMaterial_name(),
+                    materialInventoryDto.getSupplierId(),
+                    materialInventoryDto.getMaterialName(),
                     materialInventoryDto.getQuantity(),
-                    materialInventoryDto.getMaterial_id()
+                    materialInventoryDto.getMaterialId()
         );
 
     }
@@ -70,22 +70,22 @@ public class MaterialInventoryModel {
         );
     }
 
-    public MaterialInventoryDto searchMaterialInventory(String material_id) throws ClassNotFoundException, SQLException{
-
-        ResultSet rst = CrudUtil.execute("select * from material_inventory where material_id = ?",
-                material_id);
-
-        if (rst.next()) {
-            MaterialInventoryDto materialInventoryDto = new MaterialInventoryDto(
-                    rst.getString(1),
-                    rst.getString(2),
-                    rst.getString(3),
-                    rst.getInt(4)
+   public ArrayList<MaterialInventoryDto> searchMaterialInventory(String search) throws SQLException {
+        ArrayList<MaterialInventoryDto> dtos = new ArrayList<>();
+        String sql = "select * from material_inventory where material_id LIKE ? OR supplier_id LIKE ? OR material_name LIKE ? OR quantity LIKE ?";
+        String pattern = "%" + search + "%";
+        ResultSet resultSet = CrudUtil.execute(sql, pattern , pattern, pattern , pattern);
+        while (resultSet.next()) {
+            MaterialInventoryDto dto = new MaterialInventoryDto(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getInt(4)
             );
-            return materialInventoryDto;
+            dtos.add(dto);
         }
-        return null;
-    }
+        return dtos;
+   }
 
     public ArrayList<String> getAllMaterialInventoryIds() throws SQLException {
         ResultSet resultSet = CrudUtil.execute("select material_id from material_inventory");

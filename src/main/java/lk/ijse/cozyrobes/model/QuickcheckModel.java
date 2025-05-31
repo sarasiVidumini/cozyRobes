@@ -13,25 +13,26 @@ import java.util.ArrayList;
 
 public class QuickcheckModel {
     public String getNextCheckId() throws SQLException {
-        ResultSet resultSet = CrudUtil.execute("select check_id from quick_check order by check_id desc limit 1");
+        ResultSet resultSet = CrudUtil.execute("SELECT check_id FROM quick_check ORDER BY check_id DESC LIMIT 1");
         String tableCharacter = "QC";
         if (resultSet.next()) {
             String lastId = resultSet.getString(1);
-            String lastIdNumberString = lastId.substring(1);
+            String lastIdNumberString = lastId.substring(tableCharacter.length());
             int lastIdNumber = Integer.parseInt(lastIdNumberString);
-            int nextIdNUmber = lastIdNumber + 1;
-            String nextIdString = String.format(tableCharacter + "%03d", nextIdNUmber); // "C002"
+            int nextIdNumber = lastIdNumber + 1;
+            String nextIdString = String.format(tableCharacter + "%03d", nextIdNumber);
             return nextIdString;
         }
         return tableCharacter + "001";
     }
 
+
     public boolean saveQuickcheck(QuickcheckDto quickcheckDto) throws SQLException {
         return CrudUtil.execute(
                 "insert into quick_check values (?,?,?,?)",
-                quickcheckDto.getCheck_id(),
-                quickcheckDto.getMaintenance_id(),
-                quickcheckDto.getCheck_type(),
+                quickcheckDto.getCheckId(),
+                quickcheckDto.getMaintenanceId(),
+                quickcheckDto.getCheckType(),
                 quickcheckDto.getStatus()
         );
     }
@@ -54,11 +55,11 @@ public class QuickcheckModel {
 
     public boolean  updateQuickCheck(QuickcheckDto quickcheckDto) throws SQLException {
         return CrudUtil.execute(
-                "update quick_check set maintenance_id = ? , check_type = ? , status = ? where check_id",
-                quickcheckDto.getMaintenance_id(),
-                quickcheckDto.getCheck_type(),
+                "update quick_check set maintenance_id = ? , check_type = ? , status = ? where check_id = ?",
+                quickcheckDto.getMaintenanceId(),
+                quickcheckDto.getCheckType(),
                 quickcheckDto.getStatus(),
-                quickcheckDto.getCheck_id()
+                quickcheckDto.getCheckId()
         );
     }
 
@@ -69,22 +70,21 @@ public class QuickcheckModel {
         );
     }
 
-    public  QuickcheckDto searchQuickcheck(String check_id) throws ClassNotFoundException, SQLException{
-
-        ResultSet rst = CrudUtil.execute("select * from quick_check where check_id = ?",
-                check_id
-        );
-
-        if (rst.next()) {
-            QuickcheckDto quickcheckDto = new QuickcheckDto(
-                    rst.getString(1),
-                    rst.getString(2),
-                    rst.getString(3),
-                    rst.getString(4)
+    public ArrayList<QuickcheckDto> searchQuickcheck(String search) throws SQLException {
+        ArrayList<QuickcheckDto> dtos = new ArrayList<>();
+        String sql = "select * from quick_check where check_id LIKE ? OR maintenance_id LIKE ? OR check_type LIKE ? OR status LIKE ? ";
+        String pattern = "%" + search + "%";
+        ResultSet resultSet = CrudUtil.execute(sql, pattern,pattern,pattern,pattern);
+        while (resultSet.next()) {
+            QuickcheckDto dto = new QuickcheckDto(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4)
             );
-            return quickcheckDto;
+            dtos.add(dto);
         }
-        return null;
+        return dtos;
     }
 
     public ArrayList<String> getAllCheckIds() throws SQLException {

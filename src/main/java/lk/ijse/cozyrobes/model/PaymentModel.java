@@ -12,27 +12,27 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PaymentModel {
-    public String getNextPaymentId() throws SQLException {
-        ResultSet resultSet = CrudUtil.execute("select payment_id from payment order by payment_id desc limit 1");
-        String tableCharacter = "PA";
-        if (resultSet.next()) {
-            String lastId = resultSet.getString(1);
-            String lastIdNumberString = lastId.substring(1);
-            int lastIdNumber = Integer.parseInt(lastIdNumberString);
-            int nextIdNUmber = lastIdNumber + 1;
-            String nextIdString = String.format(tableCharacter + "%03d", nextIdNUmber); // "C002"
-            return nextIdString;
-        }
-        return tableCharacter + "001";
-    }
+   public String getNextPaymentId() throws ClassNotFoundException, SQLException {
+       ResultSet resultSet = CrudUtil.execute("select payment_id from payment order by payment_id desc limit 1");
+       String tableCharacter = "PA";
+       if (resultSet.next()) {
+           String lastId = resultSet.getString(1);
+           String lastNumberString  = lastId.substring(tableCharacter.length());
+           int lastIdNumber = Integer.parseInt(lastNumberString);
+           int nextIdNumber = lastIdNumber + 1;
+           String nextNumberString = String.format(tableCharacter + "%03d" ,nextIdNumber);
+           return nextNumberString;
+       }
+       return tableCharacter + "001";
+   }
 
     public boolean savePayment(PaymentDto paymentDto) throws SQLException {
         return CrudUtil.execute(
                 "insert into payment values (?,?,?,?)",
-                paymentDto.getPayment_id(),
-                paymentDto.getOrder_id(),
-                paymentDto.getPayment_method(),
-                paymentDto.getAmount()
+                paymentDto.getPaymentId(),
+                paymentDto.getOrderId(),
+                paymentDto.getPaymentMethod(),
+                paymentDto.getTotalAmount()
         );
     }
 
@@ -54,11 +54,11 @@ public class PaymentModel {
 
     public boolean  updatePayment(PaymentDto paymentDto) throws SQLException {
         return CrudUtil.execute(
-                "update payment set order_id = ? , payment_method = ? , amount = ? where payment_id",
-                paymentDto.getOrder_id(),
-                paymentDto.getPayment_method(),
-                paymentDto.getAmount(),
-                paymentDto.getPayment_id()
+                "update payment set order_id = ? , payment_method = ? , total_amount = ? where payment_id = ?",
+                paymentDto.getOrderId(),
+                paymentDto.getPaymentMethod(),
+                paymentDto.getTotalAmount(),
+                paymentDto.getPaymentId()
         );
     }
 
@@ -69,23 +69,22 @@ public class PaymentModel {
         );
     }
 
-    public  PaymentDto searchPayment(String payment_id) throws ClassNotFoundException, SQLException{
-
-        ResultSet rst = CrudUtil.execute("select * from payment where payment_id = ?",
-                payment_id
-        );
-
-        if (rst.next()) {
-            PaymentDto paymentDto = new PaymentDto(
-                    rst.getString(1),
-                    rst.getString(2),
-                    rst.getString(3),
-                    rst.getDouble(4)
-            );
-            return paymentDto;
-        }
-        return null;
-    }
+   public ArrayList<PaymentDto> searchPayment(String search) throws SQLException {
+       ArrayList<PaymentDto> dtos = new ArrayList<>();
+       String sql = "select * from payment where payment_id LIKE ? OR order_id LIKE ? OR payment_method LIKE ? OR total_amount LIKE ?";
+       String pattern = "%" + search + "%";
+       ResultSet resultSet = CrudUtil.execute(sql, pattern,pattern,pattern,pattern);
+       while (resultSet.next()) {
+           PaymentDto paymentDto = new PaymentDto(
+                   resultSet.getString(1),
+                   resultSet.getString(2),
+                   resultSet.getString(3),
+                   resultSet.getDouble(4)
+           );
+           dtos.add(paymentDto);
+       }
+       return dtos;
+   }
 
     public ArrayList<String> getAllPaymentIds() throws SQLException {
         ResultSet resultSet = CrudUtil.execute("select payment_id from payment");

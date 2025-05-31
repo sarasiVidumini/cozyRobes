@@ -8,8 +8,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentTM {
-    private String payment_id;
-    private String order_id;
-    private String payment_method;
-    private String total_amount;
+    private String paymentId;
+    private String orderId;
+    private String paymentMethod;
+    private double totalAmount;
 }

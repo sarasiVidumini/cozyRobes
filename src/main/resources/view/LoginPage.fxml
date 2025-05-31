@@ -2,102 +2,132 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ancLoginPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.cozyrobes.controller.LoginPageController">
+<AnchorPane fx:id="ancLoginPage" prefHeight="800.0" prefWidth="1600.0" style="-fx-background-color: linear-gradient(to right, #FF5F6D, #FFC371);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.cozyrobes.controller.LoginPageController">
    <children>
-      <ScrollPane layoutY="-9.0" prefHeight="918.0" prefWidth="933.0" AnchorPane.bottomAnchor="-8.600000000000023" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="667.2" AnchorPane.topAnchor="-9.0">
-         <content>
-            <ImageView fitHeight="920.0" fitWidth="1075.0" opacity="0.82" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/StockCake-Monks%20Meditating%20Peacefully_1745813050.jpg" />
-               </image>
-            </ImageView>
-         </content>
-      </ScrollPane>
-      <VBox layoutX="933.0" prefHeight="900.0" prefWidth="667.0" style="-fx-background-color: #34495e;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="933.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox layoutX="14.0" layoutY="14.0" prefHeight="752.0" prefWidth="1487.0" style="-fx-border-color: #2f3542; -fx-border-radius: 20;" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="103.0" AnchorPane.topAnchor="10.0">
          <children>
-            <HBox prefHeight="70.0" prefWidth="667.0" style="-fx-background-color: #2c3e50;">
+            <VBox prefHeight="466.0" prefWidth="343.0" style="-fx-border-radius: 20; -fx-background-color: linear-gradient(to right, #FF5F6D, #FFC371); -fx-background-radius: 20;">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="40.0" right="10.0" top="10.0" />
+               </HBox.margin>
                <children>
-                  <ImageView fitHeight="78.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+                  <HBox prefHeight="30.0" prefWidth="350.0">
+                     <children>
+                        <Label onMouseClicked="#goToMainPage" text="Home">
+                           <HBox.margin>
+                              <Insets left="10.0" top="2.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font name="System Bold" size="25.0" />
+                           </font>
+                        </Label>
+                        <Label text="  &gt;  ">
+                           <HBox.margin>
+                              <Insets top="2.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Label text="Login System">
+                           <HBox.margin>
+                              <Insets top="2.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <ImageView fitHeight="334.0" fitWidth="336.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets top="100.0" />
+                     </VBox.margin>
+                     <image>
+                        <Image url="@../images/s-l1200-removebg-preview.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+            <VBox prefHeight="729.0" prefWidth="1048.0" style="-fx-background-color: linear-gradient(to right, #FF5F6D, #FFC371); -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #3b3c36;" HBox.hgrow="NEVER">
+               <HBox.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </HBox.margin>
+               <children>
+                  <BorderPane prefHeight="62.0" prefWidth="970.0">
+                     <center>
+                        <ComboBox fx:id="cmbLanguagePlatform" prefHeight="26.0" prefWidth="138.0" promptText="Select Language" BorderPane.alignment="CENTER" />
+                     </center>
+                  </BorderPane>
+                  <ImageView fitHeight="116.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets left="485.0" top="40.0" />
+                     </VBox.margin>
                      <image>
                         <Image url="@../images/Luxury_logo_design_converted.png" />
                      </image>
                   </ImageView>
-                  <Label prefHeight="74.0" prefWidth="291.0" text="COZY ROBES">
+                  <Label text="JOIN ROBES SYSTEM" textFill="#fff8f8">
+                     <VBox.margin>
+                        <Insets left="400.0" top="50.0" />
+                     </VBox.margin>
                      <font>
-                        <Font size="50.0" />
+                        <Font name="Webdings" size="32.0" />
                      </font>
-                     <HBox.margin>
-                        <Insets left="100.0" />
-                     </HBox.margin>
                   </Label>
+                  <Label text="This system is intended for managing the distribution,">
+                     <VBox.margin>
+                        <Insets left="350.0" top="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label text="inventory, and maintenance of robes and other">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="375.0" top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="requisites for Buddhist monks.">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="430.0" top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Button fx:id="btnGoSignUp" mnemonicParsing="false" onAction="#btnGoSignupPageOnAction" prefHeight="26.0" prefWidth="222.0" style="-fx-background-radius: 20; -fx-background-color: #0000ff;" text="Get started" textFill="#fffcfc">
+                     <VBox.margin>
+                        <Insets left="400.0" top="100.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnGoSignPage" mnemonicParsing="false" onAction="#btnGoSigninPageOnAction" prefHeight="26.0" prefWidth="222.0" style="-fx-background-radius: 20; -fx-background-color: #3b3c36;" text="I already have an account" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets left="400.0" top="20.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
                </children>
-            </HBox>
-            <Label text="SECURITY    LOGIN " textFill="#efebeb">
-               <font>
-                  <Font name="Javanese Text" size="27.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="200.0" top="30.0" />
-               </VBox.margin>
-            </Label>
-            <Label text="SYSTEM" textFill="#fffafa">
-               <font>
-                  <Font name="Javanese Text" size="27.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="280.0" />
-               </VBox.margin>
-            </Label>
-            <Label fx:id="lblUserName" text="* Username ">
-               <VBox.margin>
-                  <Insets left="150.0" top="30.0" />
-               </VBox.margin>
-            </Label>
-            <TextField fx:id="txtUserName">
-               <VBox.margin>
-                  <Insets left="200.0" right="100.0" top="20.0" />
-               </VBox.margin>
-            </TextField>
-            <Label fx:id="lblPassword" text="* Password ">
-               <VBox.margin>
-                  <Insets left="150.0" top="100.0" />
-               </VBox.margin>
-            </Label>
-            <PasswordField fx:id="txtPassword">
-               <VBox.margin>
-                  <Insets left="200.0" right="100.0" top="20.0" />
-               </VBox.margin>
-            </PasswordField>
-            <Label fx:id="lblEmail" text="* Email ">
-               <VBox.margin>
-                  <Insets left="150.0" top="100.0" />
-               </VBox.margin>
-            </Label>
-            <TextField fx:id="txtEmail">
-               <VBox.margin>
-                  <Insets left="200.0" right="100.0" top="20.0" />
-               </VBox.margin>
-            </TextField>
-            <Button fx:id="btnGotIt" mnemonicParsing="false" onAction="#btnGoDashBoardPageOnAction" text="Got it">
-               <VBox.margin>
-                  <Insets left="500.0" top="60.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
+            </VBox>
          </children>
-      </VBox>
+      </HBox>
    </children>
 </AnchorPane>

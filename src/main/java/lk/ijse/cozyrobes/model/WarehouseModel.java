@@ -7,27 +7,14 @@ import lk.ijse.cozyrobes.util.CrudUtil;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class WarehouseModel {
-    public String getNextWarehouseId() throws SQLException {
-        ResultSet resultSet = CrudUtil.execute("select section_id from warehouse order by section_id desc limit 1");
-        String tableCharacter = "Section";
-        if (resultSet.next()) {
-            String lastId = resultSet.getString(1);
-            String lastIdNumberString = lastId.substring(1);
-            int lastIdNumber = Integer.parseInt(lastIdNumberString);
-            int nextIdNUmber = lastIdNumber + 1;
-            String nextIdString = String.format(tableCharacter + "%03d", nextIdNUmber); // "C002"
-            return nextIdString;
-        }
-        return tableCharacter + "001";
-    }
-
     public boolean saveWarehouse(WarehouseDto warehouseDto) throws SQLException {
         return CrudUtil.execute(
                 "insert into warehouse values (?,?,?,?)",
-                    warehouseDto.getSection_id(),
-                    warehouseDto.getProduct_id(),
+                    warehouseDto.getSectionId(),
+                    warehouseDto.getProductId(),
                     warehouseDto.getCapacity(),
                     warehouseDto.getLocation()
         );
@@ -52,38 +39,37 @@ public class WarehouseModel {
 
         public boolean  updateWarehouse(WarehouseDto warehouseDto) throws SQLException {
             return CrudUtil.execute(
-                    "update warehouse set product_id = ? , capacity = ? , location = ? where section_id",
-                   warehouseDto.getProduct_id(),
+                    "update warehouse set product_id = ? , capacity = ? , location = ? where section_id = ?",
+                   warehouseDto.getProductId(),
                     warehouseDto.getCapacity(),
                     warehouseDto.getLocation(),
-                    warehouseDto.getSection_id()
+                    warehouseDto.getSectionId()
             );
         }
 
     public boolean deleteWarehouse(String section_id) throws SQLException {
         return CrudUtil.execute(
-                "delete from material_inventory where material_id = ?",
+                "delete from warehouse where section_id = ?",
                 section_id
         );
     }
 
-    public WarehouseDto searchSection(String section_id) throws ClassNotFoundException, SQLException{
-
-        ResultSet rst = CrudUtil.execute("select * from material_inventory where material_id = ?",
-                section_id
-        );
-
-        if (rst.next()) {
-            WarehouseDto warehouseDto = new WarehouseDto(
-                    rst.getString(1),
-                    rst.getString(2),
-                    rst.getInt(3),
-                    rst.getString(4)
+   public ArrayList<WarehouseDto> searchWarehouse(String search) throws SQLException {
+        ArrayList<WarehouseDto> dtos = new ArrayList<>();
+        String sql = "select * from warehouse where section_id LIKE ? OR product_id LIKE ? OR capacity LIKE ? OR location LIKE ?";
+        String pattern = "%" + search + "%";
+        ResultSet resultSet = CrudUtil.execute(sql, pattern,pattern,pattern,pattern);
+        while (resultSet.next()) {
+            WarehouseDto dto = new WarehouseDto(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getInt(3),
+                    resultSet.getString(4)
             );
-            return warehouseDto;
+            dtos.add(dto);
         }
-        return null;
-    }
+        return dtos;
+   }
 
     public ArrayList<String> getAllSectionIds() throws SQLException {
         ResultSet resultSet = CrudUtil.execute("select section_id from warehouse");

@@ -8,8 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MaterialInventoryTM {
-    private String material_id;
-    private String supplier_id;
-    private String material_name;
+    private String materialId;
+    private String supplierId;
+    private String materialName;
     private int quantity;
 }

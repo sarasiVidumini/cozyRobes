@@ -27,11 +27,12 @@ public class EmployeeModel {
         return tableCharacter + "001";
     }
 
+
     public boolean saveEmployee(EmployeeDto employeeDto) throws SQLException {
         return CrudUtil.execute(
                 "insert into employee values(?,?,?,?,?)",
-                employeeDto.getEmployee_id(),
-                employeeDto.getUser_id(),
+                employeeDto.getEmployeeId(),
+                employeeDto.getUserId(),
                 employeeDto.getName(),
                 employeeDto.getRole(),
                 employeeDto.getSalary()
@@ -40,39 +41,38 @@ public class EmployeeModel {
 
     public boolean updateEmployee(EmployeeDto employeeDto) throws SQLException {
         return CrudUtil.execute(
-                "update employee set user_id = ? , name = ? , role = ? , salary = ? where employee_id",
-                employeeDto.getUser_id(),
+                "update employee set user_id = ? , name = ? , role = ? , salary = ? where employee_id = ?",
+                employeeDto.getUserId(),
                 employeeDto.getName(),
                 employeeDto.getRole(),
                 employeeDto.getSalary(),
-                employeeDto.getEmployee_id()
+                employeeDto.getEmployeeId()
         );
     }
 
     public boolean deleteEmployee(String employee_id) throws SQLException {
         return CrudUtil.execute(
-                "delete from employee where employee_id",
+                "delete from employee where employee_id = ?",
                 employee_id
         );
     }
 
-    public EmployeeDto searchEmployee(String employee_id) throws SQLException {
-        ResultSet resultSet = CrudUtil.execute(
-                "select * from employee where employee_id",
-                employee_id
-        );
-
-        if (resultSet.next()) {
-            EmployeeDto employeeDto = new EmployeeDto(
+    public ArrayList<EmployeeDto> searchEmployee(String search) throws SQLException {
+        ArrayList<EmployeeDto> dtos = new ArrayList<>();
+        String sql = "select * from employee where employee_id LIKE ? OR user_id LIKE ? OR name LIKE ? OR role LIKE ? OR salary LIKE ?";
+        String pattern = "%" + search + "%";
+        ResultSet resultSet = CrudUtil.execute(sql, pattern , pattern, pattern, pattern , pattern);
+        while (resultSet.next()) {
+            EmployeeDto dto = new EmployeeDto(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
                     resultSet.getString(4),
                     resultSet.getDouble(5)
             );
-            return employeeDto;
+            dtos.add(dto);
         }
-        return null;
+        return dtos;
     }
     public ArrayList<EmployeeDto> getAllEmployee() throws SQLException {
         ResultSet resultSet = CrudUtil.execute("select * from employee");

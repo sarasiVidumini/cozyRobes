@@ -24,31 +24,31 @@ public class OrderDetailsModel {
         return tableCharacter + "001";
     }
 
-    public String saveOrderDetails(OrderDetailsDto orderDetailsDto) throws SQLException {
+    public boolean saveOrderDetails(OrderDetailsDto orderDetailsDto) throws SQLException {
         return CrudUtil.execute(
                 "insert into order_details values(?,?,?,?,?,?)",
-                orderDetailsDto.getOrderDetail_id(),
-                orderDetailsDto.getOrder_id(),
-                orderDetailsDto.getProduct_id(),
+                orderDetailsDto.getOrderDetailId(),
+                orderDetailsDto.getOrderId(),
+                orderDetailsDto.getProductId(),
                 orderDetailsDto.getQuantity(),
-                orderDetailsDto.getPrice_at_purchase(),
-                orderDetailsDto.getUpdate_price()
+                orderDetailsDto.getPriceAtPurchase(),
+                orderDetailsDto.getUpdatePrice()
         );
     }
 
-    public String updateOrderDetails(OrderDetailsDto orderDetailsDto) throws SQLException {
+    public boolean updateOrderDetails(OrderDetailsDto orderDetailsDto) throws SQLException {
         return CrudUtil.execute(
                 "update order_details SET order_id = ? , product_id =? , quantity = ? , price_at_purchase = ? , update_price = ? where orderDetail_id = ?",
-                orderDetailsDto.getOrder_id(),
-                orderDetailsDto.getProduct_id(),
+                orderDetailsDto.getOrderId(),
+                orderDetailsDto.getProductId(),
                 orderDetailsDto.getQuantity(),
-                orderDetailsDto.getPrice_at_purchase(),
-                orderDetailsDto.getUpdate_price(),
-                orderDetailsDto.getOrderDetail_id()
+                orderDetailsDto.getPriceAtPurchase(),
+                orderDetailsDto.getUpdatePrice(),
+                orderDetailsDto.getOrderDetailId()
         );
     }
 
-    public String deleteOrderDetails(String orderDetail_id) throws SQLException {
+    public boolean deleteOrderDetails(String orderDetail_id) throws SQLException {
         return CrudUtil.execute(
                 "delete from order_details where orderDetail_id = ?",
                 orderDetail_id

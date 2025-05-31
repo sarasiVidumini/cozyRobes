@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.cozyrobes.dto.MaintenanceDto;
@@ -16,6 +17,7 @@ import lk.ijse.cozyrobes.model.MaintenanceModel;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -43,11 +45,32 @@ public class MaintenancePageController implements Initializable {
     public TextField txtMaintenanceDate;
     public TextField txtMaintenanceStatus;
     public TextField txtCost;
+    public TextField txtSearch;
 
-    public void btnGoDashBoardPageOnAction(ActionEvent actionEvent) throws IOException {
-        ancMaintenancePage.getChildren().clear();
-        Parent load = FXMLLoader.load(getClass().getResource("/view/DashBoardPage.fxml"));
-        ancMaintenancePage.getChildren().add(load);
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        colMaintenanceId.setCellValueFactory(new PropertyValueFactory<>("maintenanceId"));
+        colMaterialId.setCellValueFactory(new PropertyValueFactory<>("materialId"));
+        colSectionId.setCellValueFactory(new PropertyValueFactory<>("sectionId"));
+        colMaintenanceDate.setCellValueFactory(new PropertyValueFactory<>("maintenanceDate"));
+        colMaintenanceStatus.setCellValueFactory(new PropertyValueFactory<>("maintenanceStatus"));
+        colCost.setCellValueFactory(new PropertyValueFactory<>("cost"));
+
+        cmbMaterialPlatform.setItems(FXCollections.observableArrayList("M001", "M002", "M003", "M004", "M005", "M006"));
+        cmbSectionPlatform.setItems(FXCollections.observableArrayList("Section_A", "Section_B"));
+
+        try {
+            loadTableData();
+            loadNextId();
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to load maintenance data").show();
+        }
+    }
+
+    private void loadNextId() throws SQLException {
+        String nextId = maintenanceModel.getNextMaintenanceId();
+        lblMaintenanceId.setText(nextId);
     }
 
     public void btnDeleteOnAction(ActionEvent actionEvent) {
@@ -142,11 +165,11 @@ public class MaintenancePageController implements Initializable {
                 maintenanceModel.getAllMaintenance()
                         .stream()
                         .map(maintenanceDto -> new MaintenanceTM(
-                                maintenanceDto.getMaintenance_id(),
-                                maintenanceDto.getMaterial_id(),
-                                maintenanceDto.getSection_id(),
-                                maintenanceDto.getMaintenance_date(),
-                                maintenanceDto.getMaintenance_status(),
+                                maintenanceDto.getMaintenanceId(),
+                                maintenanceDto.getMaterialId(),
+                                maintenanceDto.getSectionId(),
+                                maintenanceDto.getMaintenanceDate(),
+                                maintenanceDto.getMaintenanceStatus(),
                                 maintenanceDto.getCost()
                         )).toList()
         ));
@@ -173,11 +196,11 @@ public class MaintenancePageController implements Initializable {
     public void onClickTable(MouseEvent mouseEvent) {
         MaintenanceTM selectedItem = tblMaintenance.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
-            lblMaintenanceId.setText(selectedItem.getMaintenance_id());
-            cmbMaterialPlatform.setValue(selectedItem.getMaterial_id());
-            cmbSectionPlatform.setValue(selectedItem.getSection_id());
-            txtMaintenanceDate.setText(selectedItem.getMaintenance_date());
-            txtMaintenanceStatus.setText(selectedItem.getMaintenance_status());
+            lblMaintenanceId.setText(selectedItem.getMaintenanceId());
+            cmbMaterialPlatform.setValue(selectedItem.getMaterialId());
+            cmbSectionPlatform.setValue(selectedItem.getSectionId());
+            txtMaintenanceDate.setText(selectedItem.getMaintenanceDate());
+            txtMaintenanceStatus.setText(selectedItem.getMaintenanceStatus());
             txtCost.setText(String.valueOf(selectedItem.getCost()));
 
             btnSave.setDisable(true);
@@ -186,34 +209,41 @@ public class MaintenancePageController implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        colMaintenanceId.setCellValueFactory(new PropertyValueFactory<>("maintenance_id"));
-        colMaterialId.setCellValueFactory(new PropertyValueFactory<>("material_id"));
-        colSectionId.setCellValueFactory(new PropertyValueFactory<>("section_id"));
-        colMaintenanceDate.setCellValueFactory(new PropertyValueFactory<>("maintenance_date"));
-        colMaintenanceStatus.setCellValueFactory(new PropertyValueFactory<>("maintenance_status"));
-        colCost.setCellValueFactory(new PropertyValueFactory<>("cost"));
 
-        cmbMaterialPlatform.setItems(FXCollections.observableArrayList("M001", "M002", "M003", "M004", "M005", "M006"));
-        cmbSectionPlatform.setItems(FXCollections.observableArrayList("Section_A", "Section_B"));
+    public void goToDashboard(MouseEvent mouseEvent) throws IOException {
+        ancMaintenancePage.getChildren().clear();
+        Parent load = FXMLLoader.load(getClass().getResource("/view/DashBoardPage.fxml"));
+        ancMaintenancePage.getChildren().add(load);
+    }
 
-        try {
-            loadTableData();
-            loadNextId();
-        } catch (Exception e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Failed to load maintenance data").show();
+    public void search(KeyEvent keyEvent) {
+        String search = txtSearch.getText();
+        if (search.isEmpty()) {
+            try {
+               loadTableData();
+            } catch (Exception e) {
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR, "Failed to search").show();
+            }
+        }else {
+            try {
+                ArrayList<MaintenanceDto> maintenanceList = maintenanceModel.searchMaintenance(search);
+                tblMaintenance.setItems(FXCollections.observableArrayList(
+                        maintenanceList.stream()
+                                .map(maintenanceDto -> new MaintenanceTM(
+                                        maintenanceDto.getMaintenanceId(),
+                                        maintenanceDto.getMaterialId(),
+                                        maintenanceDto.getSectionId(),
+                                        maintenanceDto.getMaintenanceDate(),
+                                        maintenanceDto.getMaintenanceStatus(),
+                                        maintenanceDto.getCost()
+                                )).toList()
+                ));
+            } catch (Exception e) {
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR, "Failed to search").show();
+            }
         }
     }
 
-    private void loadNextId() {
-        try {
-            String nextId = "MA001"; // Dummy logic; replace with DB fetch if needed
-            lblMaintenanceId.setText(nextId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Failed to generate next Maintenance ID").show();
-        }
-    }
 }

@@ -9,12 +9,12 @@ import lombok.*;
 @AllArgsConstructor
 
 public class OrderDetailsDto {
-    private String orderDetail_id;
-    private String order_id;
-    private String product_id;
+    private String orderDetailId;
+    private String orderId;
+    private String productId;
     private int quantity;
-    private double price_at_purchase;
-    private double update_price;
+    private double priceAtPurchase;
+    private double updatePrice;
 
 
 }

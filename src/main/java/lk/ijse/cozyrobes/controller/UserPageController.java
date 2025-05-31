@@ -7,17 +7,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.cozyrobes.dto.CustomerDto;
-import lk.ijse.cozyrobes.dto.MaintenanceDto;
 import lk.ijse.cozyrobes.dto.UserDto;
-import lk.ijse.cozyrobes.dto.tm.CustomerTM;
 import lk.ijse.cozyrobes.dto.tm.UserTM;
 import lk.ijse.cozyrobes.model.UserModel;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -32,6 +31,7 @@ public class UserPageController implements Initializable {
     public Button btnUpdate;
     public Button btnSave;
     public Button btnReset;
+    public TextField txtSearch;
 
 private  final UserModel userModel = new UserModel();
 
@@ -42,9 +42,10 @@ private  final UserModel userModel = new UserModel();
     public TableColumn<UserTM , String> colUserContact;
 
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        colUserId.setCellValueFactory(new PropertyValueFactory<>("user_id"));
+        colUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
         colUserRole.setCellValueFactory(new PropertyValueFactory<>("role"));
         colUserName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colUserContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
@@ -63,7 +64,7 @@ private  final UserModel userModel = new UserModel();
       tblUser.setItems(FXCollections.observableArrayList(
               userModel.getAllUser().stream()
                       .map(userDto -> new UserTM(
-                              userDto.getUser_id(),
+                              userDto.getUserId(),
                               userDto.getRole(),
                               userDto.getName(),
                               userDto.getContact()
@@ -185,11 +186,11 @@ private  final UserModel userModel = new UserModel();
         lblUserId.setText(nextId);
     }
 
-    public void onClickTable(MouseEvent mouseEvent) {
+    public void onClickedTable(MouseEvent mouseEvent) {
         UserTM selectedItem = (UserTM) tblUser.getSelectionModel().getSelectedItem();
 
         if (selectedItem != null) {
-            lblUserId.setText(selectedItem.getUser_id());
+            lblUserId.setText(selectedItem.getUserId());
             txtRole.setText(selectedItem.getRole());
             txtName.setText(selectedItem.getName());
             txtContact.setText(selectedItem.getContact());
@@ -200,13 +201,42 @@ private  final UserModel userModel = new UserModel();
             btnUpdate.setDisable(false);
         }
     }
-    public void btnGoDashBoardPageOnAction(ActionEvent actionEvent) throws IOException {
+
+    public void btnResetOnAction(ActionEvent actionEvent) {
+        resetPage();
+    }
+
+    public void goToDashboard(MouseEvent mouseEvent) throws IOException {
         ancUserPage.getChildren().clear();
         Parent load = FXMLLoader.load(getClass().getResource("/view/DashBoardPage.fxml"));
         ancUserPage.getChildren().add(load);
     }
 
-    public void btnResetOnAction(ActionEvent actionEvent) {
-        resetPage();
+    public void search(KeyEvent keyEvent) {
+        String search = txtSearch.getText();
+        if (search.isEmpty()) {
+            try {
+                loadTableData();
+            } catch (Exception e) {
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR, "Something went wrong.").show();
+            }
+        }else {
+            try {
+                ArrayList<UserDto> userList = userModel.searchUser(search);
+                tblUser.setItems(FXCollections.observableArrayList(
+                        userList.stream()
+                                .map(userDto -> new UserTM(
+                                        userDto.getUserId(),
+                                        userDto.getRole(),
+                                        userDto.getName(),
+                                        userDto.getContact()
+                                )).toList()
+                ));
+            } catch (Exception e) {
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR, "Something went wrong.").show();
+            }
+        }
     }
 }

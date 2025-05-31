@@ -9,9 +9,9 @@ import lombok.*;
 @AllArgsConstructor
 
 public class QuickcheckDto {
-    private String check_id;
-    private String maintenance_id;
-    private String check_type;
+    private String checkId;
+    private String maintenanceId;
+    private String checkType;
     private String status;
 
 }

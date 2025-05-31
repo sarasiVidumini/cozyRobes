@@ -9,10 +9,10 @@ import lombok.*;
 @ToString
 
 public class PaymentDto {
-    private String payment_id;
-    private String order_id;
-    private String payment_method;
-    private double amount;
+    private String paymentId;
+    private String orderId;
+    private String paymentMethod;
+    private double totalAmount;
 
 
 }

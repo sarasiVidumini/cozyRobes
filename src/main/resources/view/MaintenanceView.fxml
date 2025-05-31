@@ -10,204 +10,242 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ancMaintenancePage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.cozyrobes.controller.MaintenancePageController">
+<AnchorPane fx:id="ancMaintenancePage" prefHeight="500.0" prefWidth="1600.0" style="-fx-background-color: linear-gradient(to right, #FF5F6D, #FFC371);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.cozyrobes.controller.MaintenancePageController">
     <children>
-        <HBox layoutX="158.0" layoutY="143.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <HBox layoutX="14.0" layoutY="14.0" prefHeight="100.0" prefWidth="200.0" style="-fx-border-radius: 5;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <children>
-                <VBox prefHeight="1000.0" prefWidth="1311.0" style="-fx-background-color: #95a5a6;">
+                <VBox prefHeight="658.0" prefWidth="350.0" style="-fx-border-radius: 20; -fx-background-color: linear-gradient(to right, #FF5F6D, #FFC371); -fx-background-radius: 20;">
                     <HBox.margin>
-                        <Insets left="300.0" />
+                        <Insets bottom="10.0" left="100.0" right="10.0" top="10.0" />
                     </HBox.margin>
                     <children>
-                        <Label text="Maintenance Explorer" textFill="#999892">
-                            <font>
-                                <Font size="32.0" />
-                            </font>
+                        <HBox prefHeight="30.0" prefWidth="350.0">
+                            <children>
+                                <Label onMouseClicked="#goToDashboard" text="Home">
+                                    <HBox.margin>
+                                        <Insets left="10.0" top="2.0" />
+                                    </HBox.margin>
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                                <Label text="  &gt;  ">
+                                    <HBox.margin>
+                                        <Insets top="2.0" />
+                                    </HBox.margin>
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Maintenance">
+                                    <HBox.margin>
+                                        <Insets top="2.0" />
+                                    </HBox.margin>
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="48.0" prefWidth="350.0" style="-fx-background-radius: 20; -fx-border-radius: 20;">
                             <VBox.margin>
-                                <Insets left="800.0" />
+                                <Insets top="10.0" />
                             </VBox.margin>
-                        </Label>
+                            <children>
+                                <TextField fx:id="txtSearch" onKeyTyped="#search" prefHeight="30.0" prefWidth="310.0" promptText="Search here" style="-fx-background-radius: 20; -fx-border-color: #14aed5; -fx-border-radius: 20;" HBox.hgrow="ALWAYS">
+                                    <HBox.margin>
+                                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                                    </HBox.margin>
+                                </TextField>
+                            </children>
+                        </HBox>
+                        <VBox prefHeight="71.0" prefWidth="350.0" style="-fx-background-color: #fff; -fx-background-radius: 20;">
+                            <VBox.margin>
+                                <Insets top="20.0" />
+                            </VBox.margin>
+                            <children>
+                                <HBox prefHeight="61.0" prefWidth="350.0" style="-fx-background-color: 0; -fx-background-radius: 20; -fx-border-radius: 20;">
+                                    <children>
+                                        <Label text="Maintenance Id" HBox.hgrow="ALWAYS">
+                                            <font>
+                                                <Font name="System Bold" size="20.0" />
+                                            </font>
+                                            <HBox.margin>
+                                                <Insets left="10.0" />
+                                            </HBox.margin>
+                                        </Label>
+                                        <Label fx:id="lblMaintenanceId" text="01" HBox.hgrow="ALWAYS">
+                                            <font>
+                                                <Font name="System Bold" size="20.0" />
+                                            </font>
+                                            <HBox.margin>
+                                                <Insets left="100.0" />
+                                            </HBox.margin>
+                                        </Label>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets top="10.0" />
+                                    </VBox.margin>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="287.0" prefWidth="358.0" style="-fx-background-color: #e66767; -fx-background-radius: 20; -fx-border-radius: 20;">
+                            <VBox.margin>
+                                <Insets top="50.0" />
+                            </VBox.margin>
+                            <children>
+                                <HBox prefHeight="59.0" prefWidth="350.0" />
+                                <HBox prefHeight="90.0" prefWidth="350.0">
+                           <children>
+                              <VBox prefHeight="13.0" prefWidth="419.0">
+                                 <children>
+                                    <Label fx:id="lblMaterialId" prefHeight="18.0" prefWidth="61.0" text="Material Id">
+                                       <VBox.margin>
+                                          <Insets left="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <ComboBox fx:id="cmbMaterialPlatform" prefHeight="26.0" prefWidth="280.0" promptText="Select Here" style="-fx-border-color: #66ff00; -fx-border-radius: 20; -fx-background-radius: 20;">
+                                       <VBox.margin>
+                                          <Insets left="50.0" />
+                                       </VBox.margin>
+                                    </ComboBox>
+                                    <Label fx:id="lblSectionId" text="Section Id">
+                                       <VBox.margin>
+                                          <Insets left="5.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <ComboBox fx:id="cmbSectionPlatform" prefHeight="26.0" prefWidth="279.0" promptText="Select Here" style="-fx-border-color: #bd33a4; -fx-background-radius: 20; -fx-border-radius: 20;">
+                                       <VBox.margin>
+                                          <Insets left="50.0" />
+                                       </VBox.margin>
+                                    </ComboBox>
+                                    <Label fx:id="lblMaintenanceDate" text="Maintenance Date">
+                                       <VBox.margin>
+                                          <Insets left="5.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <TextField fx:id="txtMaintenanceDate" prefHeight="26.0" prefWidth="283.0" promptText="dd/mm/yyyy" style="-fx-border-color: #6495ed; -fx-background-radius: 20; -fx-border-radius: 20;">
+                                       <VBox.margin>
+                                          <Insets left="50.0" right="20.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <Label fx:id="lblMaintenanceStatus" text="Maintenance Status">
+                                       <VBox.margin>
+                                          <Insets left="5.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <TextField fx:id="txtMaintenanceStatus" promptText="Pending" style="-fx-border-color: #7f1734; -fx-background-radius: 20; -fx-border-radius: 20;">
+                                       <VBox.margin>
+                                          <Insets left="50.0" right="20.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <Label fx:id="lblCost" text="Cost">
+                                       <VBox.margin>
+                                          <Insets left="5.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <TextField fx:id="txtCost" promptText="xxxx.00" style="-fx-border-color: #004b49; -fx-background-radius: 20; -fx-border-radius: 20;">
+                                       <VBox.margin>
+                                          <Insets left="50.0" right="20.0" top="-5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </VBox>
+                           </children>
+                                </HBox>
+                                <HBox prefHeight="54.0" prefWidth="350.0" />
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #e66767; -fx-background-radius: 20; -fx-border-radius: 20;">
+                            <VBox.margin>
+                                <Insets top="50.0" />
+                            </VBox.margin>
+                            <children>
+                                <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="30.0" prefWidth="300.0" style="-fx-background-radius: 20; -fx-background-color: #1e90ff;" text="Save" VBox.vgrow="ALWAYS">
+                                    <font>
+                                        <Font name="Arial Bold" size="15.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" left="25.0" right="10.0" top="10.0" />
+                                    </VBox.margin>
+                                </Button>
+                                <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="30.0" prefWidth="300.0" style="-fx-background-radius: 20; -fx-background-color: linear-gradient(to right, #00b09b, #96c93d);;" text="Update" VBox.vgrow="ALWAYS">
+                                    <font>
+                                        <Font name="Arial Bold" size="15.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" left="25.0" right="10.0" top="10.0" />
+                                    </VBox.margin>
+                                </Button>
+                                <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="30.0" prefWidth="300.0" style="-fx-background-radius: 20; -fx-background-color: #eb2f06;" text="Delete" VBox.vgrow="ALWAYS">
+                                    <font>
+                                        <Font name="Arial Bold" size="15.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" left="25.0" right="10.0" top="10.0" />
+                                    </VBox.margin>
+                                </Button>
+                                <Button fx:id="btnReset" mnemonicParsing="false" onAction="#btnResetOnAction" prefHeight="30.0" prefWidth="300.0" style="-fx-background-radius: 20; -fx-background-color: linear-gradient(to right, #D3CCE3, #E9E4F0);;" text="Reset" VBox.vgrow="ALWAYS">
+                                    <font>
+                                        <Font name="Arial Bold" size="15.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" left="25.0" right="10.0" top="10.0" />
+                                    </VBox.margin>
+                                </Button>
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+                <VBox prefHeight="20.0" prefWidth="970.0" style="-fx-background-color: linear-gradient(to right, #FF5F6D, #FFC371); -fx-background-radius: 20; -fx-border-radius: 20;" HBox.hgrow="NEVER">
+                    <HBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="15.0" />
+                    </HBox.margin>
+                    <children>
+                        <BorderPane prefHeight="62.0" prefWidth="970.0">
+                            <center>
+                                <Label prefHeight="55.0" prefWidth="293.0" text="Maintenance Details" BorderPane.alignment="CENTER">
+                                    <font>
+                                        <Font name="Bookman Old Style Bold" size="32.0" />
+                                    </font>
+                                    <BorderPane.margin>
+                                        <Insets />
+                                    </BorderPane.margin>
+                                </Label>
+                            </center>
+                        </BorderPane>
                         <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                             <VBox.margin>
-                                <Insets left="1060.0" top="10.0" />
+                                <Insets left="700.0" top="5.0" />
                             </VBox.margin>
                             <image>
                                 <Image url="@../images/Best-Practices-for-Managing-Warehouse-Material-Flow-Image.png" />
                             </image>
                         </ImageView>
-                        <TableView fx:id="tblMaintenance" onMouseClicked="#onClickTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                            <columns>
-                                <TableColumn fx:id="colMaintenanceId" prefWidth="178.4000244140625" text="Maintenance_id" />
-                                <TableColumn fx:id="colMaterialId" prefWidth="177.59994506835938" text="Material_id" />
-                                <TableColumn fx:id="colSectionId" prefWidth="268.79998779296875" text="Section_id" />
-                                <TableColumn fx:id="colMaintenanceDate" prefWidth="262.4000244140625" text="Date" />
-                                <TableColumn fx:id="colMaintenanceStatus" prefWidth="241.5999755859375" text="Status" />
-                                <TableColumn fx:id="colCost" prefWidth="170.39990234375" text="Cost" />
-                            </columns>
-                            <VBox.margin>
-                                <Insets top="20.0" />
-                            </VBox.margin>
-                        </TableView>
+                  <TableView fx:id="tblMaintenance" onMouseClicked="#onClickTable" prefHeight="464.0" prefWidth="930.0">
+                    <columns>
+                      <TableColumn fx:id="colMaintenanceId" prefWidth="137.5999412536621" text="maintenanceId" />
+                      <TableColumn fx:id="colMaterialId" prefWidth="155.2000274658203" text="materialId" />
+                        <TableColumn fx:id="colSectionId" prefWidth="144.0" text="sectionId" />
+                        <TableColumn fx:id="colMaintenanceDate" prefWidth="174.39996337890625" text="maintenanceDate" />
+                        <TableColumn fx:id="colMaintenanceStatus" prefWidth="164.800048828125" text="maintenanceStatus" />
+                        <TableColumn fx:id="colCost" prefWidth="160.800048828125" text="cost" />
+                    </columns>
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+                     </VBox.margin>
+                  </TableView>
                     </children>
                 </VBox>
             </children>
         </HBox>
-        <VBox layoutX="-1.0" layoutY="-5.0" prefHeight="1006.0" prefWidth="309.0" style="-fx-background-color: #34495e;">
-            <children>
-                <HBox prefHeight="50.0" prefWidth="298.0" style="-fx-background-color: #2c3e50;">
-                    <children>
-                        <ImageView fitHeight="60.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../images/Luxury_logo_design_converted.png" />
-                            </image>
-                        </ImageView>
-                        <Label text="COZY ROBES">
-                            <font>
-                                <Font size="32.0" />
-                            </font>
-                            <HBox.margin>
-                                <Insets left="50.0" />
-                            </HBox.margin>
-                        </Label>
-                    </children>
-                </HBox>
-                <Button fx:id="btnBack" mnemonicParsing="false" onAction="#btnGoDashBoardPageOnAction" text="&lt; Back">
-                    <VBox.margin>
-                        <Insets top="10.0" />
-                    </VBox.margin>
-                </Button>
-                <TextField fx:id="txtSearch" promptText="                 search here">
-                    <VBox.margin>
-                        <Insets left="10.0" right="10.0" top="30.0" />
-                    </VBox.margin>
-                </TextField>
-                <HBox prefHeight="60.0" prefWidth="298.0">
-                    <VBox.margin>
-                        <Insets top="40.0" />
-                    </VBox.margin>
-                    <children>
-                        <Label text="Maintenance_id">
-                            <HBox.margin>
-                                <Insets left="10.0" />
-                            </HBox.margin>
-                        </Label>
-                        <Label fx:id="lblMaintenanceId" text="1">
-                            <HBox.margin>
-                                <Insets left="20.0" />
-                            </HBox.margin>
-                        </Label>
-                    </children>
-                </HBox>
-                <HBox prefHeight="60.0" prefWidth="324.0">
-                    <VBox.margin>
-                        <Insets top="10.0" />
-                    </VBox.margin>
-                    <children>
-                        <Label fx:id="lblMaterialId" text="Mat_id">
-                            <HBox.margin>
-                                <Insets left="10.0" />
-                            </HBox.margin>
-                        </Label>
-                  <ComboBox fx:id="cmbMaterialPlatform" prefHeight="26.0" prefWidth="199.0">
-                     <HBox.margin>
-                        <Insets left="45.0" />
-                     </HBox.margin>
-                  </ComboBox>
-                    </children>
-                </HBox>
-                <HBox prefHeight="60.0" prefWidth="298.0">
-                    <VBox.margin>
-                        <Insets top="10.0" />
-                    </VBox.margin>
-                    <children>
-                        <Label fx:id="lblSectionId" text="Section_id">
-                            <HBox.margin>
-                                <Insets left="10.0" />
-                            </HBox.margin>
-                        </Label>
-                  <ComboBox fx:id="cmbSectionPlatform" prefHeight="26.0" prefWidth="201.0">
-                     <HBox.margin>
-                        <Insets left="25.0" />
-                     </HBox.margin>
-                  </ComboBox>
-                    </children>
-                </HBox>
-                <HBox prefHeight="60.0" prefWidth="298.0">
-                    <VBox.margin>
-                        <Insets top="10.0" />
-                    </VBox.margin>
-                    <children>
-                        <Label fx:id="lblMaintenanceDate" text="Date">
-                            <HBox.margin>
-                                <Insets left="10.0" />
-                            </HBox.margin>
-                        </Label>
-                        <TextField fx:id="txtMaintenanceDate" prefHeight="26.0" prefWidth="205.0">
-                            <HBox.margin>
-                                <Insets left="45.0" />
-                            </HBox.margin>
-                        </TextField>
-                    </children>
-                </HBox>
-                <HBox prefHeight="50.0" prefWidth="310.0">
-                    <children>
-                        <Label fx:id="lblMaintenanceStatus" text="Status">
-                            <HBox.margin>
-                                <Insets left="10.0" />
-                            </HBox.margin>
-                        </Label>
-                        <TextField fx:id="txtMaintenanceStatus" prefHeight="26.0" prefWidth="205.0">
-                            <HBox.margin>
-                                <Insets left="36.0" />
-                            </HBox.margin>
-                        </TextField>
-                    </children>
-                    <VBox.margin>
-                        <Insets top="10.0" />
-                    </VBox.margin>
-                </HBox>
-                <HBox prefHeight="50.0" prefWidth="310.0">
-                    <VBox.margin>
-                        <Insets top="10.0" />
-                    </VBox.margin>
-                    <children>
-                        <Label fx:id="lblCost" text="Cost">
-                            <HBox.margin>
-                                <Insets left="10.0" />
-                            </HBox.margin>
-                        </Label>
-                        <TextField fx:id="txtCost" prefHeight="26.0" prefWidth="206.0">
-                            <HBox.margin>
-                                <Insets left="40.0" />
-                            </HBox.margin>
-                        </TextField>
-                    </children>
-                </HBox>
-                <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="26.0" prefWidth="250.0" style="-fx-background-color: #c0392b;" text="Delete Maintenance">
-                    <VBox.margin>
-                        <Insets left="30.0" top="30.0" />
-                    </VBox.margin>
-                </Button>
-                <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="26.0" prefWidth="250.0" style="-fx-background-color: #27ae60;" text="Update Maintenance">
-                    <VBox.margin>
-                        <Insets left="30.0" top="20.0" />
-                    </VBox.margin>
-                </Button>
-                <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="26.0" prefWidth="250.0" style="-fx-background-color: #2980b9;" text="Save Maintenance">
-                    <VBox.margin>
-                        <Insets left="30.0" top="20.0" />
-                    </VBox.margin>
-                </Button>
-                <Button fx:id="btnReset" mnemonicParsing="false" onAction="#btnResetOnAction" prefHeight="26.0" prefWidth="250.0" style="-fx-background-color: #7f8c8d;" text="Reset Maintenance">
-                    <VBox.margin>
-                        <Insets left="30.0" top="20.0" />
-                    </VBox.margin>
-                </Button>
-            </children>
-        </VBox>
     </children>
 </AnchorPane>

@@ -8,8 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WarehouseTM {
-    private String section_id;
-    private String product_id;
-    private String capacity;
+    private String sectionId;
+    private String productId;
+    private int capacity;
     private String location;
 }
