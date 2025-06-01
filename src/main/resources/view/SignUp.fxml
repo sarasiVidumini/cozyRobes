@@ -24,7 +24,7 @@
                     <children>
                         <HBox prefHeight="30.0" prefWidth="350.0">
                             <children>
-                        <Label onMouseClicked="#GoToMainPage" text="Home">
+                        <Label onMouseClicked="#GoToLoginPage" text="&gt; BACK">
                            <font>
                               <Font name="System Bold" size="25.0" />
                            </font>

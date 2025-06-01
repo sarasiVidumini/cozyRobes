@@ -3,6 +3,7 @@ package lk.ijse.cozyrobes.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class DashBoardController {
@@ -61,6 +62,10 @@ public class DashBoardController {
         navigateTo("/view/QuickcheckPage.fxml");
     }
 
+    public void GoToLoginPage(MouseEvent mouseEvent) {
+        navigateTo("/view/LoginPage.fxml");
+    }
+
     private void navigateTo(String path) {
         try {
             ancDashBoardPage.getChildren().clear();
@@ -76,4 +81,5 @@ public class DashBoardController {
             e.printStackTrace();
         }
     }
+
 }

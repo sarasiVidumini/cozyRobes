@@ -37,7 +37,10 @@ public class LoginPageController implements Initializable {
         ancLoginPage.getChildren().add(load);
     }
 
-    public void btnGoSigninPageOnAction(ActionEvent actionEvent) {
+    public void btnGoSigninPageOnAction(ActionEvent actionEvent) throws IOException {
+        ancLoginPage.getChildren().clear();
+        Parent load = FXMLLoader.load(getClass().getResource("/view/Signin.fxml"));
+        ancLoginPage.getChildren().add(load);
     }
 
 

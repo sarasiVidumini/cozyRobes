@@ -16,9 +16,9 @@ public class SignupPageController {
     public TextField txtContact;
     public PasswordField txtPassword;
 
-    public void GoToMainPage(MouseEvent mouseEvent) throws IOException {
+    public void GoToLoginPage(MouseEvent mouseEvent) throws IOException {
         ancSignupPage.getChildren().clear();
-        Parent load = FXMLLoader.load(getClass().getResource("/view/MainPage.fxml"));
+        Parent load = FXMLLoader.load(getClass().getResource("/view/LoginPage.fxml"));
         ancSignupPage.getChildren().add(load);
     }
 

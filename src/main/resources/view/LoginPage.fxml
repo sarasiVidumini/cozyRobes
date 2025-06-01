@@ -23,7 +23,7 @@
                <children>
                   <HBox prefHeight="30.0" prefWidth="350.0">
                      <children>
-                        <Label onMouseClicked="#goToMainPage" text="Home">
+                        <Label onMouseClicked="#goToMainPage" text="HOME">
                            <HBox.margin>
                               <Insets left="10.0" top="2.0" />
                            </HBox.margin>

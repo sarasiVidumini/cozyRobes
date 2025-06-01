@@ -66,9 +66,9 @@
                         </Label>
                      </center>
                      <left>
-                        <Label text="HOME" BorderPane.alignment="CENTER">
+                        <Label onMouseClicked="#GoToLoginPage" text="&gt; BACK" BorderPane.alignment="CENTER">
                            <font>
-                              <Font name="System Bold" size="25.0" />
+                              <Font name="System Italic" size="20.0" />
                            </font>
                            <BorderPane.margin>
                               <Insets left="20.0" />
