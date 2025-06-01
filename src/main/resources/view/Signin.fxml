@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="ancSigninPage" prefHeight="800.0" prefWidth="1600.0" style="-fx-background-color: linear-gradient(to right, #FF5F6D, #FFC371);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.cozyrobes.controller.SigninController">
+    <children>
+        <HBox layoutX="14.0" layoutY="14.0" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: #2f3542; -fx-border-radius: 20;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <children>
+                <VBox prefHeight="696.0" prefWidth="366.0" style="-fx-border-radius: 20; -fx-background-color: linear-gradient(to right, #FF5F6D, #FFC371); -fx-background-radius: 20;">
+                    <HBox.margin>
+                        <Insets bottom="10.0" left="40.0" right="10.0" top="10.0" />
+                    </HBox.margin>
+                    <children>
+                        <HBox prefHeight="30.0" prefWidth="350.0">
+                            <children>
+                                <Label onMouseClicked="#GoToLoginPage" text="&gt; BACK">
+                                    <font>
+                                        <Font name="System Bold" size="25.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Sign In System ">
+                                    <HBox.margin>
+                                        <Insets left="100.0" top="2.0" />
+                                    </HBox.margin>
+                                    <font>
+                                        <Font size="22.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </HBox>
+                        <VBox prefHeight="375.0" prefWidth="363.0">
+                            <VBox.margin>
+                                <Insets top="100.0" />
+                            </VBox.margin>
+                            <children>
+                                <ImageView fitHeight="411.0" fitWidth="364.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../images/user-avatar-with-check-mark-icon-admin-icon-technology-icon-logo-emblem-yellow-meter-png-clipart-removebg-preview.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+                <VBox prefHeight="710.0" prefWidth="1011.0" style="-fx-background-color: linear-gradient(to right, #FF5F6D, #FFC371); -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #3b3c36;" HBox.hgrow="NEVER">
+                    <HBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="15.0" />
+                    </HBox.margin>
+                    <children>
+                        <BorderPane prefHeight="62.0" prefWidth="970.0" />
+                        <Label text="Login Your Account...!">
+                            <VBox.margin>
+                                <Insets left="350.0" top="20.0" />
+                            </VBox.margin>
+                            <font>
+                                <Font size="34.0" />
+                            </font>
+                        </Label>
+                        <ImageView fitHeight="135.0" fitWidth="141.0" pickOnBounds="true" preserveRatio="true">
+                            <VBox.margin>
+                                <Insets left="700.0" />
+                            </VBox.margin>
+                            <image>
+                                <Image url="@../images/teplogidrostroy-password-manager-admin-icon-thumbnail-removebg-preview.png" />
+                            </image>
+                        </ImageView>
+                        <Label text="*  UserName" textFill="#020203">
+                            <VBox.margin>
+                                <Insets left="350.0" top="30.0" />
+                            </VBox.margin>
+                            <font>
+                                <Font name="Arial" size="14.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="txtUserName" prefHeight="50.0" prefWidth="454.0" promptText="Enter your name" style="-fx-background-color: #ffdab9; -fx-background-radius: 30; -fx-border-color: #000000; -fx-border-radius: 30;">
+                            <VBox.margin>
+                                <Insets left="300.0" right="300.0" top="10.0" />
+                            </VBox.margin>
+                        </TextField>
+                        <Label text="* Password" textFill="#020203">
+                            <VBox.margin>
+                                <Insets left="350.0" top="30.0" />
+                            </VBox.margin>
+                            <font>
+                                <Font name="Arial" size="16.0" />
+                            </font>
+                        </Label>
+                        <PasswordField fx:id="txtPassword" prefHeight="50.0" prefWidth="454.0" promptText="Enter Password " style="-fx-background-radius: 30; -fx-border-radius: 30; -fx-background-color: #ffdab9; -fx-border-color: #000000;">
+                            <VBox.margin>
+                                <Insets left="300.0" right="300.0" />
+                            </VBox.margin>
+                        </PasswordField>
+                  <Label onMouseClicked="#goToForgotPasswordPage" text="Forgot Password ? ">
+                     <VBox.margin>
+                        <Insets left="700.0" top="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                        <Button mnemonicParsing="false" onAction="#btnGoDashBoardPageOnAction" prefHeight="69.0" prefWidth="150.0" style="-fx-background-color: #3ae374; -fx-background-radius: 30; -fx-border-color: #000000; -fx-border-radius: 30;" text="GOT IT">
+                            <VBox.margin>
+                                <Insets left="450.0" top="150.0" />
+                            </VBox.margin>
+                            <graphic>
+                                <ImageView fitHeight="62.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../images/images-removebg-preview.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <font>
+                                <Font name="System Bold Italic" size="12.0" />
+                            </font>
+                        </Button>
+                        <ImageView fitHeight="133.0" fitWidth="113.0" pickOnBounds="true" preserveRatio="true">
+                            <VBox.margin>
+                                <Insets left="940.0" />
+                            </VBox.margin>
+                            <image>
+                                <Image url="@../images/Luxury_logo_design_converted.png" />
+                            </image></ImageView>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>
