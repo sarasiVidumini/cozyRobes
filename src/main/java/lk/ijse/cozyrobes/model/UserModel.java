@@ -28,11 +28,12 @@ public class UserModel {
 
 public boolean saveUser(UserDto userDto) throws SQLException {
         return CrudUtil.execute(
-                "insert into user values(?,?,?,?)",
+                "insert into user values(?,?,?,?,?)",
                 userDto.getUserId(),
                 userDto.getRole(),
                 userDto.getName(),
-                userDto.getContact()
+                userDto.getContact(),
+                userDto.getPassword()
 
         );
 
@@ -40,11 +41,12 @@ public boolean saveUser(UserDto userDto) throws SQLException {
 
     public  boolean updateUser(UserDto userDto) throws SQLException {
         return CrudUtil.execute(
-                "update user set role=? , name = ? , contact =? where user_id = ?",
+                "update user set role=? , name = ? , contact =? , password = ? where user_id = ?",
                 userDto.getRole(),
                 userDto.getName(),
                 userDto.getContact(),
-                userDto.getUserId()
+                userDto.getUserId(),
+                userDto.getPassword()
         );
     }
 
@@ -57,7 +59,7 @@ public boolean saveUser(UserDto userDto) throws SQLException {
 
    public ArrayList<UserDto> searchUser(String search) throws SQLException {
         ArrayList<UserDto> dtos = new ArrayList<>();
-        String sql = "select * from user where user_id LIKE ? OR role LIKE ? OR name LIKE ? OR contact LIKE ?";
+        String sql = "select * from user where user_id LIKE ? OR role LIKE ? OR name LIKE ? OR contact LIKE ? password LIKE ?";
         String pattern = "%" + search + "%";
         ResultSet resultSet = CrudUtil.execute(sql, pattern , pattern , pattern , pattern);
         while (resultSet.next()) {
@@ -65,7 +67,8 @@ public boolean saveUser(UserDto userDto) throws SQLException {
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
-                    resultSet.getString(4)
+                    resultSet.getString(4),
+                    resultSet.getString(5)
             );
             dtos.add(userDto);
         }
@@ -92,7 +95,8 @@ public boolean saveUser(UserDto userDto) throws SQLException {
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
-                    resultSet.getString(4)
+                    resultSet.getString(4),
+                    resultSet.getString(5)
 
             );
 

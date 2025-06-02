@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.cozyrobes.dto.CustomerDto;
@@ -45,6 +46,7 @@ public class ProductPageController implements Initializable {
     public Button btnUpdate;
     public Button btnSave;
     public Button btnReset;
+    public TextField txtSearch;
 
 
 //    public void btnGoDshBoardOnAction(ActionEvent actionEvent) throws IOException {
@@ -55,20 +57,26 @@ public class ProductPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-     colProductId.setCellValueFactory(new PropertyValueFactory<>("product_id"));
-     colProductName.setCellValueFactory(new PropertyValueFactory<>("name"));
-     colQty.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-     colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
-     colCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
+    colProductId.setCellValueFactory(new PropertyValueFactory<>("productId"));
+    colProductName.setCellValueFactory(new PropertyValueFactory<>("name"));
+    colQty.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+    colCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
+    colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
 
         try {
         loadTableData();
         loadNextId();
-            resetPage();
+        resetPage();
+
         } catch (Exception e) {
             e.printStackTrace();
              new Alert(Alert.AlertType.ERROR,"Something went wrong!").show();
         }
+    }
+
+    private void loadNextId() throws SQLException {
+        String nextId = productModel.getNextProductId();
+        lblProductId.setText(nextId);
     }
 
     private void loadTableData() throws SQLException {
@@ -92,11 +100,11 @@ public class ProductPageController implements Initializable {
         tblProduct.setItems(FXCollections.observableArrayList(
                 productModel.getAllProduct().stream()
                         .map(productDto -> new ProductTM(
-                                productDto.getProduct_id(),
+                                productDto.getProductId(),
                                 productDto.getName(),
                                 productDto.getQuantity(),
                                 productDto.getCategory(),
-                                productDto.getUnit_price()
+                                productDto.getUnitPrice()
                         )).toList()
         ));
     }
@@ -108,7 +116,6 @@ public class ProductPageController implements Initializable {
             loadNextId();
 
             btnSave.setDisable(false);
-
             btnDelete.setDisable(true);
             btnUpdate.setDisable(true);
 
@@ -137,8 +144,9 @@ public class ProductPageController implements Initializable {
                 boolean isDeleted = productModel.deleteProduct(productId);
 
                 if (isDeleted) {
-                    resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "Product deleted successfully!").show();
+                    loadTableData();
+                    resetPage();
                 } else {
                     new Alert(Alert.AlertType.ERROR, "Fail to delete product.").show();
                 }
@@ -169,8 +177,9 @@ public class ProductPageController implements Initializable {
             boolean isUpdated = productModel.updateProduct(productDto);
 
             if (isUpdated) {
-                resetPage();
                 new Alert(Alert.AlertType.INFORMATION,"Product updated successfully!").show();
+                loadTableData();
+                resetPage();
             }else{
                 new Alert(Alert.AlertType.ERROR,"Fail to update product.").show();
             }
@@ -185,21 +194,22 @@ public class ProductPageController implements Initializable {
         String name = txtProductName.getText();
         int quantity = Integer.parseInt(txtProductQty.getText());
         String category = txtCategory.getText();
-        double unit_price = Double.parseDouble(txtUnitPrice.getText());
+        double unitPrice = Double.parseDouble(txtUnitPrice.getText());
 
         ProductDto productDto = new ProductDto(
                 product_id,
                 name,
                 quantity,
                 category,
-                unit_price
+                unitPrice
         );
 
         try {
             boolean isSaved = productModel.saveProduct(productDto);
             if (isSaved) {
-                resetPage();
                 new Alert(Alert.AlertType.INFORMATION,"Product saved successfully!").show();
+                loadTableData();
+                resetPage();
             }else{
                 new Alert(Alert.AlertType.ERROR,"Fail to save product").show();
             }
@@ -210,21 +220,6 @@ public class ProductPageController implements Initializable {
         }
     }
 
-    private void loadNextId() throws SQLException {
-        try {
-            String nextId = "P001"; // Dummy logic; replace with DB fetch if needed
-            lblProductId.setText(nextId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Failed to generate next Product ID").show();
-        }
-    }
-
-    public void btnGoDashBoardPageOnAction(ActionEvent actionEvent) throws SQLException, IOException {
-        ancProductPage.getChildren().clear();
-        Parent load = FXMLLoader.load(getClass().getResource("/view/DashBoardPage.fxml"));
-        ancProductPage.getChildren().setAll(load);
-    }
 
     public void btnResetOnAction(ActionEvent actionEvent) {
         resetPage();
@@ -233,16 +228,51 @@ public class ProductPageController implements Initializable {
     public void onClickTable(MouseEvent mouseEvent) {
         ProductTM selectedItem = tblProduct.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
-            lblProductId.setText(selectedItem.getProduct_id());
+            lblProductId.setText(selectedItem.getProductId());
             txtProductName.setText(selectedItem.getName());
             txtProductQty.setText(String.valueOf(selectedItem.getQuantity()));
             txtCategory.setText(selectedItem.getCategory());
-            txtUnitPrice.setText(String.valueOf(selectedItem.getUnit_price()));
+            txtUnitPrice.setText(String.valueOf(selectedItem.getUnitPrice()));
 
 
             btnSave.setDisable(true);
             btnUpdate.setDisable(false);
             btnDelete.setDisable(false);
+        }
+    }
+
+    public void goToDashboard(MouseEvent mouseEvent) throws IOException {
+        ancProductPage.getChildren().clear();
+        Parent load = FXMLLoader.load(getClass().getResource("/view/DashBoardPage.fxml"));
+        ancProductPage.getChildren().setAll(load);
+    }
+
+    public void search(KeyEvent keyEvent) {
+        String search = txtSearch.getText();
+        if (search.isEmpty()){
+            try {
+                loadTableData();
+            } catch (Exception e) {
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR,"Something went wrong!").show();
+            }
+        }else {
+            try {
+                ArrayList<ProductDto> productList  = productModel.searchProduct(search);
+                tblProduct.setItems(FXCollections.observableArrayList(
+                        productList.stream()
+                                .map(productDto -> new ProductTM(
+                                        productDto.getProductId(),
+                                        productDto.getName(),
+                                        productDto.getQuantity(),
+                                        productDto.getCategory(),
+                                        productDto.getUnitPrice()
+                                )).toList()
+                ));
+            } catch (Exception e) {
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR,"Something went wrong!").show();
+            }
         }
     }
 }

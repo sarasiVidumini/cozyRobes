@@ -11,8 +11,21 @@
     -fx-cursor: hand;
     -fx-transition: all 0.3s ease;
 }
-
+.cur-newButton {
+    -fx-background-color: linear-gradient(to right, #87CEEB, #B0E0E6);
+    -fx-text-fill: gray;
+    -fx-font-size: 20px;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 30px;
+    -fx-border-radius: 30px;
+    -fx-border-color: transparent;
+    -fx-border-width: 5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 0, 2);
+    -fx-cursor: hand;
+    -fx-transition: all 0.3s ease;
+}
 .cur-button:hover {
     -fx-background-color: linear-gradient(to right, #2C3E50, #4CA1AF);
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 8, 0, 0, 3);
 }
+

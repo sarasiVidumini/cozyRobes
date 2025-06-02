@@ -73,14 +73,11 @@ public class OrderDetailPageController implements Initializable {
         }
     }
 
-    private void loadNextId(){
-        try {
+    private void loadNextId() throws SQLException {
+
             String nextId = orderDetailModel.getNextOrderDetailId();
             lblOrderDetailId.setText(nextId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR,"Failed to load data!").show();
-        }
+
     }
 
 
@@ -184,7 +181,6 @@ public class OrderDetailPageController implements Initializable {
             } catch (Exception e) {
                 e.printStackTrace();
                 new Alert(Alert.AlertType.ERROR,"Failed to update order details!").show();
-                return;
             }
     }
 

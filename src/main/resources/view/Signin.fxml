@@ -24,7 +24,7 @@
                     <children>
                         <HBox prefHeight="30.0" prefWidth="350.0">
                             <children>
-                                <Label onMouseClicked="#GoToLoginPage" text="&gt; BACK">
+                                <Label onMouseClicked="#goToLoginPage" text="&gt; BACK">
                                     <font>
                                         <Font name="System Bold" size="25.0" />
                                     </font>
@@ -109,7 +109,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                        <Button mnemonicParsing="false" onAction="#btnGoDashBoardPageOnAction" prefHeight="69.0" prefWidth="150.0" style="-fx-background-color: #3ae374; -fx-background-radius: 30; -fx-border-color: #000000; -fx-border-radius: 30;" text="GOT IT">
+                        <Button mnemonicParsing="false" onAction="#btnLoginOnAction" prefHeight="69.0" prefWidth="150.0" style="-fx-background-color: #3ae374; -fx-background-radius: 30; -fx-border-color: #000000; -fx-border-radius: 30;" text="GOT IT">
                             <VBox.margin>
                                 <Insets left="450.0" top="150.0" />
                             </VBox.margin>

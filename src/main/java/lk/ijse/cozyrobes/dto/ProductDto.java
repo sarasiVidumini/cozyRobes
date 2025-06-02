@@ -9,10 +9,10 @@ import lombok.*;
 @NoArgsConstructor
 
 public class ProductDto {
-   private String product_id;
+   private String productId;
    private String name;
    private int quantity;
    private String category;
-   private double unit_price;
+   private double unitPrice;
 
 }

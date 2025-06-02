@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.cozyrobes.dto.SupplierDto;
 import lk.ijse.cozyrobes.dto.tm.SupplierTM;
+import lk.ijse.cozyrobes.model.MaterialInventoryModel;
 import lk.ijse.cozyrobes.model.SupplierModel;
 
 import java.io.IOException;
@@ -35,6 +36,7 @@ public class SupplierPageController implements Initializable {
     public TableColumn<SupplierTM, String> colSupplierCnt;
 
     private final SupplierModel supplierModel = new SupplierModel();
+    private final MaterialInventoryModel materialInventoryModel = new MaterialInventoryModel();
 
     public Button btnSave;
     public Button btnUpdate;
@@ -250,5 +252,9 @@ public class SupplierPageController implements Initializable {
                 new Alert(Alert.AlertType.ERROR, "Failed to search").show();
             }
         }
+    }
+
+    public void btnFixMaterialOnAction(ActionEvent actionEvent) {
+
     }
 }

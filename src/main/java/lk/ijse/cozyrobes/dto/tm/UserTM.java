@@ -13,4 +13,5 @@ public class UserTM {
     private String role;
     private String name;
     private String contact;
+    private String password;
 }

@@ -29,11 +29,11 @@ public class ProductModel {
     public boolean saveProduct(ProductDto productDto) throws SQLException {
         return CrudUtil.execute(
                 "insert into customer values(?,?,?,?,?)",
-                productDto.getProduct_id(),
+                productDto.getProductId(),
                 productDto.getName(),
                 productDto.getQuantity(),
                 productDto.getCategory(),
-                productDto.getUnit_price()
+                productDto.getUnitPrice()
         );
     }
 
@@ -60,8 +60,8 @@ public class ProductModel {
                 productDto.getName(),
                 productDto.getQuantity(),
                 productDto.getCategory(),
-                productDto.getUnit_price(),
-                productDto.getProduct_id()
+                productDto.getUnitPrice(),
+                productDto.getProductId()
         );
     }
 
@@ -74,34 +74,22 @@ public class ProductModel {
 
     }
 
-    public ProductDto searchProduct(String product_id) throws SQLException {
-        ResultSet resultSet = CrudUtil.execute(
-                "select * from product where product_id",
-                product_id
-        );
-
-        if (resultSet.next()) {
-            ProductDto productDto = new ProductDto(
+    public ArrayList<ProductDto> searchProduct(String search) throws SQLException {
+        ArrayList<ProductDto> dtos = new ArrayList<>();
+        String sql = "select * from product where product_id Like ? OR name LIKE ? OR quantity LIKE ? OR category LIKE ? OR unit_price LIKE ?";
+        String pattern = "%" + search + "%";
+        ResultSet resultSet = CrudUtil.execute(sql, pattern , pattern, pattern, pattern , pattern);
+        while (resultSet.next()) {
+            ProductDto dto = new ProductDto(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getInt(3),
                     resultSet.getString(4),
                     resultSet.getDouble(5)
             );
-            return productDto;
+            dtos.add(dto);
         }
-        return null;
-    }
-
-    public ArrayList<String> getAllProductIds() throws SQLException {
-        ResultSet resultSet = CrudUtil.execute("select product_id from product");
-        ArrayList<String> list = new ArrayList<>();
-        while (resultSet.next()) {
-            String id = resultSet.getString(1);
-            list.add(id);
-        }
-
-        return list;
+        return dtos;
     }
 
     public boolean reduceQty(int qty, String product_id) throws SQLException {

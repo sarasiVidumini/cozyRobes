@@ -98,46 +98,44 @@
                         <Insets top="50.0" />
                      </VBox.margin>
                      <children>
-                        <HBox prefHeight="17.0" prefWidth="350.0">
-                           <children>
-                              <Label fx:id="lblRole" text="Role" HBox.hgrow="ALWAYS">
-                                 <HBox.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </HBox.margin>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <TextField fx:id="txtRole" prefHeight="30.0" prefWidth="330.0" promptText="Owner" style="-fx-background-radius: 20; -fx-border-color: #ff1837; -fx-border-radius: 20;">
+                        <Label text="Role">
                            <VBox.margin>
-                              <Insets left="10.0" right="10.0" top="-12.0" />
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="txtRole" style="-fx-background-radius: 20;">
+                           <VBox.margin>
+                              <Insets left="30.0" right="20.0" />
                            </VBox.margin>
                         </TextField>
-                        <HBox prefHeight="17.0" prefWidth="350.0">
-                           <children>
-                              <Label fx:id="lblName" text="Name" HBox.hgrow="ALWAYS">
-                                 <HBox.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="50.0" />
-                                 </HBox.margin>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <TextField fx:id="txtName" prefHeight="30.0" prefWidth="330.0" promptText="Sarath" style="-fx-background-radius: 20; -fx-border-color: #840933; -fx-border-radius: 20;" VBox.vgrow="ALWAYS">
+                        <Label text="Name">
                            <VBox.margin>
-                              <Insets left="10.0" right="10.0" top="-12.0" />
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="txtName" style="-fx-background-radius: 20;">
+                           <VBox.margin>
+                              <Insets left="30.0" right="20.0" />
                            </VBox.margin>
                         </TextField>
-                        <HBox prefHeight="17.0" prefWidth="350.0">
-                           <children>
-                              <Label fx:id="lblContact" text="Contact" HBox.hgrow="ALWAYS">
-                                 <HBox.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="50.0" />
-                                 </HBox.margin>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <TextField fx:id="txtContact" prefHeight="30.0" prefWidth="330.0" promptText="0777777777" style="-fx-background-radius: 20; -fx-border-color: #14aed5; -fx-border-radius: 20;">
+                        <Label text="Contact">
                            <VBox.margin>
-                              <Insets left="10.0" right="10.0" top="-12.0" />
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="txtContact" style="-fx-background-radius: 20;">
+                           <VBox.margin>
+                              <Insets left="30.0" right="20.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Label text="Password">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="txtPassword" style="-fx-background-radius: 20;">
+                           <VBox.margin>
+                              <Insets left="30.0" right="20.0" />
                            </VBox.margin>
                         </TextField>
                      </children>
@@ -208,19 +206,17 @@
                         <Image url="@../images/Outbound%20Call%20Center%20_%20VoxDesk%20by%20500apps.jpeg" />
                      </image>
                   </ImageView>
-                  <TableView fx:id="tblUser" onMouseClicked="#onClickedTable" prefHeight="437.0" prefWidth="930.0">
-                     <columns>
-                        <TableColumn fx:id="colUserId" prefWidth="75.0" text="userId" />
-                        <TableColumn fx:id="colUserRole" prefWidth="75.0" text="role" />
-                        <TableColumn fx:id="colUserName" prefWidth="75.0" text="name" />
-                        <TableColumn fx:id="colUserContact" prefWidth="75.0" text="contact" />
-                     </columns>
+                  <TableView fx:id="tblUser" prefHeight="422.0" prefWidth="950.0">
+                    <columns>
+                      <TableColumn fx:id="colUserId" prefWidth="107.99997103214264" text="userId" />
+                      <TableColumn fx:id="colUserRole" prefWidth="189.59996795654297" text="role" />
+                        <TableColumn fx:id="colUserName" prefWidth="211.199951171875" text="name" />
+                        <TableColumn fx:id="colUserContact" prefWidth="272.8001403808594" text="Contact" />
+                        <TableColumn fx:id="colUserPassword" prefWidth="146.400146484375" text="password" />
+                    </columns>
                      <VBox.margin>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
                      </VBox.margin>
-                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                     </columnResizePolicy>
                   </TableView>
                </children>
             </VBox>

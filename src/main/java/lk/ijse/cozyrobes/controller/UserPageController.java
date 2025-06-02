@@ -26,6 +26,7 @@ public class UserPageController implements Initializable {
     public TextField txtRole;
     public TextField txtName;
     public TextField txtContact;
+    public TextField txtPassword;
 
     public Button btnDelete;
     public Button btnUpdate;
@@ -40,7 +41,7 @@ private  final UserModel userModel = new UserModel();
     public TableColumn<UserTM , String> colUserRole;
     public TableColumn<UserTM , String> colUserName;
     public TableColumn<UserTM , String> colUserContact;
-
+    public TableColumn<UserTM , String> colUserPassword;
 
 
     @Override
@@ -49,6 +50,7 @@ private  final UserModel userModel = new UserModel();
         colUserRole.setCellValueFactory(new PropertyValueFactory<>("role"));
         colUserName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colUserContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        colUserPassword.setCellValueFactory(new PropertyValueFactory<>("password"));
 
         try {
             loadTableData();
@@ -67,7 +69,8 @@ private  final UserModel userModel = new UserModel();
                               userDto.getUserId(),
                               userDto.getRole(),
                               userDto.getName(),
-                              userDto.getContact()
+                              userDto.getContact(),
+                              userDto.getPassword()
                       )).toList()
       ));
     }
@@ -96,14 +99,16 @@ private  final UserModel userModel = new UserModel();
             String role = txtRole.getText();
             String name = txtName.getText();
             String contact = txtContact.getText();
+            String password = txtPassword.getText();
 
 
-        if (user_id.isEmpty() || role.isEmpty() ||  name.isEmpty() || contact.isEmpty()) {
+        if (user_id.isEmpty() || role.isEmpty() ||  name.isEmpty() || contact.isEmpty() || password.isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Empty fields, please fill all the fields").show();
             return;
         }
 
-        UserDto userDto = new UserDto(user_id , role ,name , contact);
+
+        UserDto userDto = new UserDto(user_id , role ,name , contact,password);
 
         try {
             boolean isSaved = userModel.saveUser(userDto);
@@ -153,8 +158,9 @@ private  final UserModel userModel = new UserModel();
         String role = txtRole.getText();
         String name = txtName.getText();
         String contact = txtContact.getText();
+        String password = txtPassword.getText();
 
-        if (user_id.isEmpty() ||role.isEmpty() || name.isEmpty() || contact.isEmpty()) {
+        if (user_id.isEmpty() ||role.isEmpty() || name.isEmpty() || contact.isEmpty() || password.isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Empty fields , please fill all the fields").show();
             return;
         }
@@ -162,7 +168,8 @@ private  final UserModel userModel = new UserModel();
                 user_id,
                 role,
                 name,
-                contact
+                contact,
+                password
         );
 
         try {
@@ -230,7 +237,8 @@ private  final UserModel userModel = new UserModel();
                                         userDto.getUserId(),
                                         userDto.getRole(),
                                         userDto.getName(),
-                                        userDto.getContact()
+                                        userDto.getContact(),
+                                        userDto.getPassword()
                                 )).toList()
                 ));
             } catch (Exception e) {
