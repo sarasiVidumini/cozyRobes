@@ -8,17 +8,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class OrderDetailsModel {
+    private final ProductModel productModel = new ProductModel();
     public String getNextOrderDetailId() throws SQLException {
         ResultSet resultSet = CrudUtil.execute("select orderDetail_id from order_details order by orderDetail_id desc limit 1");
         String tableCharacter = "OD";
 
         if (resultSet.next()) {
             String lastId = resultSet.getString(1);
-            String lastIdNumberString = lastId.substring(1);
+            String lastIdNumberString = lastId.substring(tableCharacter.length());
             int lastIdNumber = Integer.parseInt(lastIdNumberString);
             int nextIdNumber = lastIdNumber + 1;
-
-            return String.format(tableCharacter + "OD3%d", nextIdNumber);
+            String nextIdString = String.format(tableCharacter + "%03d", nextIdNumber);
+           return nextIdString;
         }
 
         return tableCharacter + "001";
@@ -54,12 +55,14 @@ public class OrderDetailsModel {
                 orderDetail_id
         );
     }
-    public OrderDetailsDto searchOrderDetails(String orderDetail_id) throws SQLException {
-        ResultSet resultSet = CrudUtil.execute("select * from order_details where orderDetail_id = ?",
-                orderDetail_id);
 
-        if (resultSet.next()) {
-            OrderDetailsDto orderDetailsDto = new OrderDetailsDto(
+    public ArrayList<OrderDetailsDto> searchOrderDetails(String search) throws SQLException {
+        ArrayList<OrderDetailsDto> dtos = new ArrayList<>();
+        String sql = "select * from order_details where orderDetail_id LIKE ? OR order_id LIKE ? OR product_id LIKE ? OR quantity LIKE ? OR price_at_purchase LIKE ? OR update_price LIKE ?";
+        String pattern = "%" + search + "%";
+        ResultSet resultSet = CrudUtil.execute(sql, pattern,pattern,pattern,pattern,pattern,pattern);
+        while (resultSet.next()) {
+            OrderDetailsDto dto = new OrderDetailsDto(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
@@ -67,11 +70,10 @@ public class OrderDetailsModel {
                     resultSet.getDouble(5),
                     resultSet.getDouble(6)
             );
-            return orderDetailsDto;
+            dtos.add(dto);
         }
-        return null;
+        return dtos;
     }
-
 
     public ArrayList<OrderDetailsDto> getAllOrderDetails() throws ClassNotFoundException, SQLException{
         ResultSet rst = CrudUtil.execute("SELECT * FROM order_details");
@@ -90,6 +92,23 @@ public class OrderDetailsModel {
             orderDetailsDtoArrayList.add(orderDetailsDto);
         }
         return orderDetailsDtoArrayList;
+    }
+
+    public boolean saveOrderDetails(ArrayList<OrderDetailsDto> orderDetailsDtoArrayList) throws SQLException {
+        boolean isInserted = false;
+        for (OrderDetailsDto orderDetailsDto : orderDetailsDtoArrayList) {
+            isInserted = saveOrderDetails(orderDetailsDto);
+
+            if (!isInserted) {
+                return false;
+            }
+
+            boolean isProductUpdated = productModel.reduceQty(orderDetailsDto.getQuantity(), orderDetailsDto.getProductId());
+            if (!isProductUpdated) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

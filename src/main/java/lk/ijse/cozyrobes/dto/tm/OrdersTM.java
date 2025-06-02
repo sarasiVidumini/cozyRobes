@@ -8,9 +8,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrdersTM {
-    private String order_id;
-    private String customer_id;
-    private String order_date;
-    private String order_status;
-    private String product_id;
+    private String orderId;
+    private String customerId;
+    private String orderDate;
+    private String status;
+    private String productId;
 }

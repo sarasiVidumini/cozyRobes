@@ -9,10 +9,10 @@ import lombok.*;
 @AllArgsConstructor
 
 public class OrderDto {
-    private String order_id;
-    private String customer_id;
+    private String orderId;
+    private String customerId;
+    private String orderDate;
     private String status;
-    private String date;
-    private String product_id;
+    private String productId;
 
 }

@@ -7,15 +7,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.cozyrobes.dto.OrderDetailsDto;
 import lk.ijse.cozyrobes.dto.tm.OrderDetailsTM;
 import lk.ijse.cozyrobes.model.OrderDetailsModel;
 
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -41,14 +43,46 @@ public class OrderDetailPageController implements Initializable {
     public Button btnUpdate;
     public Button btnSave;
     public Button btnReset;
-    public Button btnBack;
+    public TextField txtSearch;
 
 
-    public void btnGoDashBoardPageOnAction(ActionEvent actionEvent) throws IOException {
-        ancORDetailsPage.getChildren().clear();
-        Parent load = FXMLLoader.load(getClass().getResource("/view/DashBoardPage.fxml"));
-        ancORDetailsPage.getChildren().add(load);
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        colOrderDetailId.setCellValueFactory(new PropertyValueFactory<>("orderDetailId"));
+        colOrderId.setCellValueFactory(new PropertyValueFactory<>("orderId"));
+        colProductId.setCellValueFactory(new PropertyValueFactory<>("productId"));
+        colOrderQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        colPriceAtPurchase.setCellValueFactory(new PropertyValueFactory<>("priceAtPurchase"));
+        colUpdatePrice.setCellValueFactory(new PropertyValueFactory<>("updatePrice"));
+
+        cmbOrderPlatform.setItems(FXCollections.observableArrayList(
+                IntStream.rangeClosed(1, 50)
+                        .mapToObj(i -> String.format("O%03d", i))
+                        .collect(Collectors.toList())
+        ));
+
+        cmbProductPlatform.setItems(FXCollections.observableArrayList("P001" , "P002"));
+
+        try {
+            loadTableData();
+            loadNextId();
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR,"Failed to load data!").show();
+            ;
+        }
     }
+
+    private void loadNextId(){
+        try {
+            String nextId = orderDetailModel.getNextOrderDetailId();
+            lblOrderDetailId.setText(nextId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR,"Failed to load data!").show();
+        }
+    }
+
 
     public void btnDeleteOnAction(ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
@@ -195,7 +229,43 @@ public class OrderDetailPageController implements Initializable {
         }
     }
 
-    public void onClickedTable(javafx.scene.input.MouseEvent mouseEvent) {
+    public void goToDashboard(MouseEvent mouseEvent) throws IOException {
+        ancORDetailsPage.getChildren().clear();
+        Parent load = FXMLLoader.load(getClass().getResource("/view/DashBoardPage.fxml"));
+        ancORDetailsPage.getChildren().add(load);
+    }
+
+    public void search(KeyEvent keyEvent) {
+        String search = txtSearch.getText();
+        if (search.isEmpty()) {
+            try {
+                loadTableData();
+            } catch (Exception e) {
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR,"Failed to search!").show();
+            }
+        }else {
+            try {
+                ArrayList<OrderDetailsDto> orderDetailsList = orderDetailModel.searchOrderDetails(search);
+                tblORDetails.setItems(FXCollections.observableArrayList(
+                        orderDetailsList.stream()
+                                .map(orderDetailsDto -> new OrderDetailsTM(
+                                        orderDetailsDto.getOrderDetailId(),
+                                        orderDetailsDto.getOrderId(),
+                                        orderDetailsDto.getProductId(),
+                                        orderDetailsDto.getQuantity(),
+                                        orderDetailsDto.getPriceAtPurchase(),
+                                        orderDetailsDto.getUpdatePrice()
+                                )).toList()
+                ));
+            } catch (Exception e) {
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR,"Failed to search!").show();
+            }
+        }
+    }
+
+    public void onClickTable(MouseEvent mouseEvent) {
         OrderDetailsTM selectedItem = tblORDetails.getSelectionModel().getSelectedItem();
 
         if (selectedItem != null) {
@@ -211,42 +281,4 @@ public class OrderDetailPageController implements Initializable {
             btnDelete.setDisable(false);
         }
     }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        colOrderDetailId.setCellValueFactory(new PropertyValueFactory<>("orderDetailId"));
-        colOrderId.setCellValueFactory(new PropertyValueFactory<>("orderId"));
-        colProductId.setCellValueFactory(new PropertyValueFactory<>("productId"));
-        colOrderQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        colPriceAtPurchase.setCellValueFactory(new PropertyValueFactory<>("priceAtPurchase"));
-        colUpdatePrice.setCellValueFactory(new PropertyValueFactory<>("updatePrice"));
-
-        cmbOrderPlatform.setItems(FXCollections.observableArrayList(
-                IntStream.rangeClosed(1, 50)
-                        .mapToObj(i -> String.format("O%03d", i))
-                        .collect(Collectors.toList())
-        ));
-
-        cmbProductPlatform.setItems(FXCollections.observableArrayList("P001" , "P002"));
-
-        try {
-            loadTableData();
-            loadNextId();
-        } catch (Exception e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR,"Failed to load data!").show();
-            ;
-        }
-    }
-
-    private void loadNextId(){
-        try {
-            String nextId = orderDetailModel.getNextOrderDetailId();
-            lblOrderDetailId.setText(nextId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR,"Failed to load data!").show();
-        }
-    }
-
 }

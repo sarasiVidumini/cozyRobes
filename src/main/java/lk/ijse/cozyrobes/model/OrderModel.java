@@ -12,68 +12,66 @@ import java.util.ArrayList;
 
 public class OrderModel {
     public String getNextOrderId() throws SQLException {
-        ResultSet resultSet = CrudUtil.execute("select order_id from orders order by order_id limit 1");
-        char tableCharacter = 'O';
-        while (resultSet.next()) {
-            String lastId = resultSet.getString(1);
-            String lastIdNumberString = lastId.substring(1);
-            int lastIdNumber = Integer.parseInt(lastIdNumberString);
-            int nextIdNumber = lastIdNumber + 1;
-            String nextIdString = String.format(tableCharacter + "%03d", nextIdNumber);
-            return nextIdString;
-        }
-
-        return  tableCharacter + "001";
+    ResultSet resultSet = CrudUtil.execute("select order_id from orders order by order_id desc limit 1");
+    char tableCharacter = 'O';
+    if (resultSet.next()) {
+        String lastId = resultSet.getString(1);
+        String lastIdNumberString = lastId.substring(1);
+        int lastIdNumber = Integer.parseInt(lastIdNumberString);
+        int nextIdNumber = lastIdNumber + 1;
+        String nextIdString = String.format(tableCharacter +"%03d", nextIdNumber);
+        return nextIdString;
+    }
+    return tableCharacter + "001";
     }
 
     public boolean saveOrder(OrderDto orderDto) throws SQLException {
         return CrudUtil.execute(
                 "insert into orders (?,?,?,?,?)",
-                orderDto.getOrder_id(),
-                orderDto.getCustomer_id(),
-                orderDto.getDate(),
+                orderDto.getOrderId(),
+                orderDto.getCustomerId(),
+                orderDto.getOrderDate(),
                 orderDto.getStatus(),
-                orderDto.getProduct_id()
+                orderDto.getProductId()
         );
     }
 
-    public String updateOrder(OrderDto orderDto) throws SQLException {
+    public boolean updateOrder(OrderDto orderDto) throws SQLException {
         return CrudUtil.execute(
-                "update orders set customer_id =?, status = ?, date = ?, product_id = ? where order_id = ?",
-                orderDto.getCustomer_id(),
+                "update orders set customer_id =?, order_date = ?, status = ? , product_id = ? where order_id = ?",
+                orderDto.getCustomerId(),
                 orderDto.getStatus(),
-                orderDto.getDate(),
-                orderDto.getProduct_id(),
-                orderDto.getOrder_id()
+                orderDto.getOrderDate(),
+                orderDto.getProductId(),
+                orderDto.getOrderId()
         );
     }
 
-    public String deleteOrder(String order_id) throws SQLException {
+    public boolean deleteOrder(String order_id) throws SQLException {
         return CrudUtil.execute(
                 "delete from orders where order_id ?",
                 order_id
         );
     }
 
-    public OrderDto SearchOrder(String order_id) throws SQLException {
-        ResultSet resultSet = CrudUtil.execute(
-                "select * from orders where order_id = ?",
-                order_id
-        );
+   public ArrayList<OrderDto> searchOrder(String search) throws SQLException {
+        ArrayList<OrderDto> dtos = new ArrayList<>();
+        String sql = "select * from orders where order_id like ? OR customer_id like ? OR  order_date like ? OR status like ? OR product_id like ?";
+        String pattern = "%" + search + "%";
+        ResultSet resultSet = CrudUtil.execute(sql, pattern,pattern,pattern,pattern,pattern);
+        while (resultSet.next()) {
+            OrderDto orderDto = new OrderDto(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4),
+                    resultSet.getString(5)
+            );
+            dtos.add(orderDto);
+        }
+        return dtos;
+   }
 
-              if (resultSet.next()) {
-                  OrderDto orderDto = new OrderDto(
-                          resultSet.getString("order_id"),
-                          resultSet.getString("customer_id"),
-                          resultSet.getString("status"),
-                          resultSet.getString("date"),
-                          resultSet.getString("customer_id")
-                  );
-                  return orderDto;
-              }
-
-              return null;
-    }
     public ArrayList<OrderDto> getAllOrder() throws SQLException {
         ResultSet resultSet = CrudUtil.execute("select * from orders");
         ArrayList<OrderDto> orderDtoArrayList = new ArrayList<>();

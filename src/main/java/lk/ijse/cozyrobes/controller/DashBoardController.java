@@ -22,7 +22,7 @@ public class DashBoardController {
         navigateTo("/view/EmployeePage.fxml");
     }
 
-    public void btnGoOrdersPageOnAction(ActionEvent actionEvent) {
+    public void btnGoOrderPageOnAction(ActionEvent actionEvent) {
         navigateTo("/view/OrderPage.fxml");
     }
 

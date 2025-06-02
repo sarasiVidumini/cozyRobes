@@ -151,7 +151,7 @@
                               <Insets left="100.0" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#btnGoOrdersPageOnAction" styleClass="cur-button" stylesheets="@../styles/buttonStyles.css" text="Orders">
+                        <Button mnemonicParsing="false" onAction="#btnGoOrderPageOnAction" styleClass="cur-button" stylesheets="@../styles/buttonStyles.css" text="Orders">
                            <HBox.margin>
                               <Insets left="180.0" />
                            </HBox.margin>
