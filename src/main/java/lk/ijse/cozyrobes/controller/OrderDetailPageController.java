@@ -281,4 +281,46 @@ public class OrderDetailPageController implements Initializable {
             btnDelete.setDisable(false);
         }
     }
+
+    public void btnPlaceOrderOnAction(ActionEvent actionEvent) {
+        System.out.println("Place order clicked");
+
+        if (tblORDetails.getItems().isEmpty()) {
+            new Alert(Alert.AlertType.WARNING, "There are no order details to place!").show();
+            return;
+        }
+
+            try {
+                System.out.println("Confirmed to place order");
+                // Convert TableView items to a list of DTOs
+                OrderDetailsDto dto = new OrderDetailsDto();
+                for (OrderDetailsTM tm : tblORDetails.getItems()) {
+                    dto = new OrderDetailsDto(
+                            null,
+                            tm.getOrderId(),
+                            tm.getProductId(),
+                            tm.getQuantity(),
+                            tm.getPriceAtPurchase(),
+                            tm.getUpdatePrice()
+                    );
+                }
+
+                // Save order details via model
+                boolean isPlaced = orderDetailModel.addOrderDetails(dto);
+                System.out.println("Order placement returned: " + isPlaced);
+
+                if (isPlaced) {
+                    new Alert(Alert.AlertType.INFORMATION, "Order placed successfully!").show();
+                    resetPage(); // clear all fields and reload table
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "Failed to place order! Please try again.").show();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR, "Error occurred while placing order!").show();
+            }
+    }
+
+
 }

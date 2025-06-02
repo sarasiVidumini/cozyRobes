@@ -105,7 +105,7 @@ public class ProductModel {
     }
 
     public boolean reduceQty(int qty, String product_id) throws SQLException {
-        return CrudUtil.execute("UPDATE Product SET quantity = quantity - ? WHERE product_id = ?", qty, product_id);
+        return CrudUtil.execute("UPDATE product SET quantity = quantity - ? WHERE product_id = ?", qty, product_id);
     }
 
 

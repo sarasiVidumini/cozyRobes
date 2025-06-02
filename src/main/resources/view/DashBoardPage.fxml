@@ -168,7 +168,7 @@
                         <Insets top="20.0" />
                      </VBox.margin>
                      <children>
-                        <Button mnemonicParsing="false" onAction="#btnGoOrderDetailsPageOnAction" styleClass="cur-button" stylesheets="@../styles/buttonStyles.css" text="Order Place Details">
+                        <Button mnemonicParsing="false" onAction="#btnGoOrderDetailsPageOnAction" style="-fx-border-color: #000000;" styleClass="cur-button" stylesheets="@../styles/buttonStyles.css" text="Order Placement">
                            <HBox.margin>
                               <Insets left="350.0" />
                            </HBox.margin>

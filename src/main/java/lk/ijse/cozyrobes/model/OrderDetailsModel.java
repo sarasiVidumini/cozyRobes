@@ -94,21 +94,26 @@ public class OrderDetailsModel {
         return orderDetailsDtoArrayList;
     }
 
-    public boolean saveOrderDetails(ArrayList<OrderDetailsDto> orderDetailsDtoArrayList) throws SQLException {
+    public boolean addOrderDetails(OrderDetailsDto orderDetailsDto) throws SQLException {
         boolean isInserted = false;
-        for (OrderDetailsDto orderDetailsDto : orderDetailsDtoArrayList) {
-            isInserted = saveOrderDetails(orderDetailsDto);
 
+            // Generate a new orderDetail ID for each record
+            String newId = getNextOrderDetailId();
+            orderDetailsDto.setOrderDetailId(newId);
+
+            isInserted = saveOrderDetails(orderDetailsDto);
             if (!isInserted) {
                 return false;
             }
+
+            System.out.println(orderDetailsDto.getQuantity());
 
             boolean isProductUpdated = productModel.reduceQty(orderDetailsDto.getQuantity(), orderDetailsDto.getProductId());
             if (!isProductUpdated) {
                 return false;
             }
-        }
         return true;
     }
+
 
 }

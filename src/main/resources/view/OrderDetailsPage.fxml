@@ -102,7 +102,7 @@
                                 <HBox prefHeight="59.0" prefWidth="350.0" />
                                 <HBox prefHeight="90.0" prefWidth="350.0">
                                     <children>
-                                        <VBox prefHeight="13.0" prefWidth="419.0">
+                                        <VBox prefHeight="209.0" prefWidth="350.0">
                                             <children>
                                                 <Label fx:id="lblOrderId" prefHeight="18.0" prefWidth="61.0" text="Order Id">
                                                     <VBox.margin>
@@ -164,7 +164,7 @@
                                 <HBox prefHeight="54.0" prefWidth="350.0" />
                             </children>
                         </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #e66767; -fx-background-radius: 20; -fx-border-radius: 20;">
+                        <VBox prefHeight="276.0" prefWidth="350.0" style="-fx-background-color: #e66767; -fx-background-radius: 20; -fx-border-radius: 20;">
                             <VBox.margin>
                                 <Insets top="50.0" />
                             </VBox.margin>
@@ -201,6 +201,14 @@
                                         <Insets bottom="10.0" left="25.0" right="10.0" top="10.0" />
                                     </VBox.margin>
                                 </Button>
+                        <Button fx:id="btnPlaceOrder" mnemonicParsing="false" onAction="#btnPlaceOrderOnAction" prefHeight="28.0" prefWidth="347.0" style="-fx-background-color: #1B1464; -fx-border-color: #000000;" text="Place Orders" textFill="#fff7f7">
+                           <font>
+                              <Font name="Candara Light" size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </Button>
                             </children>
                         </VBox>
                     </children>
