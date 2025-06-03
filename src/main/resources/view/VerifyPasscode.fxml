@@ -107,7 +107,7 @@
                                         <Insets top="30.0" />
                                     </VBox.margin>
                                     <children>
-                                        <Button mnemonicParsing="false" onAction="#btnGoCreatePasswordPageOnAction" prefHeight="26.0" prefWidth="423.0" style="-fx-background-color: linear-gradient(to right, #FFA500, #FF0000);; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #000000;" text="Confirm">
+                                        <Button mnemonicParsing="false" onAction="#btnGoChangePasswordOnAction" prefHeight="26.0" prefWidth="423.0" style="-fx-background-color: linear-gradient(to right, #FFA500, #FF0000);; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #000000;" text="Confirm">
                                             <HBox.margin>
                                                 <Insets left="230.0" top="5.0" />
                                             </HBox.margin>
