@@ -32,18 +32,19 @@ public class OrderDetailPageController implements Initializable {
     public TableColumn<OrderDetailsTM , String> colProductId;
     public TableColumn<OrderDetailsTM , Integer>colOrderQuantity;
     public TableColumn<OrderDetailsTM , Double>colPriceAtPurchase;
-    public TableColumn<OrderDetailsTM , Double> colUpdatePrice;
+    public TableColumn<OrderDetailsTM , Double> colUpdatePrice; // This column is not used in the provided code
     public Label lblOrderDetailId;
-    public ComboBox<String> cmbOrderPlatform;
+
+    public TextField txtOrderId;
     public ComboBox<String> cmbProductPlatform;
     public TextField txtOrderQuantity;
-    public TextField txtPricePurchase;
-    public TextField txtUpdatePrice;
+    public ComboBox<Double> cmbPriceAtPurchasePlatform; // Changed to ComboBox<Double>
     public Button btnDelete;
     public Button btnUpdate;
     public Button btnSave;
     public Button btnReset;
     public TextField txtSearch;
+
 
 
     @Override
@@ -53,15 +54,11 @@ public class OrderDetailPageController implements Initializable {
         colProductId.setCellValueFactory(new PropertyValueFactory<>("productId"));
         colOrderQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         colPriceAtPurchase.setCellValueFactory(new PropertyValueFactory<>("priceAtPurchase"));
-        colUpdatePrice.setCellValueFactory(new PropertyValueFactory<>("updatePrice"));
-
-        cmbOrderPlatform.setItems(FXCollections.observableArrayList(
-                IntStream.rangeClosed(1, 50)
-                        .mapToObj(i -> String.format("O%03d", i))
-                        .collect(Collectors.toList())
-        ));
 
         cmbProductPlatform.setItems(FXCollections.observableArrayList("P001" , "P002"));
+        // Populate cmbPriceAtPurchasePlatform with actual Double values
+        cmbPriceAtPurchasePlatform.setItems(FXCollections.observableArrayList(2100.00 , 8500.00));
+
 
         try {
             loadTableData();
@@ -75,15 +72,15 @@ public class OrderDetailPageController implements Initializable {
 
     private void loadNextId() throws SQLException {
 
-            String nextId = orderDetailModel.getNextOrderDetailId();
-            lblOrderDetailId.setText(nextId);
+        String nextId = orderDetailModel.getNextOrderDetailId();
+        lblOrderDetailId.setText(nextId);
 
     }
 
 
     public void btnDeleteOnAction(ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-        "Are you sure you want to delete this orderDetail ?",
+                "Are you sure you want to delete this orderDetail ?",
                 ButtonType.YES, ButtonType.NO
         );
         alert.setTitle("Confirm Delete");
@@ -98,7 +95,7 @@ public class OrderDetailPageController implements Initializable {
                 if (isDeleted) {
                     new Alert(Alert.AlertType.INFORMATION, "OrderDetails deleted successfully!").show();
                     loadTableData();
-                    resetPage();
+
                 }else {
                     new Alert(Alert.AlertType.ERROR, "Error deleting order details!").show();
                 }
@@ -111,13 +108,19 @@ public class OrderDetailPageController implements Initializable {
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
         String orderDetailId = lblOrderDetailId.getText();
-        String orderId = (String) cmbOrderPlatform.getValue();
-        String productId = (String) cmbProductPlatform.getValue();
-        int quantity = Integer.parseInt(txtOrderQuantity.getText());
-        double priceAtPurchase = Double.parseDouble(txtPricePurchase.getText());
-        double updatePrice = Double.parseDouble(txtUpdatePrice.getText());
+        String orderId = txtOrderId.getText();
+        String productId = cmbProductPlatform.getValue(); // No cast needed if cmbProductPlatform is ComboBox<String>
+        int quantity = 0;
+        try {
+            quantity = Integer.parseInt(txtOrderQuantity.getText());
+        } catch (NumberFormatException e) {
+            new Alert(Alert.AlertType.ERROR, "Invalid quantity! Please enter a number.").show();
+            return;
+        }
 
-        if (orderDetailId.isEmpty() ||  quantity <= 0) {
+        Double priceAtPurchase = cmbPriceAtPurchasePlatform.getValue(); // Directly get Double
+
+        if (orderDetailId.isEmpty() || quantity <= 0 || priceAtPurchase == null) { // Check for null priceAtPurchase
             new Alert(Alert.AlertType.ERROR, "Please fill out all fields!").show();
             return;
 
@@ -128,8 +131,7 @@ public class OrderDetailPageController implements Initializable {
                 orderId,
                 productId,
                 quantity,
-                priceAtPurchase,
-                updatePrice
+                priceAtPurchase
         );
 
         try {
@@ -148,40 +150,47 @@ public class OrderDetailPageController implements Initializable {
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
-            String orderDetailId = lblOrderDetailId.getText();
-            String orderId = (String) cmbOrderPlatform.getValue();
-            String productId = (String) cmbProductPlatform.getValue();
-            int quantity = Integer.parseInt(txtOrderQuantity.getText());
-            double priceAtPurchase = Double.parseDouble(txtPricePurchase.getText());
-            double updatePrice = Double.parseDouble(txtUpdatePrice.getText());
+        String orderDetailId = lblOrderDetailId.getText();
+        String orderId = txtOrderId.getText();
+        String productId = cmbProductPlatform.getValue(); // No cast needed
+        int quantity = 0;
+        try {
+            quantity = Integer.parseInt(txtOrderQuantity.getText());
+        } catch (NumberFormatException e) {
+            new Alert(Alert.AlertType.ERROR, "Invalid quantity! Please enter a number.").show();
+            return;
+        }
 
-            if (orderDetailId.isEmpty() ||  quantity <= 0) {
-                new Alert(Alert.AlertType.ERROR, "Please fill out all fields!").show();
-                return;
+        Double priceAtPurchase = cmbPriceAtPurchasePlatform.getValue(); // Directly get Double
+
+
+        if (orderDetailId.isEmpty() || quantity <= 0 || priceAtPurchase == null) { // Check for null priceAtPurchase
+            new Alert(Alert.AlertType.ERROR, "Please fill out all fields!").show();
+            return;
+        }
+
+        OrderDetailsDto orderDetailsDto = new OrderDetailsDto(
+                orderDetailId,
+                orderId,
+                productId,
+                quantity,
+                priceAtPurchase
+        );
+
+        try {
+            boolean isSaved = orderDetailModel.saveOrderDetails(orderDetailsDto);
+            if (isSaved) {
+                new Alert(Alert.AlertType.INFORMATION, "OrderDetails saved successfully!").show();
+                loadTableData();
+                loadNextId();
+                resetPage(); // Added resetPage after save
+            }else {
+                new Alert(Alert.AlertType.ERROR, "Error adding order details!").show();
             }
-
-            OrderDetailsDto orderDetailsDto = new OrderDetailsDto(
-                    orderDetailId,
-                    orderId,
-                    productId,
-                    quantity,
-                    priceAtPurchase,
-                    updatePrice
-            );
-
-            try {
-                boolean isSaved = orderDetailModel.saveOrderDetails(orderDetailsDto);
-                if (isSaved) {
-                    new Alert(Alert.AlertType.INFORMATION, "OrderDetails saved successfully!").show();
-                    loadTableData();
-                    loadNextId();
-                }else {
-                    new Alert(Alert.AlertType.ERROR, "Error adding order details!").show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                new Alert(Alert.AlertType.ERROR,"Failed to update order details!").show();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR,"Failed to save order details!").show(); // Changed message to save
+        }
     }
 
     public void btnResetOnAction(ActionEvent actionEvent) {
@@ -191,15 +200,14 @@ public class OrderDetailPageController implements Initializable {
     public void loadTableData() throws SQLException, ClassNotFoundException {
         tblORDetails.setItems(FXCollections.observableArrayList(
                 orderDetailModel.getAllOrderDetails()
-                .stream()
-                .map(orderDetailsDto -> new OrderDetailsTM(
-                        orderDetailsDto.getOrderDetailId(),
-                        orderDetailsDto.getOrderId(),
-                        orderDetailsDto.getProductId(),
-                        orderDetailsDto.getQuantity(),
-                        orderDetailsDto.getPriceAtPurchase(),
-                        orderDetailsDto.getUpdatePrice()
-                )).toList()
+                        .stream()
+                        .map(orderDetailsDto -> new OrderDetailsTM(
+                                orderDetailsDto.getOrderDetailId(),
+                                orderDetailsDto.getOrderId(),
+                                orderDetailsDto.getProductId(),
+                                orderDetailsDto.getQuantity(),
+                                orderDetailsDto.getPriceAtPurchase()
+                        )).toList()
         ));
     }
 
@@ -212,11 +220,12 @@ public class OrderDetailPageController implements Initializable {
             btnUpdate.setDisable(true);
             btnDelete.setDisable(true);
 
-           cmbOrderPlatform.getSelectionModel().clearSelection();
-           cmbProductPlatform.getSelectionModel().clearSelection();
-           txtOrderQuantity.setText("");
-           txtPricePurchase.setText("");
-           txtUpdatePrice.setText("");
+            txtOrderId.setText("");
+            cmbProductPlatform.getSelectionModel().clearSelection();
+            txtOrderQuantity.setText("");
+            cmbPriceAtPurchasePlatform.getSelectionModel().clearSelection();
+            txtSearch.setText(""); // Clear search field on reset
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -250,8 +259,7 @@ public class OrderDetailPageController implements Initializable {
                                         orderDetailsDto.getOrderId(),
                                         orderDetailsDto.getProductId(),
                                         orderDetailsDto.getQuantity(),
-                                        orderDetailsDto.getPriceAtPurchase(),
-                                        orderDetailsDto.getUpdatePrice()
+                                        orderDetailsDto.getPriceAtPurchase()
                                 )).toList()
                 ));
             } catch (Exception e) {
@@ -266,57 +274,15 @@ public class OrderDetailPageController implements Initializable {
 
         if (selectedItem != null) {
             lblOrderDetailId.setText(selectedItem.getOrderDetailId());
-            cmbOrderPlatform.setValue(selectedItem.getOrderId());
+            txtOrderId.setText(selectedItem.getOrderId());
             cmbProductPlatform.setValue(selectedItem.getProductId());
             txtOrderQuantity.setText(String.valueOf(selectedItem.getQuantity()));
-            txtPricePurchase.setText(String.valueOf(selectedItem.getPriceAtPurchase()));
-            txtUpdatePrice.setText(String.valueOf(selectedItem.getUpdatePrice()));
+            cmbPriceAtPurchasePlatform.setValue(selectedItem.getPriceAtPurchase()); // Set the Double value directly
+
 
             btnSave.setDisable(true);
             btnUpdate.setDisable(false);
             btnDelete.setDisable(false);
         }
     }
-
-    public void btnPlaceOrderOnAction(ActionEvent actionEvent) {
-        System.out.println("Place order clicked");
-
-        if (tblORDetails.getItems().isEmpty()) {
-            new Alert(Alert.AlertType.WARNING, "There are no order details to place!").show();
-            return;
-        }
-
-            try {
-                System.out.println("Confirmed to place order");
-                // Convert TableView items to a list of DTOs
-                OrderDetailsDto dto = new OrderDetailsDto();
-                for (OrderDetailsTM tm : tblORDetails.getItems()) {
-                    dto = new OrderDetailsDto(
-                            null,
-                            tm.getOrderId(),
-                            tm.getProductId(),
-                            tm.getQuantity(),
-                            tm.getPriceAtPurchase(),
-                            tm.getUpdatePrice()
-                    );
-                }
-
-                // Save order details via model
-                boolean isPlaced = orderDetailModel.addOrderDetails(dto);
-                System.out.println("Order placement returned: " + isPlaced);
-
-                if (isPlaced) {
-                    new Alert(Alert.AlertType.INFORMATION, "Order placed successfully!").show();
-                    resetPage(); // clear all fields and reload table
-                } else {
-                    new Alert(Alert.AlertType.ERROR, "Failed to place order! Please try again.").show();
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                new Alert(Alert.AlertType.ERROR, "Error occurred while placing order!").show();
-            }
-    }
-
-
 }

@@ -1,5 +1,6 @@
 package lk.ijse.cozyrobes.model;
 
+import javafx.scene.control.Alert;
 import lk.ijse.cozyrobes.dto.CustomerDto;
 import lk.ijse.cozyrobes.util.CrudUtil;
 
@@ -93,5 +94,17 @@ public ArrayList<CustomerDto> getAllCustomer() throws SQLException {
         return list;
     }
 
-
+/*    public ArrayList<CustomerDto> searchCustomerByPhoneNumber(String searchText) throws SQLException {
+        ArrayList<CustomerDto> customerDtoArrayList = new ArrayList<>();
+        try {
+            ResultSet resultSet = CrudUtil.execute("select * from customer where phone LIKE ?" , "%" + searchText + "%");
+            while (resultSet.next()) {
+                CustomerDto customerDto = new CustomerDto(
+                        resultSet.getString()
+                )
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
 }

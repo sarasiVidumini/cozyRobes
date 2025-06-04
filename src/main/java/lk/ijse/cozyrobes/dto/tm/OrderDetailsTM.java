@@ -13,5 +13,4 @@ public class OrderDetailsTM {
     private String productId;
     private int quantity;
     private double priceAtPurchase;
-    private double updatePrice;
 }

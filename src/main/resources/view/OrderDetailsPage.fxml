@@ -109,11 +109,11 @@
                                                         <Insets left="5.0" top="5.0" />
                                                     </VBox.margin>
                                                 </Label>
-                                                <ComboBox fx:id="cmbOrderPlatform" prefHeight="26.0" prefWidth="280.0" promptText="Select Here" style="-fx-border-color: #66ff00; -fx-border-radius: 20; -fx-background-radius: 20;">
-                                                    <VBox.margin>
-                                                        <Insets left="50.0" />
-                                                    </VBox.margin>
-                                                </ComboBox>
+                                    <TextField fx:id="txtOrderId" layoutX="60.0" layoutY="116.0" prefHeight="26.0" prefWidth="283.0" style="-fx-border-color: #6495ed; -fx-background-radius: 20; -fx-border-radius: 20;">
+                                       <VBox.margin>
+                                          <Insets left="50.0" right="20.0" />
+                                       </VBox.margin>
+                                    </TextField>
                                                 <Label fx:id="lblProductId" text="Product Id">
                                                     <VBox.margin>
                                                         <Insets left="5.0" top="10.0" />
@@ -139,21 +139,11 @@
                                                         <Insets left="5.0" top="10.0" />
                                                     </VBox.margin>
                                                 </Label>
-                                                <TextField fx:id="txtPricePurchase" promptText="2100.00" style="-fx-border-color: #7f1734; -fx-background-radius: 20; -fx-border-radius: 20;">
-                                                    <VBox.margin>
-                                                        <Insets left="50.0" right="20.0" />
-                                                    </VBox.margin>
-                                                </TextField>
-                                                <Label fx:id="lblUpdatePrice" text="Update Price">
-                                                    <VBox.margin>
-                                                        <Insets left="5.0" top="10.0" />
-                                                    </VBox.margin>
-                                                </Label>
-                                                <TextField fx:id="txtUpdatePrice" promptText="4200.00" style="-fx-border-color: #004b49; -fx-background-radius: 20; -fx-border-radius: 20;">
-                                                    <VBox.margin>
-                                                        <Insets left="50.0" right="20.0" top="-5.0" />
-                                                    </VBox.margin>
-                                                </TextField>
+                                    <ComboBox fx:id="cmbPriceAtPurchasePlatform" layoutX="60.0" layoutY="88.0" prefHeight="26.0" prefWidth="279.0" promptText="Select Here" style="-fx-border-color: #bd33a4; -fx-background-radius: 20; -fx-border-radius: 20;">
+                                       <VBox.margin>
+                                          <Insets left="50.0" />
+                                       </VBox.margin>
+                                    </ComboBox>
                                             </children>
                                             <HBox.margin>
                                                 <Insets />
@@ -234,23 +224,14 @@
                             <columns>
                                 <TableColumn fx:id="colOrderDetailId" prefWidth="137.5999412536621" text="orderDetailId" />
                                 <TableColumn fx:id="colOrderId" prefWidth="155.2000274658203" text="orderId" />
-                                <TableColumn fx:id="colProductId" prefWidth="144.0" text="productId" />
-                                <TableColumn fx:id="colOrderQuantity" prefWidth="174.39996337890625" text="quantity" />
-                                <TableColumn fx:id="colPriceAtPurchase" prefWidth="164.800048828125" text="priceAtPurchase" />
-                                <TableColumn fx:id="colUpdatePrice" prefWidth="160.800048828125" text="updatePrice" />
+                                <TableColumn fx:id="colProductId" prefWidth="180.0" text="productId" />
+                                <TableColumn fx:id="colOrderQuantity" prefWidth="227.19989013671875" text="quantity" />
+                                <TableColumn fx:id="colPriceAtPurchase" prefWidth="230.4000244140625" text="priceAtPurchase" />
                             </columns>
                             <VBox.margin>
                                 <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
                             </VBox.margin>
                         </TableView>
-                  <Button fx:id="btnPlaceOrder" mnemonicParsing="false" onAction="#btnPlaceOrderOnAction" prefHeight="28.0" prefWidth="347.0" style="-fx-background-color: #1B1464; -fx-border-color: #000000;" text="Place Orders" textFill="#fff7f7">
-                     <font>
-                        <Font name="Candara Light" size="15.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets left="700.0" top="20.0" />
-                     </VBox.margin>
-                  </Button>
                     </children>
                 </VBox>
             </children>

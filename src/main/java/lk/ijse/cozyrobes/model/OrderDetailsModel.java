@@ -27,24 +27,22 @@ public class OrderDetailsModel {
 
     public boolean saveOrderDetails(OrderDetailsDto orderDetailsDto) throws SQLException {
         return CrudUtil.execute(
-                "insert into order_details values(?,?,?,?,?,?)",
+                "insert into order_details values(?,?,?,?,?)",
                 orderDetailsDto.getOrderDetailId(),
                 orderDetailsDto.getOrderId(),
                 orderDetailsDto.getProductId(),
                 orderDetailsDto.getQuantity(),
-                orderDetailsDto.getPriceAtPurchase(),
-                orderDetailsDto.getUpdatePrice()
+                orderDetailsDto.getPriceAtPurchase()
         );
     }
 
     public boolean updateOrderDetails(OrderDetailsDto orderDetailsDto) throws SQLException {
         return CrudUtil.execute(
-                "update order_details SET order_id = ? , product_id =? , quantity = ? , price_at_purchase = ? , update_price = ? where orderDetail_id = ?",
+                "update order_details SET order_id = ? , product_id =? , quantity = ? , price_at_purchase = ?  where orderDetail_id = ?",
                 orderDetailsDto.getOrderId(),
                 orderDetailsDto.getProductId(),
                 orderDetailsDto.getQuantity(),
                 orderDetailsDto.getPriceAtPurchase(),
-                orderDetailsDto.getUpdatePrice(),
                 orderDetailsDto.getOrderDetailId()
         );
     }
@@ -67,8 +65,8 @@ public class OrderDetailsModel {
                     resultSet.getString(2),
                     resultSet.getString(3),
                     resultSet.getInt(4),
-                    resultSet.getDouble(5),
-                    resultSet.getDouble(6)
+                    resultSet.getDouble(5)
+
             );
             dtos.add(dto);
         }
@@ -85,8 +83,7 @@ public class OrderDetailsModel {
                     rst.getString(2),
                     rst.getString(3),
                     rst.getInt(4),
-                    rst.getInt(5),
-                    rst.getDouble(6)
+                    rst.getDouble(5)
             );
 
             orderDetailsDtoArrayList.add(orderDetailsDto);

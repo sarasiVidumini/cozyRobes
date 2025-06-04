@@ -155,14 +155,6 @@
                         </TextField>
                      </children>
                   </VBox>
-                  <Button fx:id="btnFixMaterial" onAction="#btnFixMaterialOnAction" prefHeight="27.0" prefWidth="351.0" style="-fx-background-color: #1B1464; -fx-border-color: #000000;" text="Fix Material" textFill="#faefef">
-                     <font>
-                        <Font name="Candara Light" size="15.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets top="40.0" />
-                     </VBox.margin>
-                  </Button>
 
                   <!-- Buttons -->
                   <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #e66767; -fx-background-radius: 20; -fx-border-radius: 20;">

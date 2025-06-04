@@ -14,8 +14,6 @@ public class OrderDetailsDto {
     private String productId;
     private int quantity;
     private double priceAtPurchase;
-    private double updatePrice;
-
 
 }
 

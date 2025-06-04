@@ -1,11 +1,8 @@
 package lk.ijse.cozyrobes.model;
 
-import lk.ijse.cozyrobes.db.DBConnection;
 import lk.ijse.cozyrobes.dto.ProductDto;
 import lk.ijse.cozyrobes.util.CrudUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -92,6 +89,15 @@ public class ProductModel {
         return dtos;
     }
 
+    public ArrayList<String> getAllProductIds(String productId) throws SQLException {
+        ResultSet resultSet = CrudUtil.execute("select product_id from product");
+        ArrayList<String> list = new ArrayList<>();
+        while (resultSet.next()) {
+            String id = resultSet.getString(1);
+            list.add(id);
+        }
+        return list;
+    }
     public boolean reduceQty(int qty, String product_id) throws SQLException {
         return CrudUtil.execute("UPDATE product SET quantity = quantity - ? WHERE product_id = ?", qty, product_id);
     }
