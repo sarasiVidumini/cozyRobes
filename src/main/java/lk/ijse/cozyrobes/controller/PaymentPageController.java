@@ -33,7 +33,7 @@ public class PaymentPageController implements Initializable {
     public TableColumn<PaymentTM , Double> colTotalAmount;
     public Label lblPaymentId;
     public ComboBox<String> cmbOrderPlatform;
-    public TextField txtPaymentMethod;
+    public ComboBox<String> cmbPaymentMethod;
     public TextField txtTotalAmount;
 
     public Button btnDelete;
@@ -56,11 +56,26 @@ public class PaymentPageController implements Initializable {
         ));
 
         try{
-            loadTableData();
-            loadNextId();
+            cmbOrderPlatform.setItems(FXCollections.observableArrayList(paymentModel.getAllOrderIds()));
         } catch (Exception e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Failed to load table!").show();
+        }
+
+        try {
+            cmbPaymentMethod.setItems(FXCollections.observableArrayList("Cash" , "Card Payment"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to load payment Methods!").show();
+        }
+
+        try {
+            loadTableData();
+            loadNextId();
+            loadOrderIds();
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to load payment data!").show();
         }
     }
 
@@ -109,7 +124,7 @@ public class PaymentPageController implements Initializable {
     public void btnUpdateOnAction(ActionEvent actionEvent) {
         String paymentId = lblPaymentId.getText();
         String orderId = cmbOrderPlatform.getValue();
-        String paymentMethod = txtPaymentMethod.getText();
+        String paymentMethod =cmbPaymentMethod.getValue();
         double totalAmount = Double.parseDouble(txtTotalAmount.getText());
 
         if (paymentId.isEmpty() || paymentMethod.isEmpty() || totalAmount==0.0) {
@@ -141,7 +156,7 @@ public class PaymentPageController implements Initializable {
     public void btnSaveOnAction(ActionEvent actionEvent) {
         String paymentId = lblPaymentId.getText();
         String orderId = cmbOrderPlatform.getValue();
-        String paymentMethod = txtPaymentMethod.getText();
+        String paymentMethod = cmbPaymentMethod.getValue();
         double totalAmount = Double.parseDouble(txtTotalAmount.getText());
 
         if (paymentId.isEmpty() || paymentMethod.isEmpty() || totalAmount==0.0) {
@@ -180,7 +195,7 @@ public class PaymentPageController implements Initializable {
         if (selectedItem != null) {
             lblPaymentId.setText(selectedItem.getPaymentId());
             cmbOrderPlatform.setValue(selectedItem.getOrderId());
-            txtPaymentMethod.setText(selectedItem.getPaymentMethod());
+            cmbPaymentMethod.setValue(selectedItem.getPaymentMethod());
             txtTotalAmount.setText(String.valueOf(selectedItem.getTotalAmount()));
 
             btnSave.setDisable(true);
@@ -199,7 +214,7 @@ public class PaymentPageController implements Initializable {
             btnUpdate.setDisable(true);
 
             cmbOrderPlatform.getSelectionModel().clearSelection();
-            txtPaymentMethod.clear();
+            cmbPaymentMethod.getSelectionModel().clearSelection();
             txtTotalAmount.clear();
         } catch (Exception e) {
             e.printStackTrace();
@@ -211,6 +226,15 @@ public class PaymentPageController implements Initializable {
         ancPaymentPage.getChildren().clear();
         Parent load = FXMLLoader.load(getClass().getResource("/view/DashBoardPage.fxml"));
         ancPaymentPage.getChildren().add(load);
+    }
+
+    private void loadOrderIds(){
+        try {
+            cmbOrderPlatform.setItems(FXCollections.observableArrayList(paymentModel.getAllOrderIds()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to load  next payment id!").show();
+        }
     }
 
     public void search(KeyEvent keyEvent) {

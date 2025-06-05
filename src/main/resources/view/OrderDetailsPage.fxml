@@ -109,11 +109,11 @@
                                                         <Insets left="5.0" top="5.0" />
                                                     </VBox.margin>
                                                 </Label>
-                                    <TextField fx:id="txtOrderId" layoutX="60.0" layoutY="116.0" prefHeight="26.0" prefWidth="283.0" style="-fx-border-color: #6495ed; -fx-background-radius: 20; -fx-border-radius: 20;">
+                                    <ComboBox fx:id="cmbOrderId" layoutX="60.0" layoutY="88.0" prefHeight="26.0" prefWidth="279.0" promptText="Select Here" style="-fx-border-color: #bd33a4; -fx-background-radius: 20; -fx-border-radius: 20;">
                                        <VBox.margin>
-                                          <Insets left="50.0" right="20.0" />
+                                          <Insets left="50.0" />
                                        </VBox.margin>
-                                    </TextField>
+                                    </ComboBox>
                                                 <Label fx:id="lblProductId" text="Product Id">
                                                     <VBox.margin>
                                                         <Insets left="5.0" top="10.0" />

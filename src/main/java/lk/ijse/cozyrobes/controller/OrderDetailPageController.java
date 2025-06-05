@@ -25,7 +25,9 @@ import java.util.stream.IntStream;
 
 public class OrderDetailPageController implements Initializable {
     public AnchorPane ancORDetailsPage;
+
     private final static OrderDetailsModel orderDetailModel = new OrderDetailsModel();
+
     public TableView<OrderDetailsTM> tblORDetails;
     public TableColumn<OrderDetailsTM , String> colOrderDetailId;
     public TableColumn<OrderDetailsTM , String> colOrderId;
@@ -35,7 +37,7 @@ public class OrderDetailPageController implements Initializable {
     public TableColumn<OrderDetailsTM , Double> colUpdatePrice; // This column is not used in the provided code
     public Label lblOrderDetailId;
 
-    public TextField txtOrderId;
+    public ComboBox<String> cmbOrderId;
     public ComboBox<String> cmbProductPlatform;
     public TextField txtOrderQuantity;
     public ComboBox<Double> cmbPriceAtPurchasePlatform; // Changed to ComboBox<Double>
@@ -56,9 +58,28 @@ public class OrderDetailPageController implements Initializable {
         colPriceAtPurchase.setCellValueFactory(new PropertyValueFactory<>("priceAtPurchase"));
 
         cmbProductPlatform.setItems(FXCollections.observableArrayList("P001" , "P002"));
+        try {
+            cmbProductPlatform.setItems(FXCollections.observableArrayList(orderDetailModel.getAllOrderIds()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR,"Failed to load product Ids").show();
+
+        }
         // Populate cmbPriceAtPurchasePlatform with actual Double values
         cmbPriceAtPurchasePlatform.setItems(FXCollections.observableArrayList(2100.00 , 8500.00));
 
+        cmbOrderId.setItems(FXCollections.observableArrayList(
+                IntStream.rangeClosed(1, 50)
+                        .mapToObj(i -> String.format("O%03d", i))
+                        .collect(Collectors.toList())
+        ));
+
+        try{
+            cmbOrderId.setItems(FXCollections.observableArrayList(orderDetailModel.getAllOrderIds()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to load table!").show();
+        }
 
         try {
             loadTableData();
@@ -108,7 +129,7 @@ public class OrderDetailPageController implements Initializable {
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
         String orderDetailId = lblOrderDetailId.getText();
-        String orderId = txtOrderId.getText();
+        String orderId = cmbOrderId.getValue();
         String productId = cmbProductPlatform.getValue(); // No cast needed if cmbProductPlatform is ComboBox<String>
         int quantity = 0;
         try {
@@ -151,7 +172,7 @@ public class OrderDetailPageController implements Initializable {
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
         String orderDetailId = lblOrderDetailId.getText();
-        String orderId = txtOrderId.getText();
+        String orderId = cmbOrderId.getValue();
         String productId = cmbProductPlatform.getValue(); // No cast needed
         int quantity = 0;
         try {
@@ -220,7 +241,7 @@ public class OrderDetailPageController implements Initializable {
             btnUpdate.setDisable(true);
             btnDelete.setDisable(true);
 
-            txtOrderId.setText("");
+            cmbOrderId.getSelectionModel().clearSelection();
             cmbProductPlatform.getSelectionModel().clearSelection();
             txtOrderQuantity.setText("");
             cmbPriceAtPurchasePlatform.getSelectionModel().clearSelection();
@@ -274,7 +295,7 @@ public class OrderDetailPageController implements Initializable {
 
         if (selectedItem != null) {
             lblOrderDetailId.setText(selectedItem.getOrderDetailId());
-            txtOrderId.setText(selectedItem.getOrderId());
+            cmbOrderId.setValue(selectedItem.getOrderId());
             cmbProductPlatform.setValue(selectedItem.getProductId());
             txtOrderQuantity.setText(String.valueOf(selectedItem.getQuantity()));
             cmbPriceAtPurchasePlatform.setValue(selectedItem.getPriceAtPurchase()); // Set the Double value directly
@@ -284,5 +305,14 @@ public class OrderDetailPageController implements Initializable {
             btnUpdate.setDisable(false);
             btnDelete.setDisable(false);
         }
+    }
+
+    private void loadOrderIds() throws SQLException, ClassNotFoundException {
+        cmbOrderId.setItems(FXCollections.observableArrayList(orderDetailModel.getAllOrderIds()));
+    }
+
+    private void loadProductIds() throws SQLException, ClassNotFoundException {
+        cmbProductPlatform.setItems(FXCollections.observableArrayList(orderDetailModel.getAllOrderIds()));
+
     }
 }

@@ -3,8 +3,8 @@ module lk.ijse.cozyrobes {
     requires javafx.fxml;
     requires java.sql;
     requires jdk.jdi;
-    requires java.desktop;
     requires lombok;
+    requires jdk.unsupported.desktop;
 
 
     opens lk.ijse.cozyrobes.controller to javafx.fxml;

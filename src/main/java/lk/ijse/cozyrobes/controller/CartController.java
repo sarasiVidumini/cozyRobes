@@ -90,7 +90,7 @@ public class CartController implements Initializable {
         qtyPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
         colPaymentMethod.setCellValueFactory(new PropertyValueFactory<>("paymentMethod"));
-        colAction.setCellValueFactory(new PropertyValueFactory<>("action"));
+        colAction.setCellValueFactory(new PropertyValueFactory<>("btnRemove"));
 
         tblOrderPlacement.setItems(cartData);
     }
@@ -215,7 +215,10 @@ public class CartController implements Initializable {
             connection = DBConnection.getInstance().getConnection();
             connection.setAutoCommit(false);
 
+            String productId = cmbProductId.getValue();
+
             String orderId = lblOrderId.getText();
+            String orderDate = orderPlacementDate.getText();
             String customerContact= txtCustomerContact.getText();
             String customerId = customerModel.getCustomerIdByContact(customerContact);
             String status = "Shipped";
@@ -224,19 +227,19 @@ public class CartController implements Initializable {
             String paymentMethod = (String) cmbPaymentMethod.getSelectionModel().getSelectedItem();
             double totalAmount = cartData.stream().mapToDouble(CartTM::getTotal).sum();
 
-//            boolean orderSaved = orderModel.saveNewOrder(
-//                    orderId,
-//                    customerId,
-//                    orderDate,
-//                    status,
-//                    productId
-//            );
+            boolean orderSaved = orderModel.saveNewOrder(
+                    orderId,
+                    customerId,
+                    orderDate,
+                    status,
+                    productId
+            );
 
-//            if (!orderSaved) {
-//                connection.rollback();
-//                new Alert(Alert.AlertType.ERROR, "error , Fail to save order data..!", ButtonType.OK).show();
-//                return;
-//            }
+            if (!orderSaved) {
+                connection.rollback();
+                new Alert(Alert.AlertType.ERROR, "error , Fail to save order data..!", ButtonType.OK).show();
+                return;
+            }
 
             boolean allProductSaved = true;
             for (CartTM cartTM : cartData) {

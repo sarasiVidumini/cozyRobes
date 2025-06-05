@@ -2,6 +2,7 @@ package lk.ijse.cozyrobes.controller;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -10,12 +11,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import jdk.swing.interop.DropTargetContextWrapper;
 import lk.ijse.cozyrobes.dto.OrderDto;
 import lk.ijse.cozyrobes.dto.tm.OrdersTM;
 import lk.ijse.cozyrobes.model.OrderModel;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -32,8 +37,10 @@ public class OrderPageController implements Initializable {
     public TableColumn<OrdersTM , String> colOrderStatus;
     public TableColumn<OrdersTM , String> colProductId;
     public Label lblOrderId;
+    @FXML
     public TextField txtOrderDate;
-    public TextField txtOrderStatus;
+
+    public ComboBox<String> cmbOrderStatus;
     public Button btnDelete;
     public Button btnUpdate;
     public Button btnSave;
@@ -41,6 +48,8 @@ public class OrderPageController implements Initializable {
     public TextField txtSearch;
     public ComboBox<String> cmbCustomerPlatform;
     public ComboBox<String> cmbProductPlatform;
+    @FXML
+    private DatePicker ordersDatePicker;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -50,13 +59,20 @@ public class OrderPageController implements Initializable {
         colOrderStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         colProductId.setCellValueFactory(new PropertyValueFactory<>("productId"));
 
-        cmbCustomerPlatform.setItems(FXCollections.observableArrayList(
-                IntStream.rangeClosed(1,50)
-                        .mapToObj(i -> String.format("0%03d" , i))
-                        .collect(Collectors.toList())
-        ));
+        cmbOrderStatus.setItems(FXCollections.observableArrayList("Pending", "Shipped" , "Delivered"));
+        try {
+            cmbCustomerPlatform.setItems(FXCollections.observableArrayList(orderModel.getAllCustomerIds()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR , "Failed to load customer data").show();
+        }
 
-        cmbProductPlatform.setItems(FXCollections.observableArrayList("P001" , "P002"));
+        try {
+            cmbProductPlatform.setItems(FXCollections.observableArrayList(orderModel.getAllProductIds()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR , "Failed to load product data").show();
+        }
 
         try {
             loadTableData();
@@ -65,6 +81,18 @@ public class OrderPageController implements Initializable {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR , "Failed to load orders data").show();
         }
+
+        try {
+            loadTableData();
+            loadNextId();
+            loadCustomerIds();
+            loadProductIds();
+            setOrderDatePicker();
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR , "Failed to load orders data").show();
+
+        }
     }
 
     private void loadNextId() throws Exception {
@@ -72,6 +100,36 @@ public class OrderPageController implements Initializable {
         lblOrderId.setText(nextId);
     }
 
+    private void loadCustomerIds() throws Exception {
+        cmbCustomerPlatform.setItems(FXCollections.observableArrayList(orderModel.getAllCustomerIds()));
+    }
+
+    private void loadProductIds() throws Exception {
+        cmbProductPlatform.setItems(FXCollections.observableArrayList(orderModel.getAllProductIds()));
+    }
+
+    private void setOrderDatePicker() {
+        ordersDatePicker.setPromptText(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd")));
+       tblOrders.setRowFactory(ordersTMTableView -> {
+           TableRow<OrdersTM> row = new TableRow<>();
+           row.setOnMouseClicked(event -> {
+               if (!row.isEmpty()) {
+                   OrdersTM rowItems = row.getItem();
+
+                   try {
+                       LocalDate date = LocalDate.parse(rowItems.getOrderDate());
+                       ordersDatePicker.setValue(date);
+                   } catch (Exception e) {
+                       e.printStackTrace();
+                       new Alert(Alert.AlertType.ERROR , "Failed to set order date").show();
+                       ordersDatePicker.setValue(null);
+                   }
+               }
+           });
+           return row;
+       });
+
+    }
     public void btnDeleteOnAction(ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                 "Are you sure you want to delete this order ?",
@@ -101,7 +159,7 @@ public class OrderPageController implements Initializable {
         String orderId = lblOrderId.getText();
         String customerId = cmbCustomerPlatform.getValue();
         String orderDate = txtOrderDate.getText();
-        String status = txtOrderStatus.getText();
+        String status = cmbOrderStatus.getValue();
         String productId = cmbProductPlatform.getValue();
 
         if(orderId.isEmpty() || orderDate.isEmpty() || status.isEmpty() || productId.isEmpty()){
@@ -129,7 +187,7 @@ public class OrderPageController implements Initializable {
         String orderId = lblOrderId.getText();
         String customerId = cmbCustomerPlatform.getValue();
         String orderDate = txtOrderDate.getText();
-        String status = txtOrderStatus.getText();
+        String status = cmbOrderStatus.getValue();
         String productId = cmbProductPlatform.getValue();
 
         if(orderId.isEmpty() || orderDate.isEmpty() || status.isEmpty() || productId.isEmpty()){
@@ -181,7 +239,7 @@ public class OrderPageController implements Initializable {
             cmbCustomerPlatform.getSelectionModel().clearSelection();
             cmbCustomerPlatform.getSelectionModel().clearSelection();
             txtOrderDate.clear();
-            txtOrderStatus.clear();
+            cmbProductPlatform.getSelectionModel().clearSelection();
         } catch (Exception e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR , "Failed to load orders data").show();
@@ -230,7 +288,7 @@ public class OrderPageController implements Initializable {
             lblOrderId.setText(selectedItem.getOrderId());
             cmbCustomerPlatform.setValue(selectedItem.getCustomerId());
             txtOrderDate.setText(selectedItem.getOrderDate());
-            txtOrderStatus.setText(selectedItem.getStatus());
+            cmbOrderStatus.setValue(selectedItem.getStatus());
             cmbProductPlatform.setValue(selectedItem.getProductId());
 
             btnSave.setDisable(true);
