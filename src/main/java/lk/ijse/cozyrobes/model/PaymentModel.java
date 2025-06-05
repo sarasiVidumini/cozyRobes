@@ -86,13 +86,12 @@ public class PaymentModel {
        return dtos;
    }
 
-    public ArrayList<String> getAllPaymentIds() throws SQLException {
-        ResultSet resultSet = CrudUtil.execute("select payment_id from payment");
-        ArrayList<String> list = new ArrayList<>();
+    public ArrayList<String> getAllOrderIds() throws SQLException {
+        ArrayList<String> orderIds = new ArrayList<>();
+        ResultSet resultSet = CrudUtil.execute("select order_id from orders");
         while (resultSet.next()) {
-            String id = resultSet.getString(1);
-            list.add(id);
+           orderIds.add(resultSet.getString("order_id"));
         }
-        return list;
+        return orderIds;
     }
 }

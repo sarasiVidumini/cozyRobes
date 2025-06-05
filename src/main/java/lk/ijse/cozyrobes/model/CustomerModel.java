@@ -94,17 +94,48 @@ public ArrayList<CustomerDto> getAllCustomer() throws SQLException {
         return list;
     }
 
-/*    public ArrayList<CustomerDto> searchCustomerByPhoneNumber(String searchText) throws SQLException {
-        ArrayList<CustomerDto> customerDtoArrayList = new ArrayList<>();
+    public ArrayList<CustomerDto> searchCustomerByPhoneNumber(String searchText) throws SQLException {
+            ArrayList<CustomerDto> customerDtoArrayList = new ArrayList<>();
         try {
             ResultSet resultSet = CrudUtil.execute("select * from customer where phone LIKE ?" , "%" + searchText + "%");
             while (resultSet.next()) {
                 CustomerDto customerDto = new CustomerDto(
-                        resultSet.getString()
-                )
+                        resultSet.getString(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getString(4)
+                );
+                customerDtoArrayList.add(customerDto);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }*/
+        return customerDtoArrayList;
+    }
+
+    public String getCustomerIdByContact(String contact) throws SQLException {
+        try {
+            ResultSet resultSet = CrudUtil.execute("select customer_id from customer where phone = ?", contact);
+            if (resultSet.next()) {
+                return resultSet.getString("customer_id");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return "Customer Not found";
+    }
+
+    public String getCustomerNameById(String customerId) throws SQLException {
+        try {
+            ResultSet resultSet = CrudUtil.execute("select name from customer where customer_id = ?", customerId);
+            if (resultSet.next()) {
+                return resultSet.getString("name");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return "Customer Not found";
+    }
 }

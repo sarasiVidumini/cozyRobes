@@ -91,26 +91,48 @@ public class OrderDetailsModel {
         return orderDetailsDtoArrayList;
     }
 
-    public boolean addOrderDetails(OrderDetailsDto orderDetailsDto) throws SQLException {
-        boolean isInserted = false;
+    public ArrayList<String> getAllOrderIds() throws ClassNotFoundException, SQLException{
+        ResultSet rst = CrudUtil.execute("SELECT order_id from orders");
+        ArrayList<String> orderIds = new ArrayList<>();
 
-            // Generate a new orderDetail ID for each record
-            String newId = getNextOrderDetailId();
-            orderDetailsDto.setOrderDetailId(newId);
-
-            isInserted = saveOrderDetails(orderDetailsDto);
-            if (!isInserted) {
-                return false;
-            }
-
-            System.out.println(orderDetailsDto.getQuantity());
-
-            boolean isProductUpdated = productModel.reduceQty(orderDetailsDto.getQuantity(), orderDetailsDto.getProductId());
-            if (!isProductUpdated) {
-                return false;
-            }
-        return true;
+        while(rst.next()){
+            orderIds.add(rst.getString("order_id"));
+        }
+        return orderIds;
     }
 
+    public ArrayList<String> getAllProductIds() throws ClassNotFoundException, SQLException {
+        ResultSet rst = CrudUtil.execute("SELECT product_id FROM product");
+        ArrayList<String> productIds = new ArrayList<>();
+
+        while (rst.next()) {
+            productIds.add(rst.getString("name"));
+        }
+        return productIds;
+    }
+
+    public String getProductNameById(String productId) throws ClassNotFoundException, SQLException {
+        ResultSet rst = CrudUtil.execute("select name from product where product_id = ?", productId);
+        if (rst.next()) {
+            return rst.getString("name");
+        }
+        return null;
+    }
+
+    public boolean saveNewOrderDetails(String orderDetailId , String orderId , String productId , int cartQty , double priceAtPurchase)  {
+        try {
+            return CrudUtil.execute(
+                    "insert into order_details(orderDetail_id , order_id , product_id , quantity , price_at_purchase) values (?,?,?,?,?)",
+                    orderDetailId,
+                    orderId,
+                    productId,
+                    cartQty,
+                    priceAtPurchase
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }

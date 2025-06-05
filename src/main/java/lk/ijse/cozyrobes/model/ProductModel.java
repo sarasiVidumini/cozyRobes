@@ -1,5 +1,6 @@
 package lk.ijse.cozyrobes.model;
 
+import javafx.scene.control.Alert;
 import lk.ijse.cozyrobes.dto.ProductDto;
 import lk.ijse.cozyrobes.util.CrudUtil;
 
@@ -89,7 +90,7 @@ public class ProductModel {
         return dtos;
     }
 
-    public ArrayList<String> getAllProductIds(String productId) throws SQLException {
+    public ArrayList<String> getAllProductIds() throws SQLException {
         ResultSet resultSet = CrudUtil.execute("select product_id from product");
         ArrayList<String> list = new ArrayList<>();
         while (resultSet.next()) {
@@ -98,10 +99,88 @@ public class ProductModel {
         }
         return list;
     }
-    public boolean reduceQty(int qty, String product_id) throws SQLException {
-        return CrudUtil.execute("UPDATE product SET quantity = quantity - ? WHERE product_id = ?", qty, product_id);
+
+    public ProductDto getProductByIds(String productId){
+        try {
+            ResultSet resultSet = CrudUtil.execute("select * from product where product_id = ?", productId);
+            if (resultSet.next()) {
+                return new ProductDto(
+                        resultSet.getString(1),
+                        resultSet.getString(2),
+                        resultSet.getInt(3),
+                        resultSet.getString(4),
+                        resultSet.getDouble(5)
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Fail to load products by Product ID...").show();
+        }
+        return null;
     }
 
 
+    public boolean reduceQty(String product_id , int cartQty) throws SQLException {
+       try {
+           ResultSet resultSet = CrudUtil.execute(
+                   "select quantity from product where product_id = ?",
+                   product_id
+           );
+           if (resultSet.next()) {
+               int currentQty = resultSet.getInt("quantity");
+               if (currentQty >= cartQty) {
+                   int newQty = currentQty - cartQty;
+                   return CrudUtil.execute(
+                           "update product set quantity = ? where product_id=?",
+                           newQty,
+                           product_id
+                   );
+               }else {
+                   new Alert(Alert.AlertType.ERROR, "Insufficient stock for product id :  " + product_id).show();
+                   return false;
+               }
+           }
+       } catch (Exception e) {
+           e.printStackTrace();
+           new Alert(Alert.AlertType.ERROR, "Error reducing product quantity...").show();
+       }
+       return false;
+    }
+
+    public String getProductNameById(String newVal) throws SQLException {
+        try {
+           ResultSet resultSet = CrudUtil.execute("select name from product where product_id = ?", newVal);
+           if (resultSet.next()) {
+               return resultSet.getString("name");
+           }
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to load product name by ID...").show();
+        }
+
+        return null;
+    }
+
+    public boolean increaseQty(String productId , int quantity) throws SQLException {
+        try {
+            ResultSet resultSet = CrudUtil.execute(
+                    "select quantity from product where product_id = ?",
+                    productId
+            );
+            if (resultSet.next()) {
+                int currentQty = resultSet.getInt("quantity");
+                int newQty = currentQty + quantity;
+                return CrudUtil.execute(
+                        "update product set quantity = ? where product_id = ?",
+                        newQty,
+                        productId
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Error increasing product quantity...").show();
+        }
+        return false;
+    }
 }
 

@@ -12,22 +12,19 @@ import java.util.ArrayList;
 
 public class OrderModel {
     public String getNextOrderId() throws SQLException {
-    ResultSet resultSet = CrudUtil.execute("select order_id from orders order by order_id desc limit 1");
-    char tableCharacter = 'O';
-    if (resultSet.next()) {
-        String lastId = resultSet.getString(1);
-        String lastIdNumberString = lastId.substring(1);
-        int lastIdNumber = Integer.parseInt(lastIdNumberString);
-        int nextIdNumber = lastIdNumber + 1;
-        String nextIdString = String.format(tableCharacter +"%03d", nextIdNumber);
-        return nextIdString;
-    }
-    return tableCharacter + "001";
+        ResultSet resultSet = CrudUtil.execute("SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1");
+        char tableCharacter = 'O';
+        if (resultSet.next()) {
+            String lastId = resultSet.getString(1);
+            int lastIdNumber = Integer.parseInt(lastId.substring(1));
+            return String.format(tableCharacter + "%03d", lastIdNumber + 1);
+        }
+        return tableCharacter + "001";
     }
 
     public boolean saveOrder(OrderDto orderDto) throws SQLException {
         return CrudUtil.execute(
-                "insert into orders (?,?,?,?,?)",
+                "INSERT INTO orders (order_id, customer_id, order_date, status, product_id) VALUES (?, ?, ?, ?, ?)",
                 orderDto.getOrderId(),
                 orderDto.getCustomerId(),
                 orderDto.getOrderDate(),
@@ -38,10 +35,10 @@ public class OrderModel {
 
     public boolean updateOrder(OrderDto orderDto) throws SQLException {
         return CrudUtil.execute(
-                "update orders set customer_id =?, order_date = ?, status = ? , product_id = ? where order_id = ?",
+                "UPDATE orders SET customer_id = ?, order_date = ?, status = ?, product_id = ? WHERE order_id = ?",
                 orderDto.getCustomerId(),
-                orderDto.getStatus(),
                 orderDto.getOrderDate(),
+                orderDto.getStatus(),
                 orderDto.getProductId(),
                 orderDto.getOrderId()
         );
@@ -49,16 +46,16 @@ public class OrderModel {
 
     public boolean deleteOrder(String order_id) throws SQLException {
         return CrudUtil.execute(
-                "delete from orders where order_id ?",
+                "DELETE FROM orders WHERE order_id = ?",
                 order_id
         );
     }
 
-   public ArrayList<OrderDto> searchOrder(String search) throws SQLException {
+    public ArrayList<OrderDto> searchOrder(String search) throws SQLException {
         ArrayList<OrderDto> dtos = new ArrayList<>();
-        String sql = "select * from orders where order_id like ? OR customer_id like ? OR  order_date like ? OR status like ? OR product_id like ?";
+        String sql = "SELECT * FROM orders WHERE order_id LIKE ? OR customer_id LIKE ? OR order_date LIKE ? OR status LIKE ? OR product_id LIKE ?";
         String pattern = "%" + search + "%";
-        ResultSet resultSet = CrudUtil.execute(sql, pattern,pattern,pattern,pattern,pattern);
+        ResultSet resultSet = CrudUtil.execute(sql, pattern, pattern, pattern, pattern, pattern);
         while (resultSet.next()) {
             OrderDto orderDto = new OrderDto(
                     resultSet.getString(1),
@@ -70,24 +67,69 @@ public class OrderModel {
             dtos.add(orderDto);
         }
         return dtos;
-   }
+    }
 
     public ArrayList<OrderDto> getAllOrder() throws SQLException {
-        ResultSet resultSet = CrudUtil.execute("select * from orders");
+        ResultSet resultSet = CrudUtil.execute("SELECT * FROM orders");
         ArrayList<OrderDto> orderDtoArrayList = new ArrayList<>();
         while (resultSet.next()) {
             OrderDto orderDto = new OrderDto(
-                   resultSet.getString(1),
+                    resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
                     resultSet.getString(4),
                     resultSet.getString(5)
             );
-
             orderDtoArrayList.add(orderDto);
         }
-
         return orderDtoArrayList;
+    }
 
+    public String getCustomerNameById(String customerId)  {
+        try {
+            ResultSet resultSet = CrudUtil.execute("SELECT name from customer WHERE customer_id = ?", customerId);
+            if (resultSet.next()) {
+                return resultSet.getString("name");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+        return null;
+    }
+
+    public ArrayList<String> getAllCustomerIds() throws SQLException{
+        ArrayList<String> customerIds = new ArrayList<>();
+        ResultSet resultSet = CrudUtil.execute("SELECT customer_id FROM customer");
+        while (resultSet.next()) {
+            customerIds.add(resultSet.getString("customer_id"));
+        }
+        return customerIds;
+    }
+
+    public ArrayList<String> getAllProductIds() throws SQLException{
+        ArrayList<String> productIds = new ArrayList<>();
+        ResultSet resultSet = CrudUtil.execute("SELECT product_id FROM product");
+        while (resultSet.next()) {
+            productIds.add(resultSet.getString("product_id"));
+        }
+        return productIds;
+    }
+
+    public boolean saveNewOrder(String orderId , String customerId , String orderDate , String status , String productId)   {
+        try {
+            return CrudUtil.execute(
+                    "insert into orders(order_id , customer_id , order_date , status , product_id) values (?,?,?,?,?)",
+                    orderId,
+                    customerId,
+                    orderDate,
+                    status,
+                    productId
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
