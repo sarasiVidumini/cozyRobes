@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ancOrderPlacementPage" prefHeight="750.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.cozyrobes.controller.CartController">
+<AnchorPane fx:id="ancOrderPlacementPage" prefHeight="750.0" prefWidth="1400.0" style="-fx-background-color: linear-gradient(to right, #FF5F6D, #FFC371);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.cozyrobes.controller.CartController">
     <children>
         <VBox prefHeight="70.0" prefWidth="550.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
             <children>
@@ -30,7 +30,7 @@
                         </Label>
                     </children>
                 </HBox>
-                <HBox prefHeight="70.0" prefWidth="474.0" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #7209b7; -fx-border-radius: 20; -fx-border-width: 2;">
+                <HBox prefHeight="70.0" prefWidth="474.0" style="-fx-background-color: linear-gradient(to right, #FF512F, #DD2476); -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-width: 2;">
                     <children>
                         <Label prefHeight="70.0" prefWidth="123.0" text="Order Id">
                             <font>
@@ -73,7 +73,7 @@
         </VBox>
         <VBox layoutX="14.0" layoutY="100.0" prefHeight="70.0" prefWidth="1319.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="100.0">
             <children>
-                <HBox prefHeight="70.0" prefWidth="1348.0" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #7209b7; -fx-border-radius: 20; -fx-border-width: 2;">
+                <HBox prefHeight="70.0" prefWidth="1348.0" style="-fx-background-color: linear-gradient(to right, #FF512F, #DD2476); -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-width: 2;">
                     <children>
                         <Label prefHeight="66.0" prefWidth="141.0" text="Customer Contact">
                             <font>
@@ -83,7 +83,7 @@
                                 <Insets left="41.0" />
                             </HBox.margin>
                         </Label>
-                        <TextField fx:id="txtCustomerContact" onKeyTyped="#searchCustomerContact" prefHeight="26.0" prefWidth="281.0" style="-fx-background-radius: 20; -fx-border-color: #003049; -fx-border-width: 2px; -fx-border-radius: 20;">
+                        <TextField fx:id="txtCustomerContact" onKeyTyped="#searchCustomerContact" prefHeight="30.0" prefWidth="315.0" style="-fx-background-radius: 20; -fx-border-color: #003049; -fx-border-width: 2px; -fx-border-radius: 20;">
                             <HBox.margin>
                                 <Insets left="97.0" top="19.0" />
                             </HBox.margin>
@@ -93,7 +93,7 @@
                                 <Font name="Arial Bold" size="15.0" />
                             </font>
                             <HBox.margin>
-                                <Insets left="100.0" />
+                                <Insets left="300.0" />
                             </HBox.margin>
                         </Label>
                         <Label fx:id="lblCustomerName" prefHeight="66.0" prefWidth="251.0">
@@ -104,18 +104,13 @@
                                 <Insets left="-11.0" />
                             </HBox.margin>
                         </Label>
-                        <Label fx:id="labelPopUpCustomer" alignment="CENTER" onMouseClicked="#goToCustomerPopUp" prefHeight="66.0" prefWidth="183.0" text="+ Add New Customer">
-                            <font>
-                                <Font name="System Bold" size="13.0" />
-                            </font>
-                        </Label>
                     </children>
                 </HBox>
             </children>
         </VBox>
-        <VBox layoutX="20.0" layoutY="178.0" prefHeight="135.0" prefWidth="1321.0" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #7209b7; -fx-border-width: 2; -fx-border-radius: 20;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="180.0">
+        <VBox layoutX="20.0" layoutY="178.0" prefHeight="135.0" prefWidth="1321.0" style="-fx-background-color: #fff; -fx-border-width: 2; -fx-background-radius: 30;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="180.0">
             <children>
-                <HBox prefHeight="58.0" prefWidth="1355.0">
+                <HBox prefHeight="58.0" prefWidth="1355.0" style="-fx-background-color: linear-gradient(to right, #FF512F, #DD2476);">
                     <children>
                         <Label prefHeight="66.0" prefWidth="140.0" text="Product Id">
                             <font>
@@ -180,7 +175,7 @@
                         <Insets />
                     </VBox.margin>
                 </HBox>
-                <HBox prefHeight="66.0" prefWidth="1355.0">
+                <HBox prefHeight="77.0" prefWidth="1335.0" style="-fx-background-color: linear-gradient(to right, #FF512F, #DD2476);">
                     <children>
                         <Label prefHeight="66.0" prefWidth="140.0" text="Add To Cart Qty">
                             <font>
@@ -212,7 +207,7 @@
                 </HBox>
             </children>
         </VBox>
-        <HBox layoutX="20.0" layoutY="324.0" prefHeight="77.0" prefWidth="1360.0" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #7209b7; -fx-border-radius: 20; -fx-border-width: 2;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="40.0">
+        <HBox layoutX="20.0" layoutY="324.0" prefHeight="77.0" prefWidth="1360.0" style="-fx-background-color: linear-gradient(to right, #FF512F, #DD2476); -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-width: 2;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="40.0">
             <children>
                 <Button mnemonicParsing="false" onAction="#btnAddToCartOnAction" prefHeight="31.0" prefWidth="1333.0" style="-fx-background-color: linear-gradient(to right, #B2FEFA, #0ED2F7); -fx-background-radius: 20;" text="Add ToCart" HBox.hgrow="ALWAYS">
                     <font>
@@ -224,9 +219,17 @@
                 </Button>
             </children>
         </HBox>
-        <VBox layoutX="20.0" layoutY="410.0" prefHeight="271.0" prefWidth="1340.0" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #7209b7; -fx-border-radius: 20;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="40.0">
+        <VBox layoutX="20.0" layoutY="410.0" prefHeight="271.0" prefWidth="1340.0" style="-fx-background-color: linear-gradient(to right, #FF512F, #DD2476); -fx-background-radius: 20; -fx-border-color: #7209b7; -fx-border-radius: 20;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="40.0">
             <children>
-                <TableView fx:id="tblOrderPlacement" prefHeight="229.0" prefWidth="1360.0" stylesheets="@../styles/tableView.css">
+            <Label prefHeight="30.0" prefWidth="155.0" text="Placement View">
+               <VBox.margin>
+                  <Insets left="600.0" top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Candara Light Italic" size="20.0" />
+               </font>
+            </Label>
+                <TableView fx:id="tblOrderPlacement" prefHeight="226.0" prefWidth="1338.0" stylesheets="@../styles/tableView.css">
                     <columns>
                         <TableColumn fx:id="colCustomerId" prefWidth="75.0" text="customerId" />
                         <TableColumn fx:id="colProductId" prefWidth="75.0" text="productId" />
@@ -240,12 +243,15 @@
                     <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                     </columnResizePolicy>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="15.0" />
+               </VBox.margin>
                 </TableView>
             </children>
         </VBox>
         <HBox layoutX="20.0" layoutY="695.2" prefHeight="45.0" prefWidth="1340.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="695.0">
             <children>
-                <Button mnemonicParsing="false" onAction="#btnResetOnAction" prefWidth="670.0" style="-fx-background-color: linear-gradient(to right, #FF5F6D, #FFC371);" text="Reset">
+                <Button mnemonicParsing="false" onAction="#btnResetOnAction" prefWidth="670.0" style="-fx-background-color: linear-gradient(to right, #FFA500, #FF0000);" text="Reset">
                     <font>
                         <Font name="Arial Bold" size="16.0" />
                     </font>

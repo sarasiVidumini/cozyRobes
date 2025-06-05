@@ -66,6 +66,10 @@ public class DashBoardController {
         navigateTo("/view/LoginPage.fxml");
     }
 
+    public void btnGoCartOnAction(ActionEvent actionEvent) {
+        navigateTo("/view/Cart.fxml");
+    }
+
     private void navigateTo(String path) {
         try {
             ancDashBoardPage.getChildren().clear();

@@ -86,8 +86,8 @@ public class CartController implements Initializable {
         colCustomerId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         colProductId.setCellValueFactory(new PropertyValueFactory<>("productId"));
         colProductName.setCellValueFactory(new PropertyValueFactory<>("productName"));
-        colQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        qtyPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        colQuantity.setCellValueFactory(new PropertyValueFactory<>("cartQty"));
+        qtyPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
         colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
         colPaymentMethod.setCellValueFactory(new PropertyValueFactory<>("paymentMethod"));
         colAction.setCellValueFactory(new PropertyValueFactory<>("btnRemove"));
@@ -138,7 +138,7 @@ public class CartController implements Initializable {
             }
             String customerId = customerModel.getCustomerIdByContact(contact);
             if (customerId != null) {
-                lblCustomerName.setText(customerModel.getCustomerIdByContact(customerId));
+                lblCustomerName.setText(customerModel.getCustomerNameById(customerId));
             }else {
                 lblCustomerName.setText("No customer found with this contact");
             }
