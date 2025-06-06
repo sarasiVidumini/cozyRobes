@@ -5,6 +5,7 @@ module lk.ijse.cozyrobes {
     requires jdk.jdi;
     requires lombok;
     requires jdk.unsupported.desktop;
+    requires java.mail;
 
 
     opens lk.ijse.cozyrobes.controller to javafx.fxml;

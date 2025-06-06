@@ -206,13 +206,13 @@
                         <Image url="@../images/Outbound%20Call%20Center%20_%20VoxDesk%20by%20500apps.jpeg" />
                      </image>
                   </ImageView>
-                  <TableView fx:id="tblUser" onMouseClicked="#onClickedTable" prefHeight="422.0" prefWidth="950.0">
+                  <TableView fx:id="tblUser" onMouseClicked="#onClickedTable" prefHeight="512.0" prefWidth="930.0">
                     <columns>
-                      <TableColumn fx:id="colUserId" prefWidth="107.99997103214264" text="userId" />
-                      <TableColumn fx:id="colUserRole" prefWidth="189.59996795654297" text="role" />
-                        <TableColumn fx:id="colUserName" prefWidth="211.199951171875" text="name" />
-                        <TableColumn fx:id="colUserContact" prefWidth="272.8001403808594" text="Contact" />
-                        <TableColumn fx:id="colUserPassword" prefWidth="146.400146484375" text="password" />
+                      <TableColumn fx:id="colUserId" prefWidth="134.39998817443848" text="userId" />
+                      <TableColumn fx:id="colUserRole" prefWidth="186.39996337890625" text="role" />
+                        <TableColumn fx:id="colUserName" prefWidth="145.60009765625" text="name" />
+                        <TableColumn fx:id="colUserContact" prefWidth="234.39987182617188" text="contact" />
+                        <TableColumn fx:id="colUserPassword" prefWidth="221.5999755859375" text="password" />
                     </columns>
                      <VBox.margin>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />

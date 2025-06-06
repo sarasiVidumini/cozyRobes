@@ -51,7 +51,7 @@
                         </ImageView>
                      </children>
                   </VBox>
-                  <Button mnemonicParsing="false" onAction="#btnGoDashBoardPageOnAction" prefHeight="69.0" prefWidth="150.0" style="-fx-background-color: #3ae374; -fx-background-radius: 30; -fx-border-color: #000000; -fx-border-radius: 30;" text="GOT IT">
+                  <Button fx:id="btnGotIt" mnemonicParsing="false" onAction="#btnGoDashBoardPageOnAction" prefHeight="69.0" prefWidth="150.0" style="-fx-background-color: #3ae374; -fx-background-radius: 30; -fx-border-color: #000000; -fx-border-radius: 30;" text="GOT IT">
                      <VBox.margin>
                         <Insets left="150.0" top="150.0" />
                      </VBox.margin>
@@ -124,7 +124,7 @@
                         <Font name="Arial" size="14.0" />
                      </font>
                   </Label>
-                  <TextField promptText="Enter Your Role" style="-fx-background-color: #ffdab9; -fx-background-radius: 30; -fx-border-color: #000000; -fx-border-radius: 30;">
+                  <TextField fx:id="txtRole" promptText="Enter Your Role" style="-fx-background-color: #ffdab9; -fx-background-radius: 30; -fx-border-color: #000000; -fx-border-radius: 30;">
                      <VBox.margin>
                         <Insets left="300.0" right="300.0" top="10.0" />
                      </VBox.margin>

@@ -42,6 +42,7 @@ private  final UserModel userModel = new UserModel();
     public TableColumn<UserTM , String> colUserName;
     public TableColumn<UserTM , String> colUserContact;
     public TableColumn<UserTM , String> colUserPassword;
+    public TableColumn<UserTM , String> colUserEmail;
 
 
     @Override
@@ -88,6 +89,7 @@ private  final UserModel userModel = new UserModel();
             txtRole.setText("");
             txtName.setText("");
             txtContact.setText("");
+            txtPassword.setText("");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,7 +104,7 @@ private  final UserModel userModel = new UserModel();
             String password = txtPassword.getText();
 
 
-        if (user_id.isEmpty() || role.isEmpty() ||  name.isEmpty() || contact.isEmpty() || password.isEmpty()) {
+        if (user_id.isEmpty() || role.isEmpty() ||  name.isEmpty() || contact.isEmpty() || password.isEmpty() ) {
             new Alert(Alert.AlertType.ERROR, "Empty fields, please fill all the fields").show();
             return;
         }
@@ -160,6 +162,7 @@ private  final UserModel userModel = new UserModel();
         String contact = txtContact.getText();
         String password = txtPassword.getText();
 
+
         if (user_id.isEmpty() ||role.isEmpty() || name.isEmpty() || contact.isEmpty() || password.isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Empty fields , please fill all the fields").show();
             return;
@@ -200,6 +203,7 @@ private  final UserModel userModel = new UserModel();
             lblUserId.setText(selectedItem.getUserId());
             txtRole.setText(selectedItem.getRole());
             txtName.setText(selectedItem.getName());
+            txtPassword.setText(selectedItem.getPassword());
             txtContact.setText(selectedItem.getContact());
 
             btnSave.setDisable(true);
