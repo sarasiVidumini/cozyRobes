@@ -3,6 +3,7 @@ package lk.ijse.cozyrobes.util;
 
 import lk.ijse.cozyrobes.db.DBConnection;
 import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.File;
 import java.sql.Connection;
@@ -13,14 +14,14 @@ import java.util.Map;
 
 public class OrderReportMailer {
 
-    public boolean sendLastOrderReport() {
-        try {
+    public boolean sendLastOrderReport(String customerId) {
+       /* try {
             // 1. Get last order id
             String lastCustomerId = getLastCustomerId();
             if (lastCustomerId == null) return false;
 
             // 2. Prepare Jasper report
-            String jrxmlPath = "/report/orderPlacementReport.jrxml";
+            String jrxmlPath = "/report/Blank_A4_2.jrxml";
             JasperReport report = JasperCompileManager.compileReport(
                     getClass().getResourceAsStream(jrxmlPath)
             );
@@ -31,6 +32,7 @@ public class OrderReportMailer {
             JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, connection);
 
             // 3. Export to PDF
+
             String outPutDirectory = "reportPdf";
             File directory = new File(outPutDirectory);
             if (!directory.exists()) {
@@ -49,7 +51,42 @@ public class OrderReportMailer {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }*/
+        try {
+            String lastCustomerId = getLastCustomerId();
+            if (lastCustomerId == null) return false;
+            JasperReport report = JasperCompileManager.compileReport(
+                    getClass().getResourceAsStream("/report/Blank_A4_2.jrxml")
+            );
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("P_customer_id", customerId);
+            parameters.put("PA_DATE", LocalDate.now().toString());
+
+            Connection connection = DBConnection.getInstance().getConnection();
+            JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, connection);
+            JasperViewer.viewReport(jasperPrint, false);
+
+            // List
+            // Array list
+            // index value
+            // 0 - ""
+            // 1 - ""
+
+            // Map
+            // HashMap
+            // key value
+            // "hello" - "hi"
+
+//            JasperFillManager.fillReport(
+//                    report,
+//                    null,
+//                    connection
+//            );
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+return true;
     }
 
     private static String getLastCustomerId() throws Exception {

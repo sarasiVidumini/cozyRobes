@@ -125,7 +125,7 @@ public class MaterialInventoryPageController implements Initializable {
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
-        try {
+
             String materialId = lblMaterialId.getText();
             String supplierId = cmbSupplierPlatform.getValue();
             String name = txtMaterialName.getText();
@@ -137,7 +137,7 @@ public class MaterialInventoryPageController implements Initializable {
             }
 
             MaterialInventoryDto dto = new MaterialInventoryDto(materialId, supplierId, name, quantity);
-
+            try{
             boolean isUpdated = materialInventoryModel.updateMaterialInventory(dto);
             if (isUpdated) {
                 new Alert(Alert.AlertType.INFORMATION, "Material updated successfully!").show();

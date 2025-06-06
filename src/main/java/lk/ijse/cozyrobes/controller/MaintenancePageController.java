@@ -16,6 +16,7 @@ import lk.ijse.cozyrobes.model.MaintenanceModel;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -103,11 +104,11 @@ public class MaintenancePageController implements Initializable {
         String maintenanceId = lblMaintenanceId.getText();
         String materialId = cmbMaterialPlatform.getValue();
         String sectionId = cmbSectionPlatform.getValue();
-        String maintenanceDate = txtMaintenanceDate.getText();
+        Date maintenanceDate = Date.valueOf(txtMaintenanceDate.getText());
         String maintenanceStatus = txtMaintenanceStatus.getText();
         double cost = Double.parseDouble(txtCost.getText());
 
-        if (maintenanceId.isEmpty() || materialId == null || sectionId == null || maintenanceDate.isEmpty() || maintenanceStatus.isEmpty()) {
+        if (maintenanceId.isEmpty() || materialId == null || sectionId == null || maintenanceStatus.isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Empty fields, please fill all the fields").show();
             return;
         }
@@ -132,11 +133,11 @@ public class MaintenancePageController implements Initializable {
         String maintenanceId = lblMaintenanceId.getText();
         String materialId = cmbMaterialPlatform.getValue();
         String sectionId = cmbSectionPlatform.getValue();
-        String maintenanceDate = txtMaintenanceDate.getText();
+        Date maintenanceDate = Date.valueOf(txtMaintenanceDate.getText());
         String maintenanceStatus = txtMaintenanceStatus.getText();
         double cost = Double.parseDouble(txtCost.getText());
 
-        if (maintenanceId.isEmpty() || materialId == null || sectionId == null || maintenanceDate.isEmpty() || maintenanceStatus.isEmpty()) {
+        if (maintenanceId.isEmpty() || materialId == null || sectionId == null || maintenanceStatus.isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Empty fields, please fill all the fields").show();
             return;
         }
@@ -200,7 +201,7 @@ public class MaintenancePageController implements Initializable {
             lblMaintenanceId.setText(selectedItem.getMaintenanceId());
             cmbMaterialPlatform.setValue(selectedItem.getMaterialId());
             cmbSectionPlatform.setValue(selectedItem.getSectionId());
-            txtMaintenanceDate.setText(selectedItem.getMaintenanceDate());
+            txtMaintenanceDate.setText(String.valueOf(selectedItem.getMaintenanceDate()));
             txtMaintenanceStatus.setText(selectedItem.getMaintenanceStatus());
             txtCost.setText(String.valueOf(selectedItem.getCost()));
 

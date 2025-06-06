@@ -284,7 +284,7 @@ public class CartController implements Initializable {
             }
 
             try {
-                boolean isEmailSent = new OrderReportMailer().sendLastOrderReport();
+                boolean isEmailSent = new OrderReportMailer().sendLastOrderReport(customerId);
                 if (isEmailSent) {
                     new Alert(Alert.AlertType.INFORMATION, "Email sent successfully", ButtonType.OK).show();
                 }else {

@@ -25,7 +25,7 @@ JOIN
     order_details od ON o.order_id = od.order_id
 JOIN 
     product p ON od.product_id = p.product_id
- where c.customer_id = $P(P_customer_id)
+ where c.customer_id = $P{P_customer_id}
 ]]></query>
 	<field name="order_id" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="order_id"/>
@@ -102,13 +102,13 @@ JOIN
 		<expression><![CDATA[$F{customer_id}]]></expression>
 	</group>
 	<group name="customer_name">
-		<expression><![CDATA[$F{name}]]></expression>
+		<expression><![CDATA[$F{customer_name}]]></expression>
 	</group>
 	<group name="customer_phone">
-		<expression><![CDATA[$F{phone}]]></expression>
+		<expression><![CDATA[$F{customer_phone}]]></expression>
 	</group>
 	<group name="customer_email">
-		<expression><![CDATA[$F{email}]]></expression>
+		<expression><![CDATA[$F{customer_email}]]></expression>
 	</group>
 	<group name="status">
 		<expression><![CDATA[$F{status}]]></expression>
@@ -117,7 +117,7 @@ JOIN
 		<expression><![CDATA[$F{product_id}]]></expression>
 	</group>
 	<group name="product_name">
-		<expression><![CDATA[$F{name}]]></expression>
+		<expression><![CDATA[$F{product_name}]]></expression>
 	</group>
 	<group name="quantity">
 		<expression><![CDATA[$F{quantity}]]></expression>
@@ -134,16 +134,16 @@ JOIN
 			<text><![CDATA[  Order Placement Details Report]]></text>
 		</element>
 		<element kind="staticText" uuid="2414e73b-ed9f-48b2-be37-189dae1c10e6" x="0" y="130" width="80" height="18">
-			<text><![CDATA[customerId :]]></text>
+			<text><![CDATA[Customer Id :]]></text>
 		</element>
 		<element kind="textField" uuid="eed742ed-668a-4a5f-a859-d97e78801b6f" x="80" y="130" width="80" height="18">
 			<expression><![CDATA[$F{customer_id}]]></expression>
 		</element>
 		<element kind="staticText" uuid="482722f5-3f0a-4e99-803d-6c6b3156607a" x="312" y="129" width="86" height="20">
-			<text><![CDATA[name :]]></text>
+			<text><![CDATA[Customer Name :]]></text>
 		</element>
 		<element kind="textField" uuid="c48eb9a3-9239-44a9-a5c7-c7f129d94fa9" x="398" y="129" width="110" height="20">
-			<expression><![CDATA[$F{name}]]></expression>
+			<expression><![CDATA[$F{customer_name}]]></expression>
 		</element>
 		<element kind="textField" uuid="c5d6b2a4-f5f0-4cf1-ace4-f0d31d6969c4" x="450" y="50" width="93" height="30" fontSize="12.0">
 			<expression><![CDATA[$P{PA_DATE}]]></expression>
@@ -151,16 +151,16 @@ JOIN
 	</title>
 	<pageHeader height="65" splitType="Stretch">
 		<element kind="textField" uuid="ffd847eb-bf6b-4c11-9cad-bc4146bef1e7" x="90" y="17" width="110" height="23">
-			<expression><![CDATA[$F{phone}]]></expression>
+			<expression><![CDATA[$F{customer_phone}]]></expression>
 		</element>
 		<element kind="staticText" uuid="ab162864-f252-4e6d-9770-fd999a339f78" x="307" y="16" width="100" height="27">
-			<text><![CDATA[email :]]></text>
+			<text><![CDATA[Customer Email :]]></text>
 		</element>
 		<element kind="textField" uuid="f81506e1-ceba-414a-a873-37409e077d65" x="408" y="13" width="148" height="27">
-			<expression><![CDATA[$F{email}]]></expression>
+			<expression><![CDATA[$F{customer_email}]]></expression>
 		</element>
 		<element kind="staticText" uuid="5631a9b8-41bc-48ea-9900-4fba99a56068" x="0" y="18" width="90" height="20">
-			<text><![CDATA[phone :]]></text>
+			<text><![CDATA[Customer Phone :]]></text>
 		</element>
 	</pageHeader>
 	<columnHeader height="71" splitType="Stretch">
@@ -181,7 +181,7 @@ JOIN
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="67487bee-1c02-4de3-a877-56aeaf65b548"/>
 		</element>
 		<element kind="staticText" uuid="9e128e7d-13a9-4ff5-b6ec-50db03ae0123" x="314" y="30" width="70" height="30">
-			<text><![CDATA[name]]></text>
+			<text><![CDATA[product_name]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6729dc3a-66f9-4530-98ea-b2373247e4e7"/>
 		</element>
 		<element kind="staticText" uuid="9dfecceb-e4d5-4daa-b3b0-d2e70310a293" x="384" y="30" width="53" height="30">
@@ -216,7 +216,7 @@ JOIN
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="67487bee-1c02-4de3-a877-56aeaf65b548"/>
 			</element>
 			<element kind="textField" uuid="1d98a406-c62b-44a9-8933-92dd510a984c" x="312" y="-1" width="80" height="30">
-				<expression><![CDATA[$F{name}]]></expression>
+				<expression><![CDATA[$F{product_name}]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6729dc3a-66f9-4530-98ea-b2373247e4e7"/>
 			</element>
 			<element kind="textField" uuid="b69bac03-ef96-455e-b868-b806bb50364d" x="392" y="-1" width="46" height="30">
@@ -235,7 +235,7 @@ JOIN
 	</detail>
 	<columnFooter height="45" splitType="Stretch">
 		<element kind="staticText" uuid="c6a317d3-eae4-4714-9cef-e7dd35726ff5" x="-10" y="9" width="110" height="25">
-			<text><![CDATA[orderId Row Count :  ]]></text>
+			<text><![CDATA[Order Id Row Count :  ]]></text>
 		</element>
 		<element kind="textField" uuid="a0df4c7e-2167-44fc-a5c5-6d265ff6b0cf" x="100" y="9" width="100" height="25">
 			<expression><![CDATA[$V{order_id1}]]></expression>

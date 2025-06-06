@@ -26,7 +26,7 @@ public class ProductModel {
 
     public boolean saveProduct(ProductDto productDto) throws SQLException {
         return CrudUtil.execute(
-                "insert into customer values(?,?,?,?,?)",
+                "insert into product values(?,?,?,?,?)",
                 productDto.getProductId(),
                 productDto.getName(),
                 productDto.getQuantity(),
@@ -53,6 +53,7 @@ public class ProductModel {
     }
 
     public boolean updateProduct(ProductDto productDto) throws SQLException {
+        System.out.println(productDto);
         return CrudUtil.execute(
                 "update product set name = ? , quantity = ? , category = ? , unit_price = ? where product_id = ?",
                 productDto.getName(),

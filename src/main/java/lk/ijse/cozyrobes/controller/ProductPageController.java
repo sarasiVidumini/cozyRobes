@@ -159,7 +159,7 @@ public class ProductPageController implements Initializable {
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
-        String product_id = txtProductName.getText();
+        String product_id = lblProductId.getText();
         String name = txtProductName.getText();
         int quantity = Integer.parseInt(txtProductQty.getText());
         String category = txtCategory.getText();
@@ -181,9 +181,10 @@ public class ProductPageController implements Initializable {
                 loadTableData();
                 resetPage();
             }else{
+                System.out.println("motsavee");
                 new Alert(Alert.AlertType.ERROR,"Fail to update product.").show();
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR,"Fail to update product").show();
         }

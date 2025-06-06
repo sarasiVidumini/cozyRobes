@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Date;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -14,7 +16,7 @@ public class MaintenanceDto {
     private String maintenanceId;
     private String materialId;
     private String sectionId;
-    private String maintenanceDate;
+    private Date maintenanceDate;
     private String maintenanceStatus;
     private double cost;
 }
