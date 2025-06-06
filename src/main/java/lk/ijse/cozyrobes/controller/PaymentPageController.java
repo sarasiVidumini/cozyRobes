@@ -73,6 +73,7 @@ public class PaymentPageController implements Initializable {
             loadTableData();
             loadNextId();
             loadOrderIds();
+            resetPage();
         } catch (Exception e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Failed to load payment data!").show();

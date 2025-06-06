@@ -61,6 +61,7 @@ public class DeliveryPageController implements Initializable {
         try {
             loadTableData();
             loadNextId();
+            resetPage();
         } catch (Exception e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Failed to initialize delivery page").show();

@@ -62,6 +62,7 @@ public class MaintenancePageController implements Initializable {
         try {
             loadTableData();
             loadNextId();
+            resetPage();
         } catch (Exception e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Failed to load maintenance data").show();
