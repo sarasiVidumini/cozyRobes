@@ -25,6 +25,8 @@ public class EmployeePageController implements Initializable {
     public AnchorPane ancEmployeePage;
     private final EmployeeModel employeeModel = new EmployeeModel();
 
+    private final String namePattern = "^[A-Za-z ]+$";
+
     public TableView<EmployeeTM> tblEmployee;
     public TableColumn<EmployeeTM, String> colEmployeeId;
     public TableColumn<EmployeeTM, String> colUserId;
@@ -126,27 +128,35 @@ public class EmployeePageController implements Initializable {
         String role = txtEmployeeRole.getText();
         double salary = Double.parseDouble(txtEmployeeSalary.getText());
 
+        boolean isValidName = name.matches(namePattern);
+
         if (employeeId.isEmpty() || userId == null || name.isEmpty() || role.isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Empty fields, please fill all the fields").show();
             return;
         }
 
+        if (isValidName) {
+            new Alert(Alert.AlertType.ERROR, "Invalid Name").show();
+            return;
+        }
+
         EmployeeDto employeeDto = new EmployeeDto(employeeId, userId, name, role, salary);
 
-        try {
-            boolean isSaved = employeeModel.saveEmployee(employeeDto);
-            if (isSaved) {
-                new Alert(Alert.AlertType.INFORMATION, "Employee saved successfully").show();
-                resetPage();
-            } else {
+        if (isValidName) {
+            try {
+                boolean isSaved = employeeModel.saveEmployee(employeeDto);
+                if (isSaved) {
+                    new Alert(Alert.AlertType.INFORMATION, "Employee saved successfully").show();
+                    resetPage();
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "Failed to save Employee").show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
                 new Alert(Alert.AlertType.ERROR, "Failed to save Employee").show();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Failed to save Employee").show();
         }
     }
-
     public void btnResetOnAction(ActionEvent actionEvent) {
         resetPage();
     }

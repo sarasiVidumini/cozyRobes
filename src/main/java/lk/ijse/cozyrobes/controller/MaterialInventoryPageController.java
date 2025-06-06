@@ -26,6 +26,8 @@ import java.util.ResourceBundle;
 public class MaterialInventoryPageController implements Initializable {
     private final MaterialInventoryModel materialInventoryModel = new MaterialInventoryModel();
 
+    private final String namePattern = "^[A-Za-z ]+$";
+
     public AnchorPane ancInventoryPage;
     public TableView<MaterialInventoryTM> tblMaterial;
     public TableColumn<MaterialInventoryTM, String> colMaterialId;
@@ -36,7 +38,6 @@ public class MaterialInventoryPageController implements Initializable {
     public ComboBox<String> cmbSupplierPlatform;
     public TextField txtMaterialName;
     public TextField txtMaterialQuantity;
-    public Button btnBack;
     public Button btnDelete;
     public Button btnUpdate;
     public Button btnSave;
@@ -86,30 +87,39 @@ public class MaterialInventoryPageController implements Initializable {
 
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
-        try {
-            String materialId = lblMaterialId.getText();
-            String supplierId = cmbSupplierPlatform.getValue();
-            String name = txtMaterialName.getText();
-            int quantity = Integer.parseInt(txtMaterialQuantity.getText());
 
-            if (materialId.isEmpty() || supplierId == null || name.isEmpty()) {
-                new Alert(Alert.AlertType.ERROR, "Please fill out all fields!").show();
-                return;
+        String materialId = lblMaterialId.getText();
+        String supplierId = cmbSupplierPlatform.getValue();
+        String name = txtMaterialName.getText();
+        int quantity = Integer.parseInt(txtMaterialQuantity.getText());
+
+        boolean isNameValid = name.matches(namePattern);
+
+        if (materialId.isEmpty() || supplierId == null || name.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Please fill out all fields!").show();
+            return;
+        }
+
+        if (!isNameValid) {
+            new Alert(Alert.AlertType.ERROR, "Invalid Material name!").show();
+            return;
+        }
+
+        MaterialInventoryDto dto = new MaterialInventoryDto(materialId, supplierId, name, quantity);
+        if (isNameValid) {
+            try {
+                boolean isSaved = materialInventoryModel.saveMaterialInventory(dto);
+                if (isSaved) {
+                    new Alert(Alert.AlertType.INFORMATION, "Material saved successfully!").show();
+                    loadTableData();
+                    resetPage();
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "Failed to save material!").show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR, "Error occurred while saving material!").show();
             }
-
-            MaterialInventoryDto dto = new MaterialInventoryDto(materialId, supplierId, name, quantity);
-
-            boolean isSaved = materialInventoryModel.saveMaterialInventory(dto);
-            if (isSaved) {
-                new Alert(Alert.AlertType.INFORMATION, "Material saved successfully!").show();
-                loadTableData();
-                resetPage();
-            } else {
-                new Alert(Alert.AlertType.ERROR, "Failed to save material!").show();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Error occurred while saving material!").show();
         }
     }
 

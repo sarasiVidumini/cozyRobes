@@ -122,11 +122,11 @@
                                         </ComboBox>
                                     </children>
                                 </HBox>
-                                <TextField fx:id="cmbPaymentMethod" prefHeight="30.0" prefWidth="330.0" promptText="Cash" style="-fx-background-radius: 20; -fx-border-color: #840933; -fx-border-radius: 20;" VBox.vgrow="ALWAYS">
+                                <ComboBox fx:id="cmbPaymentMethod" prefHeight="30.0" prefWidth="330.0" promptText="Cash" style="-fx-background-radius: 20; -fx-border-color: #840933; -fx-border-radius: 20;" VBox.vgrow="ALWAYS">
                                     <VBox.margin>
                                         <Insets left="10.0" right="10.0" />
                                     </VBox.margin>
-                                </TextField>
+                                </ComboBox>
                                 <HBox prefHeight="17.0" prefWidth="350.0">
                                     <children>
                                         <Label fx:id="lblTotalAmount" text="Amount" HBox.hgrow="ALWAYS">

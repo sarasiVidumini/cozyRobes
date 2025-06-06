@@ -33,7 +33,7 @@ public class MaintenancePageController implements Initializable {
     public TableColumn<MaintenanceTM, String> colMaintenanceStatus;
     public TableColumn<MaintenanceTM, Double> colCost;
 
-    public Button btnBack;
+
     public Button btnDelete;
     public Button btnUpdate;
     public Button btnSave;

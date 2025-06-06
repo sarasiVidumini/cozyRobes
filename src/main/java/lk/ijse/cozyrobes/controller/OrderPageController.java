@@ -109,7 +109,7 @@ public class OrderPageController implements Initializable {
     }
 
     private void setOrderDatePicker() {
-        ordersDatePicker.setPromptText(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd")));
+        ordersDatePicker.setPromptText(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
        tblOrders.setRowFactory(ordersTMTableView -> {
            TableRow<OrdersTM> row = new TableRow<>();
            row.setOnMouseClicked(event -> {
@@ -158,7 +158,7 @@ public class OrderPageController implements Initializable {
     public void btnUpdateOnAction(ActionEvent actionEvent) {
         String orderId = lblOrderId.getText();
         String customerId = cmbCustomerPlatform.getValue();
-        String orderDate = txtOrderDate.getText();
+        String orderDate = String.valueOf(ordersDatePicker.getValue());
         String status = cmbOrderStatus.getValue();
         String productId = cmbProductPlatform.getValue();
 
@@ -186,7 +186,7 @@ public class OrderPageController implements Initializable {
     public void btnSaveOnAction(ActionEvent actionEvent) {
         String orderId = lblOrderId.getText();
         String customerId = cmbCustomerPlatform.getValue();
-        String orderDate = txtOrderDate.getText();
+        String orderDate = String.valueOf(ordersDatePicker.getValue());
         String status = cmbOrderStatus.getValue();
         String productId = cmbProductPlatform.getValue();
 
@@ -238,7 +238,7 @@ public class OrderPageController implements Initializable {
             btnDelete.setDisable(true);
             cmbCustomerPlatform.getSelectionModel().clearSelection();
             cmbCustomerPlatform.getSelectionModel().clearSelection();
-            txtOrderDate.clear();
+            ordersDatePicker.getValue();
             cmbProductPlatform.getSelectionModel().clearSelection();
         } catch (Exception e) {
             e.printStackTrace();
@@ -287,7 +287,7 @@ public class OrderPageController implements Initializable {
         if (selectedItem != null) {
             lblOrderId.setText(selectedItem.getOrderId());
             cmbCustomerPlatform.setValue(selectedItem.getCustomerId());
-            txtOrderDate.setText(selectedItem.getOrderDate());
+            ordersDatePicker.setValue(LocalDate.parse(selectedItem.getOrderDate()));
             cmbOrderStatus.setValue(selectedItem.getStatus());
             cmbProductPlatform.setValue(selectedItem.getProductId());
 
