@@ -6,6 +6,8 @@ module lk.ijse.cozyrobes {
     requires lombok;
     requires jdk.unsupported.desktop;
     requires java.mail;
+    requires activation;
+    requires net.sf.jasperreports.core;
 
 
     opens lk.ijse.cozyrobes.controller to javafx.fxml;

@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ancOrderPlacementPage" prefHeight="750.0" prefWidth="1400.0" style="-fx-background-color: linear-gradient(to right, #FF5F6D, #FFC371);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.cozyrobes.controller.CartController">
+<AnchorPane fx:id="ancOrderPlacementPage" prefHeight="700.0" prefWidth="1400.0" style="-fx-background-color: linear-gradient(to right, #FF512F, #DD2476);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.cozyrobes.controller.CartController">
     <children>
         <VBox prefHeight="70.0" prefWidth="550.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
             <children>
@@ -30,7 +30,7 @@
                         </Label>
                     </children>
                 </HBox>
-                <HBox prefHeight="70.0" prefWidth="474.0" style="-fx-background-color: linear-gradient(to right, #FF512F, #DD2476); -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-width: 2;">
+                <HBox prefHeight="70.0" prefWidth="474.0" style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-border-width: 2;">
                     <children>
                         <Label prefHeight="70.0" prefWidth="123.0" text="Order Id">
                             <font>
@@ -52,16 +52,16 @@
                 </HBox>
             </children>
         </VBox>
-        <VBox layoutX="1176.0" layoutY="14.0" prefHeight="38.0" prefWidth="209.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="10.0">
+        <VBox layoutX="1176.0" layoutY="11.2" prefHeight="38.0" prefWidth="186.0" AnchorPane.rightAnchor="64.0" AnchorPane.topAnchor="11.0">
             <children>
-                <HBox prefHeight="78.0" prefWidth="400.0" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #7209b7; -fx-border-radius: 20; -fx-border-width: 2;">
+                <HBox prefHeight="38.0" prefWidth="206.0" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #7209b7; -fx-border-radius: 20; -fx-border-width: 2;">
                     <children>
-                        <Label fx:id="orderPlacementDate" prefHeight="34.0" prefWidth="230.0" text="2022-12-20">
+                        <Label fx:id="orderPlacementDate" prefHeight="34.0" prefWidth="156.0" text="2022-12-20">
                             <font>
                                 <Font name="Arial Bold" size="25.0" />
                             </font>
                             <HBox.margin>
-                                <Insets left="25.0" />
+                                <Insets left="10.0" />
                             </HBox.margin>
                         </Label>
                     </children>
@@ -101,7 +101,7 @@
                                 <Font name="Arial Bold" size="15.0" />
                             </font>
                             <HBox.margin>
-                                <Insets left="-11.0" />
+                                <Insets />
                             </HBox.margin>
                         </Label>
                     </children>
@@ -219,7 +219,7 @@
                 </Button>
             </children>
         </HBox>
-        <VBox layoutX="20.0" layoutY="410.0" prefHeight="271.0" prefWidth="1340.0" style="-fx-background-color: linear-gradient(to right, #FF512F, #DD2476); -fx-background-radius: 20; -fx-border-color: #7209b7; -fx-border-radius: 20;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="40.0">
+        <VBox layoutX="20.0" layoutY="410.0" prefHeight="271.0" prefWidth="1340.0" style="-fx-background-color: linear-gradient(to right, #FF512F, #DD2476); -fx-background-radius: 20; -fx-border-radius: 20;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="40.0">
             <children>
             <Label prefHeight="30.0" prefWidth="155.0" text="Placement View">
                <VBox.margin>
@@ -229,7 +229,7 @@
                   <Font name="Candara Light Italic" size="20.0" />
                </font>
             </Label>
-                <TableView fx:id="tblOrderPlacement" prefHeight="226.0" prefWidth="1338.0" stylesheets="@../styles/tableView.css">
+                <TableView fx:id="tblOrderPlacement" prefHeight="208.0" prefWidth="1265.0" stylesheets="@../styles/tableView.css">
                     <columns>
                         <TableColumn fx:id="colCustomerId" prefWidth="75.0" text="customerId" />
                         <TableColumn fx:id="colProductId" prefWidth="75.0" text="productId" />
@@ -244,7 +244,7 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                     </columnResizePolicy>
                <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="15.0" />
+                  <Insets bottom="10.0" left="50.0" right="50.0" top="10.0" />
                </VBox.margin>
                 </TableView>
             </children>

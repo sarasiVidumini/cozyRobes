@@ -54,7 +54,7 @@ public class ProductModel {
 
     public boolean updateProduct(ProductDto productDto) throws SQLException {
         return CrudUtil.execute(
-                "update product set name = ? , quantity = ? , category = ? , unitPrice = ? where product_id = ?",
+                "update product set name = ? , quantity = ? , category = ? , unit_price = ? where product_id = ?",
                 productDto.getName(),
                 productDto.getQuantity(),
                 productDto.getCategory(),

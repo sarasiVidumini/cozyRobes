@@ -21,6 +21,7 @@ import lk.ijse.cozyrobes.dto.PaymentDto;
 import lk.ijse.cozyrobes.dto.ProductDto;
 import lk.ijse.cozyrobes.dto.tm.CartTM;
 import lk.ijse.cozyrobes.model.*;
+import lk.ijse.cozyrobes.util.OrderReportMailer;
 
 
 import java.net.URL;
@@ -281,6 +282,17 @@ public class CartController implements Initializable {
                 new Alert(Alert.AlertType.ERROR, "error , Fail to save payment..!", ButtonType.OK).show();
                 return;
             }
+
+            try {
+                boolean isEmailSent = new OrderReportMailer().sendLastOrderReport();
+                if (isEmailSent) {
+                    new Alert(Alert.AlertType.INFORMATION, "Email sent successfully", ButtonType.OK).show();
+                }else {
+                    new Alert(Alert.AlertType.ERROR, "Error sending email", ButtonType.OK).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             connection.commit();
             new Alert(Alert.AlertType.INFORMATION, "Order placed successfully..!", ButtonType.OK).show();
             resetPage();
@@ -300,6 +312,7 @@ public class CartController implements Initializable {
                 e.printStackTrace();
             }
         }
+
     }
 
     public void btnAddToCartOnAction(ActionEvent actionEvent) {
