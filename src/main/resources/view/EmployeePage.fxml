@@ -125,9 +125,9 @@
                                     <Insets left="-108.0" top="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="txtEmployeeName" prefHeight="27.0" prefWidth="332.0" style="-fx-background-radius: 20; -fx-border-color: #c44569; -fx-border-radius: 20;">
+                              <TextField fx:id="txtEmployeeName" prefHeight="27.0" prefWidth="329.0" promptText="Sunali" style="-fx-background-radius: 20; -fx-border-color: #000000; -fx-border-radius: 20;">
                                  <HBox.margin>
-                                    <Insets left="-50.0" top="40.0" />
+                                    <Insets left="-40.0" top="40.0" />
                                  </HBox.margin>
                               </TextField>
                            </children>

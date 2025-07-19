@@ -30,11 +30,10 @@ public class mainPageController {
         headLblCozyRobes.setText(loginText);
 
         FadeTransition blink = new FadeTransition(Duration.millis(1000), headLblCozyRobes);
-        blink.setFromValue(1.0);    // Fully visible
-        blink.setToValue(0.0);      // Fully invisible
-        blink.setCycleCount(6);     // Number of blinks (3 visible/invisible pairs)
-        blink.setAutoReverse(true); // Return to visible after each blink
-
+        blink.setFromValue(1.0);
+        blink.setToValue(0.0);
+        blink.setCycleCount(6);
+        blink.setAutoReverse(true);
         blink.play();
     }
 

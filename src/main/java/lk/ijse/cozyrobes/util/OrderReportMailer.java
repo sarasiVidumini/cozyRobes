@@ -58,6 +58,7 @@ public class OrderReportMailer {
             JasperReport report = JasperCompileManager.compileReport(
                     getClass().getResourceAsStream("/report/Blank_A4_2.jrxml")
             );
+
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("P_customer_id", customerId);
             parameters.put("PA_DATE", LocalDate.now().toString());
@@ -98,6 +99,6 @@ return true;
                 return rs.getString("customer_id");
             }
             return null;
- }
-}
+        }
+    }
 }

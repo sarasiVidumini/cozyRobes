@@ -101,6 +101,14 @@
                                 <Insets left="300.0" right="300.0" />
                             </VBox.margin>
                         </PasswordField>
+                  <Label text="Forgot Password..? ">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="700.0" />
+                     </VBox.margin>
+                  </Label>
                         <Button mnemonicParsing="false" onAction="#btnLoginOnAction" prefHeight="69.0" prefWidth="150.0" style="-fx-background-color: #3ae374; -fx-background-radius: 30; -fx-border-color: #000000; -fx-border-radius: 30;" text="GOT IT">
                             <VBox.margin>
                                 <Insets left="450.0" top="150.0" />

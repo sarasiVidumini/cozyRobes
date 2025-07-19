@@ -38,7 +38,6 @@ public class CartController implements Initializable {
     public Label orderPlacementDate;
     public TextField txtCustomerContact;
     public Label lblCustomerName;
-    public Label labelPopUpCustomer;
     public ComboBox<String> cmbProductId;
     public Label lblProductName;
     public Label lblProductPrice;
@@ -149,21 +148,6 @@ public class CartController implements Initializable {
         }
     }
 
-    public void goToCustomerPopUp(MouseEvent mouseEvent) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(""));
-            AnchorPane anchorPane = fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(anchorPane));
-            stage.setTitle("Add New Customer");
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setResizable(false);
-            stage.showAndWait();
-        } catch (Exception e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "error , Fail to load customer pop-up..!", ButtonType.OK).show();
-        }
-    }
 
     public void btnResetOnAction(ActionEvent actionEvent) {
         resetPage();
