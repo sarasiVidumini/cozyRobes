@@ -67,7 +67,6 @@ public class CartController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setCellValues();
         try {
-            System.out.println("Loading data...");
             refreshPage();
         } catch (Exception e) {
             e.printStackTrace();
