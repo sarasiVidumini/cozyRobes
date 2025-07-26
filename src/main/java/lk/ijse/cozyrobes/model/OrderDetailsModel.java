@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class OrderDetailsModel {
-    private final ProductModel productModel = new ProductModel();
     public String getNextOrderDetailId() throws SQLException {
         ResultSet resultSet = CrudUtil.execute("select orderDetail_id from order_details order by orderDetail_id desc limit 1");
         String tableCharacter = "OD";

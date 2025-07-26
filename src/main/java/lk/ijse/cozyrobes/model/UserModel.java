@@ -45,8 +45,9 @@ public boolean saveUser(UserDto userDto) throws SQLException {
                 userDto.getRole(),
                 userDto.getName(),
                 userDto.getContact(),
-                userDto.getUserId(),
-                userDto.getPassword()
+                userDto.getPassword(),
+                userDto.getUserId()
+
         );
     }
 
